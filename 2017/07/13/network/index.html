@@ -5,17 +5,17 @@
   
   <title>1、简述数据包之旅 | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="用户通过浏览器提交请求后，首先浏览器会先解析URL，通过URL获取到相关的信息后，如目资源文件以及目标服务器，生成对应的HTTP请求消息。由于浏览器不具备发送数据包的功能，所以浏览器只能通过操作系统来实现。因此在委托服务器发送数据包之前，还需要知道服务器的IP地址。获取到目标服务器地址后，浏览器委托操作系统的协议栈对数据进行收发。首先是连接阶段，也就是三次握手，TCP层数据包进行封包，然后给委托I">
-<meta name="keywords" content="TCP&#x2F;IP,计算机网络">
+  <meta name="description" content="用户通过浏览器提交请求后，首先浏览器会先解析URL，通过URL获取到相关的信息后，如目资源文件以及目标服务器，生成对应的HTTP请求消息。由于浏览器不具备发送数据包的功能，所以浏览器只能通过操作系统来实现。因此在委托服务器发送数据包之前，还需要知道服务器的IP地址。于是整个过程进入了域名解析阶段。 在域名解析阶段中，因为浏览器已获取域名，于是委托操作系统对域名进行解析，操作系统发送UDP请求对域名">
+<meta name="keywords" content="TCP&#x2F;IP,网络协议">
 <meta property="og:type" content="article">
 <meta property="og:title" content="1、简述数据包之旅">
 <meta property="og:url" content="http://yoursite.com/2017/07/13/network/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="用户通过浏览器提交请求后，首先浏览器会先解析URL，通过URL获取到相关的信息后，如目资源文件以及目标服务器，生成对应的HTTP请求消息。由于浏览器不具备发送数据包的功能，所以浏览器只能通过操作系统来实现。因此在委托服务器发送数据包之前，还需要知道服务器的IP地址。获取到目标服务器地址后，浏览器委托操作系统的协议栈对数据进行收发。首先是连接阶段，也就是三次握手，TCP层数据包进行封包，然后给委托I">
-<meta property="og:updated_time" content="2017-07-13T03:57:59.110Z">
+<meta property="og:description" content="用户通过浏览器提交请求后，首先浏览器会先解析URL，通过URL获取到相关的信息后，如目资源文件以及目标服务器，生成对应的HTTP请求消息。由于浏览器不具备发送数据包的功能，所以浏览器只能通过操作系统来实现。因此在委托服务器发送数据包之前，还需要知道服务器的IP地址。于是整个过程进入了域名解析阶段。 在域名解析阶段中，因为浏览器已获取域名，于是委托操作系统对域名进行解析，操作系统发送UDP请求对域名">
+<meta property="og:updated_time" content="2017-07-13T06:06:38.696Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="1、简述数据包之旅">
-<meta name="twitter:description" content="用户通过浏览器提交请求后，首先浏览器会先解析URL，通过URL获取到相关的信息后，如目资源文件以及目标服务器，生成对应的HTTP请求消息。由于浏览器不具备发送数据包的功能，所以浏览器只能通过操作系统来实现。因此在委托服务器发送数据包之前，还需要知道服务器的IP地址。获取到目标服务器地址后，浏览器委托操作系统的协议栈对数据进行收发。首先是连接阶段，也就是三次握手，TCP层数据包进行封包，然后给委托I">
+<meta name="twitter:description" content="用户通过浏览器提交请求后，首先浏览器会先解析URL，通过URL获取到相关的信息后，如目资源文件以及目标服务器，生成对应的HTTP请求消息。由于浏览器不具备发送数据包的功能，所以浏览器只能通过操作系统来实现。因此在委托服务器发送数据包之前，还需要知道服务器的IP地址。于是整个过程进入了域名解析阶段。 在域名解析阶段中，因为浏览器已获取域名，于是委托操作系统对域名进行解析，操作系统发送UDP请求对域名">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -100,16 +100,20 @@
       
         <!-- Table of Contents -->
         
-        <p>用户通过浏览器提交请求后，首先浏览器会先解析URL，通过URL获取到相关的信息后，如目资源文件以及目标服务器，生成对应的HTTP请求消息。由于浏览器不具备发送数据包的功能，所以浏览器只能通过操作系统来实现。因此在委托服务器发送数据包之前，还需要知道服务器的IP地址。获取到目标服务器地址后，浏览器委托操作系统的协议栈对数据进行收发。首先是连接阶段，也就是三次握手，TCP层数据包进行封包，然后给委托IP层，IP层对TCP层数据包进行封包，然后委托给链路层。链路层发送数据出去先到集线器，再到交换机，然后找到网关，通过路由查找到目标服务器的MAC地址，路由器在表中查找到目标主机的相关记录后，修改数据包头部然后传递给下一个路由器。数据包通过路由的传递，最终到达服务器。服务器接收到数据包之后从链路层传到IP层，IP层对数据包进行解析后进入TCP层，TCP层对数据包进行解析。TCP层识别到数据包的类型，由于本次是连接阶段，所以数据不会被传递给应用层。服务器收到连接的连接请求后，会发送一个确认的数据包给客户端，客户端收到服务器的确认数据包后，客户端发送一个确认包给服务器。至此，连接阶段就已经结束了，接下来进行数据收发阶段。数据收发阶段与连接阶段类似，但是收发数据在TCP层的数据包里面是有数据的，而三次握手阶段TCP层的数据包只有头信息。另外，客户端发送确认包的方式略不同，客户端在数据接收阶段发送确认包的方式有多种。数据发送完成后，服务器进入断开阶段。服务器先断开连接，然后客户端再断开连接。</p>
+        <p>用户通过浏览器提交请求后，首先浏览器会先解析URL，通过URL获取到相关的信息后，如目资源文件以及目标服务器，生成对应的HTTP请求消息。由于浏览器不具备发送数据包的功能，所以浏览器只能通过操作系统来实现。因此在委托服务器发送数据包之前，还需要知道服务器的IP地址。于是整个过程进入了域名解析阶段。</p>
+<p>在域名解析阶段中，因为浏览器已获取域名，于是委托操作系统对域名进行解析，操作系统发送UDP请求对域名进行解析，最后将域名解析成IP。到此为止，域名解析过程结束，整个过程进入数据收发环节。</p>
+<p>在数据收发的整个环节里，浏览器委托操作系统的协议栈对数据进行收发。首先是连接阶段，也就是三次握手，TCP层数据包进行封包，然后给委托IP层，IP层对TCP层数据包进行封包，然后委托给链路层。链路层发送数据出去先到集线器，再到交换机，然后找到网关，通过路由查找到目标服务器的MAC地址，路由器在表中查找到目标主机的相关记录后，修改数据包头部然后传递给下一个路由器。数据包通过路由的传递，最终到达服务器。服务器接收到数据包之后从链路层传到IP层，IP层对数据包进行解析后进入TCP层，TCP层对数据包进行解析。TCP层识别到数据包的类型，由于本次是连接阶段，所以数据不会被传递给应用层。服务器收到连接的连接请求后，会发送一个确认的数据包给客户端，客户端收到服务器的确认数据包后，客户端发送一个确认包给服务器。至此，连接阶段就已经结束了，整个过程进入数据收发阶段。</p>
+<p>在数据收发阶段，数据收发阶段与连接阶段类似，但是收发数据在TCP层的数据包里面是有数据的，而三次握手阶段TCP层的数据包只有头信息。另外，客户端发送确认包的方式略不同，客户端在数据接收阶段发送确认包的方式有多种。数据发送完成后，整个过程进入断开阶段</p>
+<p>在通讯断开阶段，发送一个断开请求的数据包，服务器断开连接，然后客户端接受完数据后也发送一个断开请求的数据包，然后断开连接，到此整个通讯的过程就结束了。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj51url7a0000isq5h90zc5vg" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj5211oqd00009cq55qi0xr17" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
 
     </footer>
   </div>
