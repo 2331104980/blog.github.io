@@ -5,17 +5,17 @@
   
   <title>1、mysql中char和varchar | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在MySQL中，char和varchar是两种非常常见且非常重要的字符串类型，MySQL不同存储引擎对其在磁盘和内存的处理方式不一样。 varchar varchar类型是属于可变长类型，相对来说比char类型更节省空间，因为varchar只使用必要的空间(Row_FORMAT=FIXED是个特殊情况)。但是varchar需要额外的字节记录字符长度。如果列的最大长度小于或等于255个字节，需要一个">
+  <meta name="description" content="在MySQL中，char和varchar是两种非常常见且非常重要的字符串类型，MySQL不同存储引擎对其在磁盘和内存的处理方式不一样。 varcharvarchar类型是属于可变长类型，相对来说比char类型更节省空间，因为varchar只使用必要的空间(Row_FORMAT=FIXED是个特殊情况)。但是varchar需要额外的字节记录字符长度。如果列的最大长度小于或等于255个字节，需要一个字">
 <meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="1、mysql中char和varchar">
 <meta property="og:url" content="http://yoursite.com/2017/07/14/mysql_char_varchar/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="在MySQL中，char和varchar是两种非常常见且非常重要的字符串类型，MySQL不同存储引擎对其在磁盘和内存的处理方式不一样。 varchar varchar类型是属于可变长类型，相对来说比char类型更节省空间，因为varchar只使用必要的空间(Row_FORMAT=FIXED是个特殊情况)。但是varchar需要额外的字节记录字符长度。如果列的最大长度小于或等于255个字节，需要一个">
-<meta property="og:updated_time" content="2017-07-14T10:24:30.786Z">
+<meta property="og:description" content="在MySQL中，char和varchar是两种非常常见且非常重要的字符串类型，MySQL不同存储引擎对其在磁盘和内存的处理方式不一样。 varcharvarchar类型是属于可变长类型，相对来说比char类型更节省空间，因为varchar只使用必要的空间(Row_FORMAT=FIXED是个特殊情况)。但是varchar需要额外的字节记录字符长度。如果列的最大长度小于或等于255个字节，需要一个字">
+<meta property="og:updated_time" content="2017-07-14T10:33:09.678Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="1、mysql中char和varchar">
-<meta name="twitter:description" content="在MySQL中，char和varchar是两种非常常见且非常重要的字符串类型，MySQL不同存储引擎对其在磁盘和内存的处理方式不一样。 varchar varchar类型是属于可变长类型，相对来说比char类型更节省空间，因为varchar只使用必要的空间(Row_FORMAT=FIXED是个特殊情况)。但是varchar需要额外的字节记录字符长度。如果列的最大长度小于或等于255个字节，需要一个">
+<meta name="twitter:description" content="在MySQL中，char和varchar是两种非常常见且非常重要的字符串类型，MySQL不同存储引擎对其在磁盘和内存的处理方式不一样。 varcharvarchar类型是属于可变长类型，相对来说比char类型更节省空间，因为varchar只使用必要的空间(Row_FORMAT=FIXED是个特殊情况)。但是varchar需要额外的字节记录字符长度。如果列的最大长度小于或等于255个字节，需要一个字">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -101,32 +101,26 @@
         <!-- Table of Contents -->
         
         <p>在MySQL中，char和varchar是两种非常常见且非常重要的字符串类型，MySQL不同存储引擎对其在磁盘和内存的处理方式不一样。</p>
-<p>varchar</p>
-<p>varchar类型是属于可变长类型，相对来说比char类型更节省空间，因为varchar只使用必要的空间(Row_FORMAT=FIXED是个特殊情况)。但是varchar需要额外的字节记录字符长度。如果列的最大长度小于或等于255个字节，需要一个字节来记录长度，超过255个字节需要额外2个字节。</p>
-<pre><code>以下情况适合使用varchar
-
-字符串列的最大长度比平均长度达很多
-
-列更新很少（碎片很少）
-
-varchar(5)和varchar（200）存储&apos;hello&apos;的空间开销是一样的。
-</code></pre><p>char</p>
-<p>char是定长类型，MySQL总是根据定义字符串长度分配足够的空间。</p>
-<pre><code>以下情况适合使用char
-
-char值适合存储很短的字符串，或者接近值长度的字符串。
-
-对于经常变更的数据，char比varchar好，因为char类型不容易产生碎片。
-
-对于非常短的列，char比varchar在存储空间上也更有效率。
-</code></pre><p>内存上的比较<br>MySQL通常会分配固定大小的内存来保存内部值。</p>
+<h3 id="varchar"><a href="#varchar" class="headerlink" title="varchar"></a>varchar</h3><p>varchar类型是属于可变长类型，相对来说比char类型更节省空间，因为varchar只使用必要的空间(Row_FORMAT=FIXED是个特殊情况)。但是varchar需要额外的字节记录字符长度。如果列的最大长度小于或等于255个字节，需要一个字节来记录长度，超过255个字节需要额外2个字节。</p>
+<p>以下情况适合使用varchar</p>
+<p>字符串列的最大长度比平均长度达很多</p>
+<p>列更新很少（碎片很少）</p>
+<p>varchar(5)和varchar（200）存储’hello’的空间开销是一样的。</p>
+<hr>
+<h3 id="char"><a href="#char" class="headerlink" title="char"></a>char</h3><p>char是定长类型，MySQL总是根据定义字符串长度分配足够的空间。</p>
+<p>以下情况适合使用char</p>
+<p>char值适合存储很短的字符串，或者接近值长度的字符串。</p>
+<p>对于经常变更的数据，char比varchar好，因为char类型不容易产生碎片。</p>
+<p>对于非常短的列，char比varchar在存储空间上也更有效率。</p>
+<hr>
+<h3 id="内存上的比较"><a href="#内存上的比较" class="headerlink" title="内存上的比较"></a>内存上的比较</h3><p>MySQL通常会分配固定大小的内存来保存内部值。</p>
 <p><strong>总结</strong><br>varchar(1)和varchar(100）存储’y’在存储空间是一样的。但是varchar(100)会占用更大的内存,在这种情况下，如果数据量非常大，varchar(1)性能会比varchar(100)好很多。如果这时候对临时表进行排序时会更加明显，如果是机械磁盘的话，有可能导致连接超时等情况。</p>
 <p><strong>以上比较是基于innodb</strong></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj53pji3z0000ygq557oe7m5d" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj53q2a2p0000woq5vtbjkwpk" class="article-share-link">分享</a>
       
       
       
@@ -213,30 +207,24 @@ char值适合存储很短的字符串，或者接近值长度的字符串。
 
   
     
-  
+    <div class="widget-wrap">
     
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title recent-posts">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2017/07/14/mysql_char_varchar/">1、mysql中char和varchar</a>
-          </li>
-        
-          <li>
-            <a href="/2017/07/13/network/">1、简述数据包之旅</a>
-          </li>
-        
-      </ul>
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#varchar"><span class="toc-number">1.</span> <span class="toc-text">varchar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#char"><span class="toc-number">2.</span> <span class="toc-text">char</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存上的比较"><span class="toc-number">3.</span> <span class="toc-text">内存上的比较</span></a></li></ol>
+          </div>
+      </div>
     </div>
-  </div>
 
+  
+    
+
+  
+    
+  
+    
   
     
 
