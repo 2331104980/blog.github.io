@@ -111,13 +111,13 @@
 <p>对于非常短的列，char比varchar在存储空间上也更有效率。</p>
 <hr>
 <h3 id="内存上的比较"><a href="#内存上的比较" class="headerlink" title="内存上的比较"></a>内存上的比较</h3><p>MySQL通常会分配固定大小的内存来保存内部值。</p>
-<p><strong>总结</strong><br>varchar(1)和varchar(100）存储’y’在存储空间是一样的。但是varchar(100)会占用更大的内存,在这种情况下，如果数据量非常大，varchar(1)性能会比varchar(100)好很多。如果这时候对临时表进行排序时会更加明显，如果是机械磁盘的话，有可能导致连接超时等情况。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>varchar(1)和varchar(100）存储’y’在存储空间是一样的。但是varchar(100)会占用更大的内存,在这种情况下，如果数据量非常大，varchar(1)性能会比varchar(100)好很多。如果这时候对临时表进行排序时会更加明显，如果是机械磁盘的话，有可能导致连接超时等情况。</p>
 <p><strong>以上比较是基于innodb</strong></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj53q2a2p0000woq5vtbjkwpk" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj54klcxk0007mkq5epqfa7vm" class="article-share-link">分享</a>
       
       
       
@@ -163,13 +163,15 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp;在域名解析阶段中，因为浏览器已获取域名，于是委托操作系统对域名进行解析，操作系统发送UDP请求对域名进行解析，最后将域名解析成IP。到此为止，域名解析过程结束，整个过程进入数据收发环节。</p>
 <p><img src="/images/tcpip.png" alt="tcpip连接到断开"></p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;在数据收发的整个环节里，浏览器委托操作系统的协议栈对数据进行收发。首先是连接阶段，也就是三次握手，首先客户端向服务器端发送连接请求。至此，连接阶段就已经结束了，整个过程进入数据收发阶段。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;在数据收发阶段，数据收发阶段与连接阶段类似，但是收发数据在TCP层的数据包里面是有数据的，而三次握手阶段TCP层的数据包只有头信息。另外，客户端发送确认包的方式略不同，客户端在数据接收阶段发送确认包的方式有多种。数据发送完成后，整个过程进入断开阶段</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;在通讯断开阶段，发送一个断开请求的数据包，客户端发送一个确认断开数据包，然后客户端接受完数据后也发送一个断开请求的数据包，服务器发送一个确认断开数据包，然后断开连接，到此整个通讯的过程就结束了。</p>
+<p><img src="/images/tcpip连接.jpg" alt="tcpip连接到断开"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;在数据收发阶段，并不是协议栈收到数据就马上发送出去的，而是数据被发送到缓冲区等待应用层的下一段数据。协议栈会考虑到多方面的因素来进行收发操作(长度优先或者时间优先)。对于较大的数据，会先把数据拆分出来，放进单独的数据包中。收发数据时，一般采用滑动窗口方式，由于在连接阶段已经知道对方的窗口大小，发送方会根据窗口大小发送数据，接收方会根据恰当的时间发送确认包，这个过程持续到数据收发完成，最终数据收发阶段结束，进入连接断开阶段。</p>
+<p><img src="/images/数据收发和断开连接.png" alt="tcpip数据收发和断开"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;在连接断开阶段，发送一个断开请求的数据包，客户端发送一个确认断开数据包，然后客户端接受完数据后也发送一个断开请求的数据包，服务器发送一个确认断开数据包，然后断开连接，到此整个通讯的过程就结束了。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj53q2a2v0001woq5ysovs9f1" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj54klcti0000mkq5zr2lh06v" class="article-share-link">分享</a>
       
       
       

@@ -13,7 +13,9 @@
 <meta property="og:site_name" content="SnailBlog">
 <meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;用户通过浏览器提交请求后，首先浏览器会先解析URL，通过URL获取到相关的信息后，如目资源文件以及目标服务器，生成对应的HTTP请求消息。由于浏览器不具备发送数据包的功能，所以浏览器只能通过操作系统来实现。因此在委托服务器发送数据包之前，还需要知道服务器的IP地址。于是整个过程进入了域名解析阶段。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在域">
 <meta property="og:image" content="http://yoursite.com/images/tcpip.png">
-<meta property="og:updated_time" content="2017-07-14T02:00:40.331Z">
+<meta property="og:image" content="http://yoursite.com/images/tcpip连接.jpg">
+<meta property="og:image" content="http://yoursite.com/images/数据收发和断开连接.png">
+<meta property="og:updated_time" content="2017-07-15T01:26:45.956Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="1、简述数据包之旅">
 <meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;用户通过浏览器提交请求后，首先浏览器会先解析URL，通过URL获取到相关的信息后，如目资源文件以及目标服务器，生成对应的HTTP请求消息。由于浏览器不具备发送数据包的功能，所以浏览器只能通过操作系统来实现。因此在委托服务器发送数据包之前，还需要知道服务器的IP地址。于是整个过程进入了域名解析阶段。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在域">
@@ -106,13 +108,15 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp;在域名解析阶段中，因为浏览器已获取域名，于是委托操作系统对域名进行解析，操作系统发送UDP请求对域名进行解析，最后将域名解析成IP。到此为止，域名解析过程结束，整个过程进入数据收发环节。</p>
 <p><img src="/images/tcpip.png" alt="tcpip连接到断开"></p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;在数据收发的整个环节里，浏览器委托操作系统的协议栈对数据进行收发。首先是连接阶段，也就是三次握手，首先客户端向服务器端发送连接请求。至此，连接阶段就已经结束了，整个过程进入数据收发阶段。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;在数据收发阶段，数据收发阶段与连接阶段类似，但是收发数据在TCP层的数据包里面是有数据的，而三次握手阶段TCP层的数据包只有头信息。另外，客户端发送确认包的方式略不同，客户端在数据接收阶段发送确认包的方式有多种。数据发送完成后，整个过程进入断开阶段</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;在通讯断开阶段，发送一个断开请求的数据包，客户端发送一个确认断开数据包，然后客户端接受完数据后也发送一个断开请求的数据包，服务器发送一个确认断开数据包，然后断开连接，到此整个通讯的过程就结束了。</p>
+<p><img src="/images/tcpip连接.jpg" alt="tcpip连接到断开"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;在数据收发阶段，并不是协议栈收到数据就马上发送出去的，而是数据被发送到缓冲区等待应用层的下一段数据。协议栈会考虑到多方面的因素来进行收发操作(长度优先或者时间优先)。对于较大的数据，会先把数据拆分出来，放进单独的数据包中。收发数据时，一般采用滑动窗口方式，由于在连接阶段已经知道对方的窗口大小，发送方会根据窗口大小发送数据，接收方会根据恰当的时间发送确认包，这个过程持续到数据收发完成，最终数据收发阶段结束，进入连接断开阶段。</p>
+<p><img src="/images/数据收发和断开连接.png" alt="tcpip数据收发和断开"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;在连接断开阶段，发送一个断开请求的数据包，客户端发送一个确认断开数据包，然后客户端接受完数据后也发送一个断开请求的数据包，服务器发送一个确认断开数据包，然后断开连接，到此整个通讯的过程就结束了。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj53q2a2v0001woq5ysovs9f1" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj54klcti0000mkq5zr2lh06v" class="article-share-link">分享</a>
       
       
       

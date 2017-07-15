@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/07/14/mysql_char_varchar/index.html">
 <meta property="og:site_name" content="SnailBlog">
 <meta property="og:description" content="在MySQL中，char和varchar是两种非常常见且非常重要的字符串类型，MySQL不同存储引擎对其在磁盘和内存的处理方式不一样。 varcharvarchar类型是属于可变长类型，相对来说比char类型更节省空间，因为varchar只使用必要的空间(Row_FORMAT=FIXED是个特殊情况)。但是varchar需要额外的字节记录字符长度。如果列的最大长度小于或等于255个字节，需要一个字">
-<meta property="og:updated_time" content="2017-07-14T10:33:09.678Z">
+<meta property="og:updated_time" content="2017-07-14T10:34:17.744Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="1、mysql中char和varchar">
 <meta name="twitter:description" content="在MySQL中，char和varchar是两种非常常见且非常重要的字符串类型，MySQL不同存储引擎对其在磁盘和内存的处理方式不一样。 varcharvarchar类型是属于可变长类型，相对来说比char类型更节省空间，因为varchar只使用必要的空间(Row_FORMAT=FIXED是个特殊情况)。但是varchar需要额外的字节记录字符长度。如果列的最大长度小于或等于255个字节，需要一个字">
@@ -114,13 +114,13 @@
 <p>对于非常短的列，char比varchar在存储空间上也更有效率。</p>
 <hr>
 <h3 id="内存上的比较"><a href="#内存上的比较" class="headerlink" title="内存上的比较"></a>内存上的比较</h3><p>MySQL通常会分配固定大小的内存来保存内部值。</p>
-<p><strong>总结</strong><br>varchar(1)和varchar(100）存储’y’在存储空间是一样的。但是varchar(100)会占用更大的内存,在这种情况下，如果数据量非常大，varchar(1)性能会比varchar(100)好很多。如果这时候对临时表进行排序时会更加明显，如果是机械磁盘的话，有可能导致连接超时等情况。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>varchar(1)和varchar(100）存储’y’在存储空间是一样的。但是varchar(100)会占用更大的内存,在这种情况下，如果数据量非常大，varchar(1)性能会比varchar(100)好很多。如果这时候对临时表进行排序时会更加明显，如果是机械磁盘的话，有可能导致连接超时等情况。</p>
 <p><strong>以上比较是基于innodb</strong></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj53q2a2p0000woq5vtbjkwpk" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj54klcxk0007mkq5epqfa7vm" class="article-share-link">分享</a>
       
       
       
@@ -213,7 +213,7 @@
       
         <strong class="toc-title">文章目录</strong>
         <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#varchar"><span class="toc-number">1.</span> <span class="toc-text">varchar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#char"><span class="toc-number">2.</span> <span class="toc-text">char</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存上的比较"><span class="toc-number">3.</span> <span class="toc-text">内存上的比较</span></a></li></ol>
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#varchar"><span class="toc-number">1.</span> <span class="toc-text">varchar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#char"><span class="toc-number">2.</span> <span class="toc-text">char</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存上的比较"><span class="toc-number">3.</span> <span class="toc-text">内存上的比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
           </div>
       </div>
     </div>
