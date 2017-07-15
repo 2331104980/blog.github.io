@@ -102,7 +102,6 @@
 <p>以下情况适合使用varchar</p>
 <p>字符串列的最大长度比平均长度达很多</p>
 <p>列更新很少（碎片很少）</p>
-<p>varchar(5)和varchar（200）存储’hello’的空间开销是一样的。</p>
 <hr>
 <h3 id="char"><a href="#char" class="headerlink" title="char"></a>char</h3><p>char是定长类型，MySQL总是根据定义字符串长度分配足够的空间。</p>
 <p>以下情况适合使用char</p>
@@ -111,13 +110,14 @@
 <p>对于非常短的列，char比varchar在存储空间上也更有效率。</p>
 <hr>
 <h3 id="内存上的比较"><a href="#内存上的比较" class="headerlink" title="内存上的比较"></a>内存上的比较</h3><p>MySQL通常会分配固定大小的内存来保存内部值。</p>
+<hr>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>varchar(1)和varchar(100）存储’y’在存储空间是一样的。但是varchar(100)会占用更大的内存,在这种情况下，如果数据量非常大，varchar(1)性能会比varchar(100)好很多。如果这时候对临时表进行排序时会更加明显，如果是机械磁盘的话，有可能导致连接超时等情况。</p>
 <p><strong>以上比较是基于innodb</strong></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj54klcxk0007mkq5epqfa7vm" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj54mhsmm00008cq5t64srpex" class="article-share-link">分享</a>
       
       
       
@@ -171,7 +171,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj54klcti0000mkq5zr2lh06v" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj54mhsmv00018cq5jctjjxa3" class="article-share-link">分享</a>
       
       
       
