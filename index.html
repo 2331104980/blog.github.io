@@ -69,6 +69,70 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-tcpip_connect" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/15/tcpip_connect/" class="article-date">
+  <time datetime="2017-07-15T09:31:57.365Z" itemprop="datePublished">2017-07-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/15/tcpip_connect/">2、TCP/IP连接</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>在TCP连接的过程中，实际上是一个交换控制信息的过程。首先，客户端发送连接请求到服务器。客户端发送请求的数据包</p>
+<p><strong>SYN=1 </strong>表示这是一个连接请求，</p>
+<p><strong>seq=cx</strong>，cx表示一个随机数，这样做的目标是考虑到安全性，防止被攻击。</p>
+<p><strong>win=cy</strong>，cy表示窗口的大小，用于后期数据收发，不需要发送方发送一个数据包就进入等待状态，若为本地，要可以小一点，若是internet，y可以大一点。</p>
+<p><strong>mss=cz</strong>,cz表示数据最大的接受的长度(可以通过MTU和头部计算得出)</p>
+<hr>
+<p>服务器端接受客户端发送的连接请求后，服务器的连接被动打开。此时，服务器发送一个确认数据包。</p>
+<p><strong>ack=cx+1</strong>,该标识位表示已经收到刚才客户端发送过来的数据包，</p>
+<p><strong>syn=1</strong>，表示服务器向客户端发送连接请求。</p>
+<p><strong>seq=sx</strong>,sx也是一个随机数，作用跟客户端是一样的</p>
+<p><strong>win=sy</strong>,表示服务器端窗口的大小</p>
+<p><strong>mass=sz</strong>,sz表示数据最大的接受的长度(可以通过MTU和头部计算得出)</p>
+<hr>
+<p>客户端接收到服务器端的连接请求后，也发送一个确认包</p>
+<p><strong>ack=sx+1</strong>,该标识位表示已经收到刚才服务器发送过来的数据包</p>
+<p><strong>seq=cx+1</strong>，</p>
+<p><strong>win=cy</strong>，此时窗口的大小</p>
+<p>到此，整个连接阶段就已经完成。其实在连接的过程中主要是对<strong>控制信息的交换</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/15/tcpip_connect/" data-id="cj554fth700015sq58i8st6nz" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-mysql_char_varchar" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/07/14/mysql_char_varchar/" class="article-date">
@@ -117,7 +181,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj54q0bb10000fgq5lgcvbb1i" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj554fthh00045sq5mu09ccs0" class="article-share-link">分享</a>
       
       
       
@@ -171,7 +235,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj54q0bb90001fgq5pytjixi0" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj554ftgy00005sq5vi1639gb" class="article-share-link">分享</a>
       
       
       
@@ -213,7 +277,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title categories">分类</h3>
     <div class="widget" id="categories">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议/">网络协议</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议/">网络协议</a><span class="category-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -223,7 +287,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title tagcloud">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/TCP-IP/" style="font-size: 14px;">TCP/IP</a> <a href="/tags/mysql/" style="font-size: 14px;">mysql</a> <a href="/tags/网络协议/" style="font-size: 14px;">网络协议</a>
+      <a href="/tags/TCP-IP/" style="font-size: 25px;">TCP/IP</a> <a href="/tags/mysql/" style="font-size: 14px;">mysql</a> <a href="/tags/网络协议/" style="font-size: 25px;">网络协议</a>
     </div>
   </div>
 
@@ -233,6 +297,10 @@
     <h3 class="widget-title recent-posts">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/07/15/tcpip_connect/">2、TCP/IP连接</a>
+          </li>
         
           <li>
             <a href="/2017/07/14/mysql_char_varchar/">1、mysql中char和varchar</a>
@@ -251,7 +319,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
