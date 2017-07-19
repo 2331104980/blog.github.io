@@ -3,23 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>HTTP从请求到响应 | SnailBlog</title>
+  <title>TCP数据交换 | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;用户通过浏览器提交请求后，首先浏览器会先解析URL，通过URL获取到相关的信息后，如目资源文件以及目标服务器，生成对应的HTTP请求消息。由于浏览器不具备发送数据包的功能，所以浏览器只能通过操作系统来实现。因此在委托服务器发送数据包之前，还需要知道服务器的IP地址。于是整个过程进入了域名解析阶段。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在域">
+  <meta name="description" content="从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下成块数据块流收发的过程。 首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据后，也不是">
 <meta name="keywords" content="TCP&#x2F;IP,网络协议">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HTTP从请求到响应">
-<meta property="og:url" content="http://yoursite.com/2017/07/13/network/index.html">
+<meta property="og:title" content="TCP数据交换">
+<meta property="og:url" content="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;用户通过浏览器提交请求后，首先浏览器会先解析URL，通过URL获取到相关的信息后，如目资源文件以及目标服务器，生成对应的HTTP请求消息。由于浏览器不具备发送数据包的功能，所以浏览器只能通过操作系统来实现。因此在委托服务器发送数据包之前，还需要知道服务器的IP地址。于是整个过程进入了域名解析阶段。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在域">
-<meta property="og:image" content="http://yoursite.com/images/tcpip.png">
-<meta property="og:image" content="http://yoursite.com/images/tcpip连接.jpg">
-<meta property="og:image" content="http://yoursite.com/images/数据收发和断开连接.png">
-<meta property="og:updated_time" content="2017-07-17T01:00:21.848Z">
+<meta property="og:description" content="从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下成块数据块流收发的过程。 首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据后，也不是">
+<meta property="og:image" content="http://yoursite.com/images/数据收发窗口变化图.png">
+<meta property="og:updated_time" content="2017-07-19T05:21:26.909Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HTTP从请求到响应">
-<meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;用户通过浏览器提交请求后，首先浏览器会先解析URL，通过URL获取到相关的信息后，如目资源文件以及目标服务器，生成对应的HTTP请求消息。由于浏览器不具备发送数据包的功能，所以浏览器只能通过操作系统来实现。因此在委托服务器发送数据包之前，还需要知道服务器的IP地址。于是整个过程进入了域名解析阶段。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在域">
-<meta name="twitter:image" content="http://yoursite.com/images/tcpip.png">
+<meta name="twitter:title" content="TCP数据交换">
+<meta name="twitter:description" content="从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下成块数据块流收发的过程。 首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据后，也不是">
+<meta name="twitter:image" content="http://yoursite.com/images/数据收发窗口变化图.png">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -76,10 +74,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-network" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-tcpip_connect - 数据交换" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/07/13/network/" class="article-date">
-  <time datetime="2017-07-13T02:58:39.209Z" itemprop="datePublished">2017-07-13</time>
+    <a href="/2017/07/19/tcpip_connect - 数据交换/" class="article-date">
+  <time datetime="2017-07-19T00:39:54.689Z" itemprop="datePublished">2017-07-19</time>
 </a>
     
   <div class="article-category">
@@ -94,7 +92,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      HTTP从请求到响应
+      TCP数据交换
     </h1>
   
 
@@ -104,19 +102,14 @@
       
         <!-- Table of Contents -->
         
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;用户通过浏览器提交请求后，首先浏览器会先解析URL，通过URL获取到相关的信息后，如目资源文件以及目标服务器，生成对应的HTTP请求消息。由于浏览器不具备发送数据包的功能，所以浏览器只能通过操作系统来实现。因此在委托服务器发送数据包之前，还需要知道服务器的IP地址。于是整个过程进入了域名解析阶段。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;在域名解析阶段中，因为浏览器已获取域名，于是委托操作系统对域名进行解析，操作系统发送UDP请求对域名进行解析，最后将域名解析成IP。到此为止，域名解析过程结束，整个过程进入数据收发环节。</p>
-<p><img src="/images/tcpip.png" alt="tcpip连接到断开"></p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;在数据收发的整个环节里，浏览器委托操作系统的协议栈对数据进行收发。首先是连接阶段，也就是三次握手，首先客户端向服务器端发送连接请求,服务器端发送一个确认包，客户端收到服务器的确认包后，发送一个确认包到服务器，在这个过程中，客户端和服务器端进行了端口、ip、窗口等信息的交换。至此，连接阶段就已经结束了，整个过程进入数据收发阶段。</p>
-<p><img src="/images/tcpip连接.jpg" alt="tcpip连接到断开"></p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;在数据收发阶段，并不是协议栈收到数据就马上发送出去的，而是数据被发送到缓冲区等待应用层的下一段数据。协议栈会考虑到多方面的因素来进行收发操作(长度优先或者时间优先)。对于较大的数据，会先把数据拆分出来，放进单独的数据包中。收发数据时，一般采用滑动窗口方式，由于在连接阶段已经知道对方的窗口大小，发送方会根据窗口大小发送数据，接收方会根据恰当的时间发送确认包，这个过程持续到数据收发完成，最终数据收发阶段结束，进入连接断开阶段。</p>
-<p><img src="/images/数据收发和断开连接.png" alt="tcpip数据收发和断开"></p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;在连接断开阶段，发送一个断开请求的数据包，客户端发送一个确认断开数据包，然后客户端接受完数据后也发送一个断开请求的数据包，服务器发送一个确认断开数据包，然后断开连接，到此整个通讯的过程就结束了。</p>
+        <p>从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下成块数据块流收发的过程。</p>
+<p>首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据后，也不是马上发送确认包，而是会等待一段时间，如果有数据，那么数据包和确认包将一起发送过去。否则只发送确认包。收到确认包后，接收方的窗口右边往右移动。数据收发中，不断重复这个过程，直到数据收发结束。从整个收发的过程中看出，增大接收方的窗口大小一定程度上能够提高TCP的吞吐量，从而提高整个数据收发的效率。</p>
+<p><img src="/images/数据收发窗口变化图.png" alt="数据收发窗口变化图"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj5ai4o6800002wq5azpps93i" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj5ai4o7600012wq5nb0204s7" class="article-share-link">分享</a>
       
       
       
@@ -170,15 +163,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/07/14/mysql_char_varchar/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          mysql中char和varchar
-        
-      </div>
-    </a>
   
+    <a href="/2017/07/17/network_tcp_ip_disconnect/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">TCP/IP断开</div>
+    </a>
   
 </nav>
 
