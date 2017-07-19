@@ -97,14 +97,14 @@
       
         <!-- Table of Contents -->
         
-        <p>从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下成块数据块流收发的过程。</p>
+        <p>从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下在局域网中成块数据块流收发的过程。</p>
 <p>首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据后，也不是马上发送确认包，而是会等待一段时间，如果有数据，那么数据包和确认包将一起发送过去。否则只发送确认包。收到确认包后，接收方的窗口右边往右移动。数据收发中，不断重复这个过程，直到数据收发结束。从整个收发的过程中看出，增大接收方的窗口大小一定程度上能够提高TCP的吞吐量，从而提高整个数据收发的效率。</p>
 <p><img src="/images/数据收发窗口变化图.png" alt="数据收发窗口变化图"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj5ai4o7600012wq5nb0204s7" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj5auhj6000006sq5zlklzuen" class="article-share-link">分享</a>
       
       
       
@@ -152,7 +152,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/" data-id="cj5ai4o7o00062wq56xy910or" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/" data-id="cj5auhj8x000j6sq5jocgpkfg" class="article-share-link">分享</a>
       
       
       
@@ -216,7 +216,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/15/tcpip_connect/" data-id="cj5ai4o7e00042wq53m43uxut" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/15/tcpip_connect/" data-id="cj5auhj9x000n6sq5t1ish0wn" class="article-share-link">分享</a>
       
       
       
@@ -278,7 +278,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj5ai4o7h00052wq5es17f974" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj5auhj88000e6sq5gxn8xsaj" class="article-share-link">分享</a>
       
       
       
@@ -332,7 +332,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj5ai4o6800002wq5azpps93i" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj5auhj7e00016sq5dcx82jtj" class="article-share-link">分享</a>
       
       
       

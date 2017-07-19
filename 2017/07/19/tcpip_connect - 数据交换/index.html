@@ -5,18 +5,18 @@
   
   <title>TCP数据交换 | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下成块数据块流收发的过程。 首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据后，也不是">
+  <meta name="description" content="从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下在局域网中成块数据块流收发的过程。 首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据">
 <meta name="keywords" content="TCP&#x2F;IP,网络协议">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TCP数据交换">
 <meta property="og:url" content="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下成块数据块流收发的过程。 首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据后，也不是">
+<meta property="og:description" content="从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下在局域网中成块数据块流收发的过程。 首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据">
 <meta property="og:image" content="http://yoursite.com/images/数据收发窗口变化图.png">
-<meta property="og:updated_time" content="2017-07-19T05:21:26.909Z">
+<meta property="og:updated_time" content="2017-07-19T10:07:46.003Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TCP数据交换">
-<meta name="twitter:description" content="从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下成块数据块流收发的过程。 首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据后，也不是">
+<meta name="twitter:description" content="从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下在局域网中成块数据块流收发的过程。 首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据">
 <meta name="twitter:image" content="http://yoursite.com/images/数据收发窗口变化图.png">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
@@ -102,14 +102,14 @@
       
         <!-- Table of Contents -->
         
-        <p>从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下成块数据块流收发的过程。</p>
+        <p>从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下在局域网中成块数据块流收发的过程。</p>
 <p>首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据后，也不是马上发送确认包，而是会等待一段时间，如果有数据，那么数据包和确认包将一起发送过去。否则只发送确认包。收到确认包后，接收方的窗口右边往右移动。数据收发中，不断重复这个过程，直到数据收发结束。从整个收发的过程中看出，增大接收方的窗口大小一定程度上能够提高TCP的吞吐量，从而提高整个数据收发的效率。</p>
 <p><img src="/images/数据收发窗口变化图.png" alt="数据收发窗口变化图"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj5ai4o7600012wq5nb0204s7" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj5auhj6000006sq5zlklzuen" class="article-share-link">分享</a>
       
       
       
