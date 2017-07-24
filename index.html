@@ -69,6 +69,55 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-mysql_char_in" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/24/mysql_char_in/" class="article-date">
+  <time datetime="2017-07-24T02:31:08.645Z" itemprop="datePublished">2017-07-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/24/mysql_char_in/">mysql in使用场景</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>现在网上对于in的讨论、比较有很多，我认为最严谨的说法就是慎用。但是慎用不代表不要用，in的存在也有存在的理由，因为in有自己的应用场景。要使用in需要了解in在MySQL优化器中如果和转化的。例如有一张表A中有C1、C2、C3、C4、c5。where C1 IN (‘c1value1’,’c1value2’) AND C2 IN(‘c2value1’,’c2value2’);在这个情况下，MySQL优化器会转化成2*2=4种组合。对于4种组合这种情况来说是相对理想的，但是有一点组合越大，性能越差。</p>
+<p>很多情况下可以通过其他查询来替代in查询。如果没有索引或者单列索引对于值的比较，用between and或者&gt;或者&lt;比较合适，因为在MySQL对值进行比较的时候只比较一次。而in的话会被比较多次。如果in子查询性能很多时候也不是很理想。MySQL优化器改写的sql执行效率很多情况下都是很糟糕的。关于子查询再后续的文章中在做讨论。那么什么情况下适合使用in呢。我认为覆盖索引<strong>非最后一列字段</strong>且该<strong>字段的查询条件是多个值</strong>的可以考虑使用in，因为索引有最左原则。以表A为例子，如果查询表A中c2,c3列，其中c3=’c3value’ ,c4值c4value1、c4value2、c4value3、<br>c5=’c5value5’,另外index idx_c3_c4_c5(索引的顺序依次是C3，C4，C5)。要完成这个查询查询的sql有很多种，一般情况下，我认为性能较好的sql应该是select c2,c3 from a where c3=’c3value’ and c4 in (c4value1、c4value2、c4value3) and c5=’c5value5’。因为c4位于索引的第二列，如果使用between and 、&gt;、&lt;这些范围查询查询，一定程度上，能够提升性能(相对于全表扫描来说,或者index_c3)，但这不是最好的选择，因为无法利用index_c3_c4_c5中的c5列，这里使用in，优化器会转化成三种集合，可以充分利用index_c3_c4_c5中的所有列。如果遇到查询c1,c2列查询条件是c4=c4value1 and c5=c5value，如果c3的值个数有限，这里以性别为例，c3列存储都是男或者女，那么sql可以写成select c1,c2 from A where c3 in(‘男’,’女’) and c4=c4value1 and c5=c5value，但是这种技巧不能滥用。</p>
+<p>然而sql是不是最好的选择还要看MySQL的执行计划。因为MySQL内部有一个统计引擎，在数据分布比较极端的情况下，查询出来的数据中随机I/O比全盘扫描锁消耗的时间还要长，那么以上的就不一定是最好的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/24/mysql_char_in/" data-id="cj5hn7fzo0000doq5d1h3a7l8" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-mysql_char_decimal" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/07/20/mysql_char_decimal/" class="article-date">
@@ -102,7 +151,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/mysql_char_decimal/" data-id="cj5c6xncu0000u4q58zudjrti" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/20/mysql_char_decimal/" data-id="cj5hn7g1c000cdoq54otp0bs7" class="article-share-link">分享</a>
       
       
       
@@ -151,7 +200,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/" data-id="cj5c6xnfh0005u4q5ti3wdpkw" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/" data-id="cj5hn7g0k0001doq5yvkhkzch" class="article-share-link">分享</a>
       
       
       
@@ -200,7 +249,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj5c6xnfy0009u4q5xwxp89vm" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj5hn7g1i000gdoq5sksg2cmk" class="article-share-link">分享</a>
       
       
       
@@ -248,7 +297,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/" data-id="cj5c6xnfk0006u4q5cfjtagvj" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/" data-id="cj5hn7g0z0005doq5gw73bf7u" class="article-share-link">分享</a>
       
       
       
@@ -312,7 +361,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/15/tcpip_connect/" data-id="cj5c6xng5000bu4q5mxbthmsr" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/15/tcpip_connect/" data-id="cj5hn7g130006doq5wgam0g7d" class="article-share-link">分享</a>
       
       
       
@@ -374,7 +423,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj5c6xng8000eu4q5mk28zdz5" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj5hn7g19000adoq52ucab51j" class="article-share-link">分享</a>
       
       
       
@@ -428,7 +477,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj5c6xng1000au4q5khpj2zde" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj5hn7g0x0004doq5qf6sx2fx" class="article-share-link">分享</a>
       
       
       
@@ -470,7 +519,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title categories">分类</h3>
     <div class="widget" id="categories">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议/">网络协议</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议/">网络协议</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -492,6 +541,10 @@
       <ul>
         
           <li>
+            <a href="/2017/07/24/mysql_char_in/">mysql in使用场景</a>
+          </li>
+        
+          <li>
             <a href="/2017/07/20/mysql_char_decimal/">mysql decimal</a>
           </li>
         
@@ -507,10 +560,6 @@
             <a href="/2017/07/17/network_tcp_ip_disconnect/">TCP/IP断开</a>
           </li>
         
-          <li>
-            <a href="/2017/07/15/tcpip_connect/">TCP/IP连接</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -520,7 +569,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">8</span></li></ul>
     </div>
   </div>
 

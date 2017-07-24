@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>mysql decimal | SnailBlog</title>
+  <title>mysql in使用场景 | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="mysql中decimal类型用于存储精确的小数，decimal允许最多65个数字。在处理decimal的时候，会消耗额外的空间和计算开销(cpu不支持直接对decimal进行计算)。所以根据实际情确定是否使用decimal。事实上，并不是涉及到钱的都一定使用decimal，这要看精确范围。如果是银行这种涉及到高精度的计算，我认为用decimal比较合适。如果是对精确范围较小的话，可以用其他数据类">
+  <meta name="description" content="现在网上对于in的讨论、比较有很多，我认为最严谨的说法就是慎用。但是慎用不代表不要用，in的存在也有存在的理由，因为in有自己的应用场景。要使用in需要了解in在MySQL优化器中如果和转化的。例如有一张表A中有C1、C2、C3、C4、c5。where C1 IN (‘c1value1’,’c1value2’) AND C2 IN(‘c2value1’,’c2value2’);在这个情况下，MyS">
 <meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql decimal">
-<meta property="og:url" content="http://yoursite.com/2017/07/20/mysql_char_decimal/index.html">
+<meta property="og:title" content="mysql in使用场景">
+<meta property="og:url" content="http://yoursite.com/2017/07/24/mysql_char_in/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="mysql中decimal类型用于存储精确的小数，decimal允许最多65个数字。在处理decimal的时候，会消耗额外的空间和计算开销(cpu不支持直接对decimal进行计算)。所以根据实际情确定是否使用decimal。事实上，并不是涉及到钱的都一定使用decimal，这要看精确范围。如果是银行这种涉及到高精度的计算，我认为用decimal比较合适。如果是对精确范围较小的话，可以用其他数据类">
-<meta property="og:updated_time" content="2017-07-20T08:03:17.727Z">
+<meta property="og:description" content="现在网上对于in的讨论、比较有很多，我认为最严谨的说法就是慎用。但是慎用不代表不要用，in的存在也有存在的理由，因为in有自己的应用场景。要使用in需要了解in在MySQL优化器中如果和转化的。例如有一张表A中有C1、C2、C3、C4、c5。where C1 IN (‘c1value1’,’c1value2’) AND C2 IN(‘c2value1’,’c2value2’);在这个情况下，MyS">
+<meta property="og:updated_time" content="2017-07-24T04:27:34.054Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mysql decimal">
-<meta name="twitter:description" content="mysql中decimal类型用于存储精确的小数，decimal允许最多65个数字。在处理decimal的时候，会消耗额外的空间和计算开销(cpu不支持直接对decimal进行计算)。所以根据实际情确定是否使用decimal。事实上，并不是涉及到钱的都一定使用decimal，这要看精确范围。如果是银行这种涉及到高精度的计算，我认为用decimal比较合适。如果是对精确范围较小的话，可以用其他数据类">
+<meta name="twitter:title" content="mysql in使用场景">
+<meta name="twitter:description" content="现在网上对于in的讨论、比较有很多，我认为最严谨的说法就是慎用。但是慎用不代表不要用，in的存在也有存在的理由，因为in有自己的应用场景。要使用in需要了解in在MySQL优化器中如果和转化的。例如有一张表A中有C1、C2、C3、C4、c5。where C1 IN (‘c1value1’,’c1value2’) AND C2 IN(‘c2value1’,’c2value2’);在这个情况下，MyS">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -72,10 +72,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-mysql_char_decimal" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-mysql_char_in" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/07/20/mysql_char_decimal/" class="article-date">
-  <time datetime="2017-07-20T07:24:16.352Z" itemprop="datePublished">2017-07-20</time>
+    <a href="/2017/07/24/mysql_char_in/" class="article-date">
+  <time datetime="2017-07-24T02:31:08.645Z" itemprop="datePublished">2017-07-24</time>
 </a>
     
   <div class="article-category">
@@ -90,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      mysql decimal
+      mysql in使用场景
     </h1>
   
 
@@ -100,12 +100,14 @@
       
         <!-- Table of Contents -->
         
-        <p>mysql中decimal类型用于存储<strong>精确</strong>的小数，decimal允许最多65个数字。在处理decimal的时候，会消耗额外的空间和计算开销(cpu不支持直接对decimal进行计算)。所以根据实际情确定是否使用decimal。事实上，并不是涉及到钱的都一定使用decimal，这要看<strong>精确</strong>范围。如果是银行这种涉及到高精度的计算，我认为用decimal比较合适。如果是对精确范围较小的话，可以用其他数据类型。比如一些在线商店之类的平台，一件商品的价格不是很大，那么完全可以用int来记录（无符号int范围0～4294967295），单位为分，在显示的时候根据存储单位和显示单位进行转化。例如在数据库中保存了价格为100，单位是分，那么转化后在界面上显示1元。如果int的存储范围还不够，那么可以设置成bigint。bigint为64字节，可以存储大部分情况下的值。</p>
+        <p>现在网上对于in的讨论、比较有很多，我认为最严谨的说法就是慎用。但是慎用不代表不要用，in的存在也有存在的理由，因为in有自己的应用场景。要使用in需要了解in在MySQL优化器中如果和转化的。例如有一张表A中有C1、C2、C3、C4、c5。where C1 IN (‘c1value1’,’c1value2’) AND C2 IN(‘c2value1’,’c2value2’);在这个情况下，MySQL优化器会转化成2*2=4种组合。对于4种组合这种情况来说是相对理想的，但是有一点组合越大，性能越差。</p>
+<p>很多情况下可以通过其他查询来替代in查询。如果没有索引或者单列索引对于值的比较，用between and或者&gt;或者&lt;比较合适，因为在MySQL对值进行比较的时候只比较一次。而in的话会被比较多次。如果in子查询性能很多时候也不是很理想。MySQL优化器改写的sql执行效率很多情况下都是很糟糕的。关于子查询再后续的文章中在做讨论。那么什么情况下适合使用in呢。我认为覆盖索引<strong>非最后一列字段</strong>且该<strong>字段的查询条件是多个值</strong>的可以考虑使用in，因为索引有最左原则。以表A为例子，如果查询表A中c2,c3列，其中c3=’c3value’ ,c4值c4value1、c4value2、c4value3、<br>c5=’c5value5’,另外index idx_c3_c4_c5(索引的顺序依次是C3，C4，C5)。要完成这个查询查询的sql有很多种，一般情况下，我认为性能较好的sql应该是select c2,c3 from a where c3=’c3value’ and c4 in (c4value1、c4value2、c4value3) and c5=’c5value5’。因为c4位于索引的第二列，如果使用between and 、&gt;、&lt;这些范围查询查询，一定程度上，能够提升性能(相对于全表扫描来说,或者index_c3)，但这不是最好的选择，因为无法利用index_c3_c4_c5中的c5列，这里使用in，优化器会转化成三种集合，可以充分利用index_c3_c4_c5中的所有列。如果遇到查询c1,c2列查询条件是c4=c4value1 and c5=c5value，如果c3的值个数有限，这里以性别为例，c3列存储都是男或者女，那么sql可以写成select c1,c2 from A where c3 in(‘男’,’女’) and c4=c4value1 and c5=c5value，但是这种技巧不能滥用。</p>
+<p>然而sql是不是最好的选择还要看MySQL的执行计划。因为MySQL内部有一个统计引擎，在数据分布比较极端的情况下，查询出来的数据中随机I/O比全盘扫描锁消耗的时间还要长，那么以上的就不一定是最好的。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/mysql_char_decimal/" data-id="cj5hn7g1c000cdoq54otp0bs7" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/24/mysql_char_in/" data-id="cj5hn7fzo0000doq5d1h3a7l8" class="article-share-link">分享</a>
       
       
       
@@ -159,19 +161,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/07/24/mysql_char_in/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          mysql in使用场景
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/07/20/network_tcp_ip_disconnect _slowStart/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/07/20/mysql_char_decimal/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">TCP/IP慢启动</div>
+      <div class="article-nav-title">mysql decimal</div>
     </a>
   
 </nav>
