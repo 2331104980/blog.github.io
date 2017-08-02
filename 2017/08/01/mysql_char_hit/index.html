@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>TCP/IP断开 | SnailBlog</title>
+  <title>mysql hit | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在TCP/IP数据收发的过程中，这个过程是双向的，如果先完成数据发送的一方主动断开TCP/IP连接，例如A和B通讯，A先发送完数据，那么A先主动断开，这时A会发送一个FIN给B，A进入FIN_WAIT1。B接收到A发送过来的数据包后，进入了CLOSE_WAIT(被动关闭)。如果此时B还在收发数据，那么B会发送一个ACK确认报给A，A收到确认报后进入FIN_WAIT2,这也就是所谓的TCP的半关闭。">
-<meta name="keywords" content="TCP&#x2F;IP,网络协议">
+  <meta name="description" content="在MySQL优化中，如果对优化器的执行计划不满意是可以通过hit来控制最终的计划。但是如果没有十足的把握，不建议使用hit，因为MySQL会有统计引擎(不同引擎统计方式可能不同)。对于hit的用法，我建议阅读官方的文档。 在实践中，会有出现MySQL给出的优化策略不是最优的策略。曾经遇到一种情况，在多表查询中，因为业务的关系，需要取出大量的数据，但是MySQL给出的优化策略是走表中的索引。在多次测">
+<meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TCP&#x2F;IP断开">
-<meta property="og:url" content="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/index.html">
+<meta property="og:title" content="mysql hit">
+<meta property="og:url" content="http://yoursite.com/2017/08/01/mysql_char_hit/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="在TCP/IP数据收发的过程中，这个过程是双向的，如果先完成数据发送的一方主动断开TCP/IP连接，例如A和B通讯，A先发送完数据，那么A先主动断开，这时A会发送一个FIN给B，A进入FIN_WAIT1。B接收到A发送过来的数据包后，进入了CLOSE_WAIT(被动关闭)。如果此时B还在收发数据，那么B会发送一个ACK确认报给A，A收到确认报后进入FIN_WAIT2,这也就是所谓的TCP的半关闭。">
-<meta property="og:updated_time" content="2017-07-17T00:59:55.120Z">
+<meta property="og:description" content="在MySQL优化中，如果对优化器的执行计划不满意是可以通过hit来控制最终的计划。但是如果没有十足的把握，不建议使用hit，因为MySQL会有统计引擎(不同引擎统计方式可能不同)。对于hit的用法，我建议阅读官方的文档。 在实践中，会有出现MySQL给出的优化策略不是最优的策略。曾经遇到一种情况，在多表查询中，因为业务的关系，需要取出大量的数据，但是MySQL给出的优化策略是走表中的索引。在多次测">
+<meta property="og:updated_time" content="2017-08-01T10:14:32.662Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TCP&#x2F;IP断开">
-<meta name="twitter:description" content="在TCP/IP数据收发的过程中，这个过程是双向的，如果先完成数据发送的一方主动断开TCP/IP连接，例如A和B通讯，A先发送完数据，那么A先主动断开，这时A会发送一个FIN给B，A进入FIN_WAIT1。B接收到A发送过来的数据包后，进入了CLOSE_WAIT(被动关闭)。如果此时B还在收发数据，那么B会发送一个ACK确认报给A，A收到确认报后进入FIN_WAIT2,这也就是所谓的TCP的半关闭。">
+<meta name="twitter:title" content="mysql hit">
+<meta name="twitter:description" content="在MySQL优化中，如果对优化器的执行计划不满意是可以通过hit来控制最终的计划。但是如果没有十足的把握，不建议使用hit，因为MySQL会有统计引擎(不同引擎统计方式可能不同)。对于hit的用法，我建议阅读官方的文档。 在实践中，会有出现MySQL给出的优化策略不是最优的策略。曾经遇到一种情况，在多表查询中，因为业务的关系，需要取出大量的数据，但是MySQL给出的优化策略是走表中的索引。在多次测">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -72,14 +72,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-network_tcp_ip_disconnect" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-mysql_char_hit" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/07/17/network_tcp_ip_disconnect/" class="article-date">
-  <time datetime="2017-07-17T00:34:15.301Z" itemprop="datePublished">2017-07-17</time>
+    <a href="/2017/08/01/mysql_char_hit/" class="article-date">
+  <time datetime="2017-08-01T09:26:18.041Z" itemprop="datePublished">2017-08-01</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
   </div>
 
   </div>
@@ -90,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      TCP/IP断开
+      mysql hit
     </h1>
   
 
@@ -100,17 +100,17 @@
       
         <!-- Table of Contents -->
         
-        <p>在TCP/IP数据收发的过程中，这个过程是双向的，如果先完成数据发送的一方主动断开TCP/IP连接，例如A和B通讯，A先发送完数据，那么A先主动断开，这时A会发送一个FIN给B，A进入FIN_WAIT1。B接收到A发送过来的数据包后，进入了CLOSE_WAIT(被动关闭)。如果此时B还在收发数据，那么B会发送一个ACK确认报给A，A收到确认报后进入FIN_WAIT2,这也就是所谓的TCP的半关闭。直到B完成数据的收发，B发送一个FIN给A，此时B进入LAST_ACK状态，等待A发送ACK。A收到数据包之后，向B发送一个ACK，同时A进入TIME_WAIT状态，也称为2MSL等待状态。每个具体TCP实现必须选择一个报文段最大生存时间MSL。为什么这个时间是2MSL呢，其实这个时间设置成2MSL,主要是确认ACK是否丢失。因为B如果在一定的时间内没有收到A发送的确认数据包的话，会重新发送fin。B收到A发送的确认数据包之后，B进入的初始状态。由于A在内存中记录了IP、端口号的使用情况。在A处于TIME_WAIT状态时，直到TIME_WAIT结束时候，端口才能重新被使用。</p>
-<p>在断开阶段也有可能会遇到同时断开的情况。A和B同时主动断开。A和B都发送FIN给对方。双方接收到对方发送的FIN数据包后，都向对方发送ack数据包。由于双方都是主动断开因此双方都进入TIME_WAIT状态，直到状态结束IP、端口才能重新被使用。</p>
+        <p>在MySQL优化中，如果对优化器的执行计划不满意是可以通过hit来控制最终的计划。但是如果没有十足的把握，不建议使用hit，因为MySQL会有统计引擎(不同引擎统计方式可能不同)。对于hit的用法，我建议阅读官方的文档。</p>
+<p>在实践中，会有出现MySQL给出的优化策略不是最优的策略。曾经遇到一种情况，在多表查询中，因为业务的关系，需要取出大量的数据，但是MySQL给出的优化策略是走表中的索引。在多次测量中，MySQL给出的策略优化效果并不理想。后来直接把索引给忽略了。相对来说，性能有所提升。我认为是MySQL内部的统计跟实际情况的数据有偏差较大，导致计算随机IO和顺序IO的时间偏差较大。很多情况下MySQL给出优化策略应该是最优的，所以慎用hit。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/" data-id="cj5uar9w80005lsq5pm6jgp73" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj5uar9tf0000lsq56pajhxnt" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
 
     </footer>
   </div>
@@ -160,19 +160,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/07/19/tcpip_connect - 数据交换/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          TCP数据交换
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/07/15/tcpip_connect/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/07/24/mysql_char_in/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">TCP/IP连接</div>
+      <div class="article-nav-title">mysql in使用场景</div>
     </a>
   
 </nav>
