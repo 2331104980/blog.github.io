@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>mysql hit | SnailBlog</title>
+  <title>mysql tinyint溢出 | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在MySQL优化中，如果对优化器的执行计划不满意是可以通过hit来控制最终的计划。但是如果没有十足的把握，不建议使用hit，因为MySQL会有统计引擎(不同引擎统计方式可能不同)。对于hit的用法，我建议阅读官方的文档。 在实践中，会有出现MySQL给出的优化策略不是最优的策略。曾经遇到一种情况，在多表查询中，因为业务的关系，需要取出大量的数据，但是MySQL给出的优化策略是走表中的索引。在多次测">
+  <meta name="description" content="大部分开发语言基础部分基本类似，都有基础的数据类型，分别用不同的关键字表示不同范围的值。这些问题虽然都是一些很基础的问题，但是如果因为没有处理好这些问题，往往在修改BUG的时候是非常难被发现的。 场景还原：在数据库一张部门表中，同事甲把部门ID设置成int,部门ID是预约表的引用(但是没有添加外键约束) 。在预约表中部门ID的数据类型是tinyint，然而在项目实体模型中,同事乙预约表中的部门ID">
 <meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql hit">
-<meta property="og:url" content="http://yoursite.com/2017/08/01/mysql_char_hit/index.html">
+<meta property="og:title" content="mysql tinyint溢出">
+<meta property="og:url" content="http://yoursite.com/2017/08/02/数据溢出/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="在MySQL优化中，如果对优化器的执行计划不满意是可以通过hit来控制最终的计划。但是如果没有十足的把握，不建议使用hit，因为MySQL会有统计引擎(不同引擎统计方式可能不同)。对于hit的用法，我建议阅读官方的文档。 在实践中，会有出现MySQL给出的优化策略不是最优的策略。曾经遇到一种情况，在多表查询中，因为业务的关系，需要取出大量的数据，但是MySQL给出的优化策略是走表中的索引。在多次测">
-<meta property="og:updated_time" content="2017-08-01T10:14:32.662Z">
+<meta property="og:description" content="大部分开发语言基础部分基本类似，都有基础的数据类型，分别用不同的关键字表示不同范围的值。这些问题虽然都是一些很基础的问题，但是如果因为没有处理好这些问题，往往在修改BUG的时候是非常难被发现的。 场景还原：在数据库一张部门表中，同事甲把部门ID设置成int,部门ID是预约表的引用(但是没有添加外键约束) 。在预约表中部门ID的数据类型是tinyint，然而在项目实体模型中,同事乙预约表中的部门ID">
+<meta property="og:updated_time" content="2017-08-02T06:27:38.639Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mysql hit">
-<meta name="twitter:description" content="在MySQL优化中，如果对优化器的执行计划不满意是可以通过hit来控制最终的计划。但是如果没有十足的把握，不建议使用hit，因为MySQL会有统计引擎(不同引擎统计方式可能不同)。对于hit的用法，我建议阅读官方的文档。 在实践中，会有出现MySQL给出的优化策略不是最优的策略。曾经遇到一种情况，在多表查询中，因为业务的关系，需要取出大量的数据，但是MySQL给出的优化策略是走表中的索引。在多次测">
+<meta name="twitter:title" content="mysql tinyint溢出">
+<meta name="twitter:description" content="大部分开发语言基础部分基本类似，都有基础的数据类型，分别用不同的关键字表示不同范围的值。这些问题虽然都是一些很基础的问题，但是如果因为没有处理好这些问题，往往在修改BUG的时候是非常难被发现的。 场景还原：在数据库一张部门表中，同事甲把部门ID设置成int,部门ID是预约表的引用(但是没有添加外键约束) 。在预约表中部门ID的数据类型是tinyint，然而在项目实体模型中,同事乙预约表中的部门ID">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -72,10 +72,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-mysql_char_hit" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-数据溢出" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/08/01/mysql_char_hit/" class="article-date">
-  <time datetime="2017-08-01T09:26:18.041Z" itemprop="datePublished">2017-08-01</time>
+    <a href="/2017/08/02/数据溢出/" class="article-date">
+  <time datetime="2017-08-02T01:00:31.021Z" itemprop="datePublished">2017-08-02</time>
 </a>
     
   <div class="article-category">
@@ -90,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      mysql hit
+      mysql tinyint溢出
     </h1>
   
 
@@ -100,13 +100,13 @@
       
         <!-- Table of Contents -->
         
-        <p>在MySQL优化中，如果对优化器的执行计划不满意是可以通过hit来控制最终的计划。但是如果没有十足的把握，不建议使用hit，因为MySQL会有统计引擎(不同引擎统计方式可能不同)。对于hit的用法，我建议阅读官方的文档。</p>
-<p>在实践中，会有出现MySQL给出的优化策略不是最优的策略。曾经遇到一种情况，在多表查询中，因为业务的关系，需要取出大量的数据，但是MySQL给出的优化策略是走表中的索引。在多次测量中，MySQL给出的策略优化效果并不理想。后来直接把索引给忽略了。相对来说，性能有所提升。我认为是MySQL内部的统计跟实际情况的数据有偏差较大，导致计算随机IO和顺序IO的时间偏差较大。很多情况下MySQL给出优化策略应该是最优的，所以慎用hit。</p>
+        <p>大部分开发语言基础部分基本类似，都有基础的数据类型，分别用不同的关键字表示不同范围的值。这些问题虽然都是一些很基础的问题，但是如果因为没有处理好这些问题，往往在修改BUG的时候是非常难被发现的。</p>
+<p>场景还原：在数据库一张部门表中，同事甲把部门ID设置成int,部门ID是预约表的引用(但是没有添加外键约束) 。在预约表中部门ID的数据类型是tinyint，然而在项目实体模型中,同事乙预约表中的部门ID是int类型。前期由于分店不多(一个分店算一个部门),并没有发现什么问题。随着公司在全国的开拓业务，分店越来越多。部门表终于超过127条记录。因为部门ID是int类型，所以在加入数据的时候并没有什么异常。直到在一次APP预约中，App的同事说调用的接口数据不对。于是开始了BUG排查之旅。初看同事丙写的预约逻辑都没什么问题。在客户预约的信息中，数据库预约表中部门ID是127(正确值是131)。一步一步DEBUG，但是还是没找出问题。于是在调试的过程中获取插入的sql语句。获取到sql语句后，在sqlyog直接执行sql。发现预约表中存储部门ID依然是127(我录入的是131)。看到执行结果，我是一脸懵逼。于是在接下来的几次录入数据中发现预约表中部门ID依然是127。于是各种排查，最终看了一下数据库表的结构，发现在预约表的部门ID的数据类型为tinyint类型，这就解释了为什么当时入了部门ID的时候都是127。最终把数据库预约表中部门ID数据类型由tinyint修改成int后一切业务正常。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj5uhr32w0001gsq554vncfiz" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj5uhr34c000ogsq51jdsyy6i" class="article-share-link">分享</a>
       
       
       
@@ -160,19 +160,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/08/02/数据溢出/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          mysql tinyint溢出
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/07/24/mysql_char_in/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/08/01/mysql_char_hit/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">mysql in使用场景</div>
+      <div class="article-nav-title">mysql hit</div>
     </a>
   
 </nav>

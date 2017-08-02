@@ -69,6 +69,54 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-数据溢出" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/02/数据溢出/" class="article-date">
+  <time datetime="2017-08-02T01:00:31.021Z" itemprop="datePublished">2017-08-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/02/数据溢出/">mysql tinyint溢出</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>大部分开发语言基础部分基本类似，都有基础的数据类型，分别用不同的关键字表示不同范围的值。这些问题虽然都是一些很基础的问题，但是如果因为没有处理好这些问题，往往在修改BUG的时候是非常难被发现的。</p>
+<p>场景还原：在数据库一张部门表中，同事甲把部门ID设置成int,部门ID是预约表的引用(但是没有添加外键约束) 。在预约表中部门ID的数据类型是tinyint，然而在项目实体模型中,同事乙预约表中的部门ID是int类型。前期由于分店不多(一个分店算一个部门),并没有发现什么问题。随着公司在全国的开拓业务，分店越来越多。部门表终于超过127条记录。因为部门ID是int类型，所以在加入数据的时候并没有什么异常。直到在一次APP预约中，App的同事说调用的接口数据不对。于是开始了BUG排查之旅。初看同事丙写的预约逻辑都没什么问题。在客户预约的信息中，数据库预约表中部门ID是127(正确值是131)。一步一步DEBUG，但是还是没找出问题。于是在调试的过程中获取插入的sql语句。获取到sql语句后，在sqlyog直接执行sql。发现预约表中存储部门ID依然是127(我录入的是131)。看到执行结果，我是一脸懵逼。于是在接下来的几次录入数据中发现预约表中部门ID依然是127。于是各种排查，最终看了一下数据库表的结构，发现在预约表的部门ID的数据类型为tinyint类型，这就解释了为什么当时入了部门ID的时候都是127。最终把数据库预约表中部门ID数据类型由tinyint修改成int后一切业务正常。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj5uhr34c000ogsq51jdsyy6i" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-mysql_char_hit" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/08/01/mysql_char_hit/" class="article-date">
@@ -103,7 +151,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj5uar9tf0000lsq56pajhxnt" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj5uhr32w0001gsq554vncfiz" class="article-share-link">分享</a>
       
       
       
@@ -152,7 +200,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/24/mysql_char_in/" data-id="cj5uar9vs0001lsq576vz6yk2" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/24/mysql_char_in/" data-id="cj5uhr3370004gsq5c3rbi3ye" class="article-share-link">分享</a>
       
       
       
@@ -199,7 +247,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/mysql_char_decimal/" data-id="cj5uar9x1000ilsq5nvbxgq2p" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/20/mysql_char_decimal/" data-id="cj5uhr32q0000gsq569al3i3y" class="article-share-link">分享</a>
       
       
       
@@ -248,7 +296,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/" data-id="cj5uar9wo000alsq53plnx0r9" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/" data-id="cj5uhr33d0006gsq5qamnn4c8" class="article-share-link">分享</a>
       
       
       
@@ -297,7 +345,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj5uar9wj0006lsq5g6ommpk4" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj5uhr33y000igsq54w7htuj5" class="article-share-link">分享</a>
       
       
       
@@ -345,7 +393,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/" data-id="cj5uar9w80005lsq5pm6jgp73" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/" data-id="cj5uhr33p000dgsq579v1i9mu" class="article-share-link">分享</a>
       
       
       
@@ -409,7 +457,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/15/tcpip_connect/" data-id="cj5uar9wr000clsq5z0z0wy9y" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/15/tcpip_connect/" data-id="cj5uhr346000kgsq5vfjmy1h7" class="article-share-link">分享</a>
       
       
       
@@ -471,7 +519,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj5uar9wy000glsq5w22nko8r" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj5uhr3390005gsq5s32oedq6" class="article-share-link">分享</a>
       
       
       
@@ -525,7 +573,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj5uar9w50004lsq5qoed97pl" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj5uhr33h000agsq5grcerump" class="article-share-link">分享</a>
       
       
       
@@ -567,7 +615,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title categories">分类</h3>
     <div class="widget" id="categories">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议/">网络协议</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议/">网络协议</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -577,7 +625,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title tagcloud">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/TCP-IP/" style="font-size: 25px;">TCP/IP</a> <a href="/tags/mysql/" style="font-size: 14px;">mysql</a> <a href="/tags/网络协议/" style="font-size: 25px;">网络协议</a>
+      <a href="/tags/TCP-IP/" style="font-size: 14px;">TCP/IP</a> <a href="/tags/mysql/" style="font-size: 14px;">mysql</a> <a href="/tags/网络协议/" style="font-size: 14px;">网络协议</a>
     </div>
   </div>
 
@@ -587,6 +635,10 @@
     <h3 class="widget-title recent-posts">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/08/02/数据溢出/">mysql tinyint溢出</a>
+          </li>
         
           <li>
             <a href="/2017/08/01/mysql_char_hit/">mysql hit</a>
@@ -604,10 +656,6 @@
             <a href="/2017/07/20/network_tcp_ip_disconnect _slowStart/">TCP/IP慢启动</a>
           </li>
         
-          <li>
-            <a href="/2017/07/19/tcpip_connect - 数据交换/">TCP数据交换</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -617,7 +665,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">8</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">8</span></li></ul>
     </div>
   </div>
 
