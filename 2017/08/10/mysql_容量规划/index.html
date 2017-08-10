@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>TCP/IP断开 | SnailBlog</title>
+  <title>mysql 容量规划 | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在TCP/IP数据收发的过程中，这个过程是双向的，如果先完成数据发送的一方主动断开TCP/IP连接，例如A和B通讯，A先发送完数据，那么A先主动断开，这时A会发送一个FIN给B，A进入FIN_WAIT1。B接收到A发送过来的数据包后，进入了CLOSE_WAIT(被动关闭)。如果此时B还在收发数据，那么B会发送一个ACK确认报给A，A收到确认报后进入FIN_WAIT2,这也就是所谓的TCP的半关闭。">
-<meta name="keywords" content="TCP&#x2F;IP,网络协议">
+  <meta name="description" content="在读密集型的应用中，主从的拓扑结构是一个比较好的解决方案。但是主从并不意味着一味地添加从服务器来扩充系统容量，因为当写操作成为系统的瓶颈时，添加的服务器越多，对主服务器的压力就会越大，并且有可能性能会降低。 例如：假设服务器的工作负载为10%的写和90%的读 前提 1、并且读写都是相同的工作量，每台服务器(相同配置) 2、每秒只能进行1000查询操作 3、可以把所有的读操作都分配给从服务器 基于以">
+<meta name="keywords" content="mysql,架构">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TCP&#x2F;IP断开">
-<meta property="og:url" content="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/index.html">
+<meta property="og:title" content="mysql 容量规划">
+<meta property="og:url" content="http://yoursite.com/2017/08/10/mysql_容量规划/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="在TCP/IP数据收发的过程中，这个过程是双向的，如果先完成数据发送的一方主动断开TCP/IP连接，例如A和B通讯，A先发送完数据，那么A先主动断开，这时A会发送一个FIN给B，A进入FIN_WAIT1。B接收到A发送过来的数据包后，进入了CLOSE_WAIT(被动关闭)。如果此时B还在收发数据，那么B会发送一个ACK确认报给A，A收到确认报后进入FIN_WAIT2,这也就是所谓的TCP的半关闭。">
-<meta property="og:updated_time" content="2017-07-17T00:59:55.120Z">
+<meta property="og:description" content="在读密集型的应用中，主从的拓扑结构是一个比较好的解决方案。但是主从并不意味着一味地添加从服务器来扩充系统容量，因为当写操作成为系统的瓶颈时，添加的服务器越多，对主服务器的压力就会越大，并且有可能性能会降低。 例如：假设服务器的工作负载为10%的写和90%的读 前提 1、并且读写都是相同的工作量，每台服务器(相同配置) 2、每秒只能进行1000查询操作 3、可以把所有的读操作都分配给从服务器 基于以">
+<meta property="og:updated_time" content="2017-08-10T11:54:11.830Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TCP&#x2F;IP断开">
-<meta name="twitter:description" content="在TCP/IP数据收发的过程中，这个过程是双向的，如果先完成数据发送的一方主动断开TCP/IP连接，例如A和B通讯，A先发送完数据，那么A先主动断开，这时A会发送一个FIN给B，A进入FIN_WAIT1。B接收到A发送过来的数据包后，进入了CLOSE_WAIT(被动关闭)。如果此时B还在收发数据，那么B会发送一个ACK确认报给A，A收到确认报后进入FIN_WAIT2,这也就是所谓的TCP的半关闭。">
+<meta name="twitter:title" content="mysql 容量规划">
+<meta name="twitter:description" content="在读密集型的应用中，主从的拓扑结构是一个比较好的解决方案。但是主从并不意味着一味地添加从服务器来扩充系统容量，因为当写操作成为系统的瓶颈时，添加的服务器越多，对主服务器的压力就会越大，并且有可能性能会降低。 例如：假设服务器的工作负载为10%的写和90%的读 前提 1、并且读写都是相同的工作量，每台服务器(相同配置) 2、每秒只能进行1000查询操作 3、可以把所有的读操作都分配给从服务器 基于以">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -72,14 +72,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-network_tcp_ip_disconnect" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-mysql_容量规划" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/07/17/network_tcp_ip_disconnect/" class="article-date">
-  <time datetime="2017-07-17T00:34:15.301Z" itemprop="datePublished">2017-07-17</time>
+    <a href="/2017/08/10/mysql_容量规划/" class="article-date">
+  <time datetime="2017-08-10T10:56:34.134Z" itemprop="datePublished">2017-08-10</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
+    <a class="article-category-link" href="/categories/架构/">架构</a>
   </div>
 
   </div>
@@ -90,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      TCP/IP断开
+      mysql 容量规划
     </h1>
   
 
@@ -100,17 +100,22 @@
       
         <!-- Table of Contents -->
         
-        <p>在TCP/IP数据收发的过程中，这个过程是双向的，如果先完成数据发送的一方主动断开TCP/IP连接，例如A和B通讯，A先发送完数据，那么A先主动断开，这时A会发送一个FIN给B，A进入FIN_WAIT1。B接收到A发送过来的数据包后，进入了CLOSE_WAIT(被动关闭)。如果此时B还在收发数据，那么B会发送一个ACK确认报给A，A收到确认报后进入FIN_WAIT2,这也就是所谓的TCP的半关闭。直到B完成数据的收发，B发送一个FIN给A，此时B进入LAST_ACK状态，等待A发送ACK。A收到数据包之后，向B发送一个ACK，同时A进入TIME_WAIT状态，也称为2MSL等待状态。每个具体TCP实现必须选择一个报文段最大生存时间MSL。为什么这个时间是2MSL呢，其实这个时间设置成2MSL,主要是确认ACK是否丢失。因为B如果在一定的时间内没有收到A发送的确认数据包的话，会重新发送fin。B收到A发送的确认数据包之后，B进入的初始状态。由于A在内存中记录了IP、端口号的使用情况。在A处于TIME_WAIT状态时，直到TIME_WAIT结束时候，端口才能重新被使用。</p>
-<p>在断开阶段也有可能会遇到同时断开的情况。A和B同时主动断开。A和B都发送FIN给对方。双方接收到对方发送的FIN数据包后，都向对方发送ack数据包。由于双方都是主动断开因此双方都进入TIME_WAIT状态，直到状态结束IP、端口才能重新被使用。</p>
+        <p>在读密集型的应用中，主从的拓扑结构是一个比较好的解决方案。但是主从并不意味着一味地添加从服务器来扩充系统容量，因为当写操作成为系统的瓶颈时，添加的服务器越多，对主服务器的压力就会越大，并且有可能性能会降低。</p>
+<p>例如：假设服务器的工作负载为10%的写和90%的读</p>
+<p>前提</p>
+<p>1、并且读写都是相同的工作量，每台服务器(相同配置)</p>
+<p>2、每秒只能进行1000查询操作</p>
+<p>3、可以把所有的读操作都分配给从服务器</p>
+<p>基于以上情况，如果当前的服务器能够支持1000次/s的查询，那么系统需要添加多少台服务器才能提升1倍性能呢。也就是200写和1800次读。因为写就站了20%，那么每台服务器的读也就是剩下800次，在这1800次读操作中，需要至少3台服务器。如果性能在提升一倍呢。也就是400次写和3600次读，因为每台服务器的读剩下600次，那么至少需要6台。往后需要性能提升的时候在财务允许的情况下且不改变架构的情况下可以不断添加从服务器。直到性能提升到最开始的10倍也就是1000次写操作和9000次读操作。这时候无法进行读操作，因为所有的资源已经被写操作占用了。这时候写操作就是整个架构的瓶颈,如果添加从服务器只会降低服务器性能，对于整个项目来说无疑是雪上加霜。这时候只能改变系统架构，例如对系统进行垂直拆分等</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/" data-id="cj6393ou9000iawq5vhv6k9yp" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj66e0vys0000loq5vpu23edj" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/架构/">架构</a></li></ul>
 
     </footer>
   </div>
@@ -160,19 +165,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/07/19/tcpip_connect - 数据交换/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          TCP数据交换
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/07/15/tcpip_connect/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/08/09/mysql_复制拓扑结构/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">TCP/IP连接</div>
+      <div class="article-nav-title">mysql decimal</div>
     </a>
   
 </nav>

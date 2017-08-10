@@ -69,6 +69,132 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-tcpip_connect" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/15/tcpip_connect/" class="article-date">
+  <time datetime="2017-07-15T09:31:57.365Z" itemprop="datePublished">2017-07-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/15/tcpip_connect/">TCP/IP连接</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>在TCP连接的过程中，实际上是一个交换控制信息的过程。首先，客户端发送连接请求到服务器。客户端发送请求的数据包</p>
+<p><strong>SYN=1 </strong>表示这是一个连接请求，</p>
+<p><strong>seq=cx</strong>，cx表示一个随机数，这样做的目标是考虑到安全性，防止被攻击。</p>
+<p><strong>win=cy</strong>，cy表示窗口的大小，用于后期数据收发，不需要发送方发送一个数据包就进入等待状态。</p>
+<p><strong>mss=cz</strong>,cz表示数据最大的接受的长度(可以通过MTU和头部计算得出)</p>
+<hr>
+<p>服务器端接受客户端发送的连接请求后，服务器的连接被动打开。此时，服务器发送一个确认数据包。</p>
+<p><strong>ack=cx+1</strong>,该标识位表示已经收到刚才客户端发送过来的数据包，</p>
+<p><strong>syn=1</strong>，表示服务器向客户端发送连接请求。</p>
+<p><strong>seq=sx</strong>,sx也是一个随机数，作用跟客户端是一样的</p>
+<p><strong>win=sy</strong>,表示服务器端窗口的大小</p>
+<p><strong>mass=sz</strong>,sz表示数据最大的接受的长度(可以通过MTU和头部计算得出)</p>
+<hr>
+<p>客户端接收到服务器端的连接请求后，也发送一个确认包</p>
+<p><strong>ack=sx+1</strong>,该标识位表示已经收到刚才服务器发送过来的数据包</p>
+<p><strong>seq=cx+1</strong>，</p>
+<p><strong>win=cy</strong>，此时窗口的大小</p>
+<p>到此，整个连接阶段就已经完成。其实在连接的过程中主要是对<strong>控制信息的交换</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/15/tcpip_connect/" data-id="cj6393ouk000rawq58hjrtknh" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-mysql_char_varchar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/14/mysql_char_varchar/" class="article-date">
+  <time datetime="2017-07-14T08:11:20.002Z" itemprop="datePublished">2017-07-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/14/mysql_char_varchar/">mysql中char和varchar</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>在MySQL中，char和varchar是两种非常常见且非常重要的字符串类型，MySQL不同存储引擎对其在磁盘和内存的处理方式不一样。</p>
+<h3 id="varchar"><a href="#varchar" class="headerlink" title="varchar"></a>varchar</h3><p>varchar类型是属于可变长类型，相对来说比char类型更节省空间，因为varchar只使用必要的空间(Row_FORMAT=FIXED是个特殊情况)。但是varchar需要额外的字节记录字符长度。如果列的最大长度小于或等于255个字节，需要一个字节来记录长度，超过255个字节需要额外2个字节。</p>
+<p>以下情况适合使用varchar</p>
+<p>字符串列的最大长度比平均长度达很多</p>
+<p>列更新很少（碎片很少）</p>
+<hr>
+<h3 id="char"><a href="#char" class="headerlink" title="char"></a>char</h3><p>char是定长类型，MySQL总是根据定义字符串长度分配足够的空间。</p>
+<p>以下情况适合使用char</p>
+<p>char值适合存储很短的字符串，或者接近值长度的字符串。</p>
+<p>对于经常变更的数据，char比varchar好，因为char类型不容易产生碎片。</p>
+<p>对于非常短的列，char比varchar在存储空间上也更有效率。</p>
+<hr>
+<h3 id="内存上的比较"><a href="#内存上的比较" class="headerlink" title="内存上的比较"></a>内存上的比较</h3><p>MySQL通常会分配固定大小的内存来保存内部值。</p>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>varchar(1)和varchar(100）存储’y’在存储空间是一样的。但是varchar(100)会占用更大的内存,在这种情况下，如果数据量非常大，varchar(1)性能会比varchar(100)好很多。如果这时候对临时表进行排序时会更加明显，如果是机械磁盘的话，需要响应的时间会更久。</p>
+<p><strong>以上比较是基于innodb</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj6393otv0006awq5cyjx1l56" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-network" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/07/13/network/" class="article-date">
@@ -109,7 +235,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj639338y0005rgq5k69biw6d" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj6393otz000aawq52gqvfpnm" class="article-share-link">分享</a>
       
       
       
@@ -149,6 +275,14 @@
       <ul>
         
           <li>
+            <a href="/2017/08/10/mysql_容量规划/">mysql 容量规划</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/09/mysql_复制拓扑结构/">mysql decimal</a>
+          </li>
+        
+          <li>
             <a href="/2017/08/08/mongo/">mongo 优化器</a>
           </li>
         
@@ -158,14 +292,6 @@
         
           <li>
             <a href="/2017/08/01/mysql_char_hit/">mysql hit</a>
-          </li>
-        
-          <li>
-            <a href="/2017/07/24/mysql_char_in/">mysql in使用场景</a>
-          </li>
-        
-          <li>
-            <a href="/2017/07/20/mysql_char_decimal/">mysql decimal</a>
           </li>
         
       </ul>

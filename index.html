@@ -69,6 +69,106 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-mysql_容量规划" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/10/mysql_容量规划/" class="article-date">
+  <time datetime="2017-08-10T10:56:34.134Z" itemprop="datePublished">2017-08-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/架构/">架构</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/10/mysql_容量规划/">mysql 容量规划</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>在读密集型的应用中，主从的拓扑结构是一个比较好的解决方案。但是主从并不意味着一味地添加从服务器来扩充系统容量，因为当写操作成为系统的瓶颈时，添加的服务器越多，对主服务器的压力就会越大，并且有可能性能会降低。</p>
+<p>例如：假设服务器的工作负载为10%的写和90%的读</p>
+<p>前提</p>
+<p>1、并且读写都是相同的工作量，每台服务器(相同配置)</p>
+<p>2、每秒只能进行1000查询操作</p>
+<p>3、可以把所有的读操作都分配给从服务器</p>
+<p>基于以上情况，如果当前的服务器能够支持1000次/s的查询，那么系统需要添加多少台服务器才能提升1倍性能呢。也就是200写和1800次读。因为写就站了20%，那么每台服务器的读也就是剩下800次，在这1800次读操作中，需要至少3台服务器。如果性能在提升一倍呢。也就是400次写和3600次读，因为每台服务器的读剩下600次，那么至少需要6台。往后需要性能提升的时候在财务允许的情况下且不改变架构的情况下可以不断添加从服务器。直到性能提升到最开始的10倍也就是1000次写操作和9000次读操作。这时候无法进行读操作，因为所有的资源已经被写操作占用了。这时候写操作就是整个架构的瓶颈,如果添加从服务器只会降低服务器性能，对于整个项目来说无疑是雪上加霜。这时候只能改变系统架构，例如对系统进行垂直拆分等</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj66e0vys0000loq5vpu23edj" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/架构/">架构</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-mysql_复制拓扑结构" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/09/mysql_复制拓扑结构/" class="article-date">
+  <time datetime="2017-08-09T05:33:46.396Z" itemprop="datePublished">2017-08-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/09/mysql_复制拓扑结构/">mysql decimal</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>mysql中decimal类型用于存储<strong>精确</strong>的小数，decimal允许最多65个数字。在处理decimal的时候，会消耗额外的空间和计算开销(cpu不支持直接对decimal进行计算)。所以根据实际情确定是否使用decimal。事实上，并不是涉及到钱的都一定使用decimal，这要看<strong>精确</strong>范围。如果是银行这种涉及到高精度的计算，我认为用decimal比较合适。如果是对精确范围较小的话，可以用其他数据类型。比如一些在线商店之类的平台，一件商品的价格不是很大，那么完全可以用int来记录（无符号int范围0～4294967295），单位为分，在显示的时候根据存储单位和显示单位进行转化。例如在数据库中保存了价格为100，单位是分，那么转化后在界面上显示1元。如果int的存储范围还不够，那么可以设置成bigint。bigint为64字节，可以存储大部分情况下的值。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj66e0w0x0006loq5scidbddu" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-mongo" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/08/08/mongo/" class="article-date">
@@ -102,7 +202,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/08/mongo/" data-id="cj639338j0000rgq5oylwo0l5" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/08/mongo/" data-id="cj6393ot90001awq51la00vpv" class="article-share-link">分享</a>
       
       
       
@@ -150,7 +250,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj639339i000hrgq558rqdxln" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj6393oui000pawq5d76qbb60" class="article-share-link">分享</a>
       
       
       
@@ -198,7 +298,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj639339q000nrgq5bm2u4rmd" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj6393osy0000awq52rvs55n2" class="article-share-link">分享</a>
       
       
       
@@ -247,7 +347,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/24/mysql_char_in/" data-id="cj639338p0001rgq5ss86wc96" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/24/mysql_char_in/" data-id="cj6393otr0005awq5wfl5vrpf" class="article-share-link">分享</a>
       
       
       
@@ -294,7 +394,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/mysql_char_decimal/" data-id="cj639339n000lrgq5zrn1alsm" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/20/mysql_char_decimal/" data-id="cj6393otp0004awq5ys0ik6dj" class="article-share-link">分享</a>
       
       
       
@@ -343,7 +443,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/" data-id="cj63933910006rgq5i272qrte" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/" data-id="cj6393ou3000dawq57sbntpbj" class="article-share-link">分享</a>
       
       
       
@@ -392,7 +492,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj639339g000frgq50nubrtm2" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj6393oud000lawq5fvvga40h" class="article-share-link">分享</a>
       
       
       
@@ -440,137 +540,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/" data-id="cj6393398000crgq5te8q3gig" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/" data-id="cj6393ou9000iawq5vhv6k9yp" class="article-share-link">分享</a>
       
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-tcpip_connect" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/15/tcpip_connect/" class="article-date">
-  <time datetime="2017-07-15T09:31:57.365Z" itemprop="datePublished">2017-07-15</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/15/tcpip_connect/">TCP/IP连接</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>在TCP连接的过程中，实际上是一个交换控制信息的过程。首先，客户端发送连接请求到服务器。客户端发送请求的数据包</p>
-<p><strong>SYN=1 </strong>表示这是一个连接请求，</p>
-<p><strong>seq=cx</strong>，cx表示一个随机数，这样做的目标是考虑到安全性，防止被攻击。</p>
-<p><strong>win=cy</strong>，cy表示窗口的大小，用于后期数据收发，不需要发送方发送一个数据包就进入等待状态。</p>
-<p><strong>mss=cz</strong>,cz表示数据最大的接受的长度(可以通过MTU和头部计算得出)</p>
-<hr>
-<p>服务器端接受客户端发送的连接请求后，服务器的连接被动打开。此时，服务器发送一个确认数据包。</p>
-<p><strong>ack=cx+1</strong>,该标识位表示已经收到刚才客户端发送过来的数据包，</p>
-<p><strong>syn=1</strong>，表示服务器向客户端发送连接请求。</p>
-<p><strong>seq=sx</strong>,sx也是一个随机数，作用跟客户端是一样的</p>
-<p><strong>win=sy</strong>,表示服务器端窗口的大小</p>
-<p><strong>mass=sz</strong>,sz表示数据最大的接受的长度(可以通过MTU和头部计算得出)</p>
-<hr>
-<p>客户端接收到服务器端的连接请求后，也发送一个确认包</p>
-<p><strong>ack=sx+1</strong>,该标识位表示已经收到刚才服务器发送过来的数据包</p>
-<p><strong>seq=cx+1</strong>，</p>
-<p><strong>win=cy</strong>，此时窗口的大小</p>
-<p>到此，整个连接阶段就已经完成。其实在连接的过程中主要是对<strong>控制信息的交换</strong></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/15/tcpip_connect/" data-id="cj6393395000argq5qn6mlhb3" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-mysql_char_varchar" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/14/mysql_char_varchar/" class="article-date">
-  <time datetime="2017-07-14T08:11:20.002Z" itemprop="datePublished">2017-07-14</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/14/mysql_char_varchar/">mysql中char和varchar</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>在MySQL中，char和varchar是两种非常常见且非常重要的字符串类型，MySQL不同存储引擎对其在磁盘和内存的处理方式不一样。</p>
-<h3 id="varchar"><a href="#varchar" class="headerlink" title="varchar"></a>varchar</h3><p>varchar类型是属于可变长类型，相对来说比char类型更节省空间，因为varchar只使用必要的空间(Row_FORMAT=FIXED是个特殊情况)。但是varchar需要额外的字节记录字符长度。如果列的最大长度小于或等于255个字节，需要一个字节来记录长度，超过255个字节需要额外2个字节。</p>
-<p>以下情况适合使用varchar</p>
-<p>字符串列的最大长度比平均长度达很多</p>
-<p>列更新很少（碎片很少）</p>
-<hr>
-<h3 id="char"><a href="#char" class="headerlink" title="char"></a>char</h3><p>char是定长类型，MySQL总是根据定义字符串长度分配足够的空间。</p>
-<p>以下情况适合使用char</p>
-<p>char值适合存储很短的字符串，或者接近值长度的字符串。</p>
-<p>对于经常变更的数据，char比varchar好，因为char类型不容易产生碎片。</p>
-<p>对于非常短的列，char比varchar在存储空间上也更有效率。</p>
-<hr>
-<h3 id="内存上的比较"><a href="#内存上的比较" class="headerlink" title="内存上的比较"></a>内存上的比较</h3><p>MySQL通常会分配固定大小的内存来保存内部值。</p>
-<hr>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>varchar(1)和varchar(100）存储’y’在存储空间是一样的。但是varchar(100)会占用更大的内存,在这种情况下，如果数据量非常大，varchar(1)性能会比varchar(100)好很多。如果这时候对临时表进行排序时会更加明显，如果是机械磁盘的话，需要响应的时间会更久。</p>
-<p><strong>以上比较是基于innodb</strong></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj639338x0004rgq5tvrz6hun" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
 
     </footer>
   </div>
@@ -612,7 +586,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title categories">分类</h3>
     <div class="widget" id="categories">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mongo/">mongo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议/">网络协议</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mongo/">mongo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/架构/">架构</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议/">网络协议</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -622,7 +596,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title tagcloud">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/TCP-IP/" style="font-size: 25px;">TCP/IP</a> <a href="/tags/mongo/" style="font-size: 14px;">mongo</a> <a href="/tags/mysql/" style="font-size: 25px;">mysql</a> <a href="/tags/网络协议/" style="font-size: 25px;">网络协议</a>
+      <a href="/tags/TCP-IP/" style="font-size: 19.5px;">TCP/IP</a> <a href="/tags/mongo/" style="font-size: 14px;">mongo</a> <a href="/tags/mysql/" style="font-size: 25px;">mysql</a> <a href="/tags/架构/" style="font-size: 14px;">架构</a> <a href="/tags/网络协议/" style="font-size: 19.5px;">网络协议</a>
     </div>
   </div>
 
@@ -632,6 +606,14 @@
     <h3 class="widget-title recent-posts">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/08/10/mysql_容量规划/">mysql 容量规划</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/09/mysql_复制拓扑结构/">mysql decimal</a>
+          </li>
         
           <li>
             <a href="/2017/08/08/mongo/">mongo 优化器</a>
@@ -645,14 +627,6 @@
             <a href="/2017/08/01/mysql_char_hit/">mysql hit</a>
           </li>
         
-          <li>
-            <a href="/2017/07/24/mysql_char_in/">mysql in使用场景</a>
-          </li>
-        
-          <li>
-            <a href="/2017/07/20/mysql_char_decimal/">mysql decimal</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -662,7 +636,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">8</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">8</span></li></ul>
     </div>
   </div>
 
