@@ -6,13 +6,13 @@
   <title>mysql 容量规划 | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="在读密集型的应用中，主从的拓扑结构是一个比较好的解决方案。但是主从并不意味着一味地添加从服务器来扩充系统容量，因为当写操作成为系统的瓶颈时，添加的服务器越多，对主服务器的压力就会越大，并且有可能性能会降低。 例如：假设服务器的工作负载为10%的写和90%的读 前提 1、并且读写都是相同的工作量，每台服务器(相同配置) 2、每秒只能进行1000查询操作 3、可以把所有的读操作都分配给从服务器 基于以">
-<meta name="keywords" content="mysql,架构">
+<meta name="keywords" content="mysql,系统架构">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql 容量规划">
 <meta property="og:url" content="http://yoursite.com/2017/08/10/mysql_容量规划/index.html">
 <meta property="og:site_name" content="SnailBlog">
 <meta property="og:description" content="在读密集型的应用中，主从的拓扑结构是一个比较好的解决方案。但是主从并不意味着一味地添加从服务器来扩充系统容量，因为当写操作成为系统的瓶颈时，添加的服务器越多，对主服务器的压力就会越大，并且有可能性能会降低。 例如：假设服务器的工作负载为10%的写和90%的读 前提 1、并且读写都是相同的工作量，每台服务器(相同配置) 2、每秒只能进行1000查询操作 3、可以把所有的读操作都分配给从服务器 基于以">
-<meta property="og:updated_time" content="2017-08-10T11:54:11.830Z">
+<meta property="og:updated_time" content="2017-08-10T11:57:48.155Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql 容量规划">
 <meta name="twitter:description" content="在读密集型的应用中，主从的拓扑结构是一个比较好的解决方案。但是主从并不意味着一味地添加从服务器来扩充系统容量，因为当写操作成为系统的瓶颈时，添加的服务器越多，对主服务器的压力就会越大，并且有可能性能会降低。 例如：假设服务器的工作负载为10%的写和90%的读 前提 1、并且读写都是相同的工作量，每台服务器(相同配置) 2、每秒只能进行1000查询操作 3、可以把所有的读操作都分配给从服务器 基于以">
@@ -79,7 +79,7 @@
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/架构/">架构</a>
+    <a class="article-category-link" href="/categories/系统架构/">系统架构</a>
   </div>
 
   </div>
@@ -111,11 +111,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj66e0vys0000loq5vpu23edj" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj6bmyofj001tbsq5zgu91mi0" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/架构/">架构</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/系统架构/">系统架构</a></li></ul>
 
     </footer>
   </div>
@@ -165,6 +165,15 @@
     
 <nav id="article-nav">
   
+    <a href="/2017/08/14/mysql_轻量级连接/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          mysql重构查询方式
+        
+      </div>
+    </a>
+  
   
     <a href="/2017/08/09/mysql_复制拓扑结构/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
@@ -211,6 +220,10 @@
       <ul>
         
           <li>
+            <a href="/2017/08/14/mysql_轻量级连接/">mysql重构查询方式</a>
+          </li>
+        
+          <li>
             <a href="/2017/08/10/mysql_容量规划/">mysql 容量规划</a>
           </li>
         
@@ -224,10 +237,6 @@
         
           <li>
             <a href="/2017/08/02/数据溢出/">mysql tinyint溢出</a>
-          </li>
-        
-          <li>
-            <a href="/2017/08/01/mysql_char_hit/">mysql hit</a>
           </li>
         
       </ul>

@@ -3,21 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>TCP数据交换 | SnailBlog</title>
+  <title>mysql重构查询方式 | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下在局域网中成块数据块流收发的过程。 首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据">
-<meta name="keywords" content="TCP&#x2F;IP,网络协议">
+  <meta name="description" content="前几天有个同事需要开发一个功能，需要的数据来自不同的数据库。同事说，在不同数据库读取数据性能很差。我倒是不太认同这样的一个说法。 我认为在前期对业务进行做垂直分层对后期的拓展、负载、性能、故障转移等很多方面是很有好处且很有必要的(前期对项目规模的预测很重要，如果是很小的项目就没必要这样做)，另外关于跨数据库查询性能差这种说法我认为不一定，这个要视情况而定，因为MySQL在设计上从连接到断开都是很轻">
+<meta name="keywords" content="mysql重构查询方式,性能优化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TCP数据交换">
-<meta property="og:url" content="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/index.html">
+<meta property="og:title" content="mysql重构查询方式">
+<meta property="og:url" content="http://yoursite.com/2017/08/14/mysql_轻量级连接/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下在局域网中成块数据块流收发的过程。 首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据">
-<meta property="og:image" content="http://yoursite.com/images/数据收发窗口变化图.png">
-<meta property="og:updated_time" content="2017-07-19T10:07:46.003Z">
+<meta property="og:description" content="前几天有个同事需要开发一个功能，需要的数据来自不同的数据库。同事说，在不同数据库读取数据性能很差。我倒是不太认同这样的一个说法。 我认为在前期对业务进行做垂直分层对后期的拓展、负载、性能、故障转移等很多方面是很有好处且很有必要的(前期对项目规模的预测很重要，如果是很小的项目就没必要这样做)，另外关于跨数据库查询性能差这种说法我认为不一定，这个要视情况而定，因为MySQL在设计上从连接到断开都是很轻">
+<meta property="og:updated_time" content="2017-08-14T04:15:18.845Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TCP数据交换">
-<meta name="twitter:description" content="从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下在局域网中成块数据块流收发的过程。 首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据">
-<meta name="twitter:image" content="http://yoursite.com/images/数据收发窗口变化图.png">
+<meta name="twitter:title" content="mysql重构查询方式">
+<meta name="twitter:description" content="前几天有个同事需要开发一个功能，需要的数据来自不同的数据库。同事说，在不同数据库读取数据性能很差。我倒是不太认同这样的一个说法。 我认为在前期对业务进行做垂直分层对后期的拓展、负载、性能、故障转移等很多方面是很有好处且很有必要的(前期对项目规模的预测很重要，如果是很小的项目就没必要这样做)，另外关于跨数据库查询性能差这种说法我认为不一定，这个要视情况而定，因为MySQL在设计上从连接到断开都是很轻">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -74,14 +72,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-tcpip_connect - 数据交换" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-mysql_轻量级连接" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/07/19/tcpip_connect - 数据交换/" class="article-date">
-  <time datetime="2017-07-19T00:39:54.689Z" itemprop="datePublished">2017-07-19</time>
+    <a href="/2017/08/14/mysql_轻量级连接/" class="article-date">
+  <time datetime="2017-08-14T01:18:31.327Z" itemprop="datePublished">2017-08-14</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
   </div>
 
   </div>
@@ -92,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      TCP数据交换
+      mysql重构查询方式
     </h1>
   
 
@@ -102,18 +100,18 @@
       
         <!-- Table of Contents -->
         
-        <p>从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下在局域网中成块数据块流收发的过程。</p>
-<p>首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据后，也不是马上发送确认包，而是会等待一段时间，如果有数据，那么数据包和确认包将一起发送过去。否则只发送确认包。收到确认包后，接收方的窗口右边往右移动。数据收发中，不断重复这个过程，直到数据收发结束。从整个收发的过程中看出，增大接收方的窗口大小一定程度上能够提高TCP的吞吐量，从而提高整个数据收发的效率。</p>
-<p><img src="/images/数据收发窗口变化图.png" alt="数据收发窗口变化图"></p>
+        <p>前几天有个同事需要开发一个功能，需要的数据来自不同的数据库。同事说，在不同数据库读取数据性能很差。我倒是不太认同这样的一个说法。</p>
+<p>我认为在前期对业务进行做垂直分层对后期的拓展、负载、性能、故障转移等很多方面是很有好处且很有必要的(前期对项目规模的预测很重要，如果是很小的项目就没必要这样做)，另外关于跨数据库查询性能差这种说法我认为不一定，这个要视情况而定，因为MySQL在设计上从连接到断开都是很轻量级的，在返回一个小的查询结果集方面非常高效，而且在现在的网络中，带宽和网络延迟都比以前快很多。跨数据库查询就类似(查询形式上的类似，并非性能上的类型)于在单个数据库中把一个复杂的查询拆分成几个小查询。</p>
+<p>一般情况下，如果能一次查询所有的结果集，并且响应的时间在可接受的范围内那么不建议多次查询，但是有时候连表查询可能性能很差，这时候可以考虑把一个复杂的查询拆分成多个小的查询，通过多次测试找到合适的方案(事实上，跨数据库设计已对服务器做负载，就单查询方面来说，查询的性能可能会比单个数据库更高，而且在流量的高峰期会更加明显)。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj6bmyodq000dbsq5umgirnz4" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj6bmyodd0004bsq5zyo2x6v1" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql重构查询方式/">mysql重构查询方式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/性能优化/">性能优化</a></li></ul>
 
     </footer>
   </div>
@@ -163,19 +161,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/07/20/network_tcp_ip_disconnect _slowStart/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          TCP/IP慢启动
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/07/17/network_tcp_ip_disconnect/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/08/10/mysql_容量规划/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">TCP/IP断开</div>
+      <div class="article-nav-title">mysql 容量规划</div>
     </a>
   
 </nav>
