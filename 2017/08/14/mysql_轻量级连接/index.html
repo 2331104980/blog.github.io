@@ -5,17 +5,17 @@
   
   <title>mysql重构查询方式 | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前几天有个同事需要开发一个功能，需要的数据来自不同的数据库。同事说，在不同数据库读取数据性能很差。我倒是不太认同这样的一个说法。 我认为在前期对业务进行做垂直分层对后期的拓展、负载、性能、故障转移等很多方面是很有好处且很有必要的(前期对项目规模的预测很重要，如果是很小的项目就没必要这样做)，另外关于跨数据库查询性能差这种说法我认为不一定，这个要视情况而定，因为MySQL在设计上从连接到断开都是很轻">
-<meta name="keywords" content="mysql重构查询方式,性能优化">
+  <meta name="description" content="前几天有个同事需要开发一个功能，需要的数据来自不同的数据库。同事说，在不同数据库读取数据性能很差。我倒是不太认同这样的一个说法。我认为在前期对业务进行做垂直分层对后期的拓展、负载、性能、故障转移等很多方面是很有好处且很有必要的(前期对项目规模的预测很重要，如果是很小的项目就没必要这样做)，另外关于跨数据库查询性能差这种说法我认为不一定，这个要视情况而定，因为MySQL在设计上从连接到断开都是很轻量">
+<meta name="keywords" content="性能优化,mysql重构查询方式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql重构查询方式">
 <meta property="og:url" content="http://yoursite.com/2017/08/14/mysql_轻量级连接/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="前几天有个同事需要开发一个功能，需要的数据来自不同的数据库。同事说，在不同数据库读取数据性能很差。我倒是不太认同这样的一个说法。 我认为在前期对业务进行做垂直分层对后期的拓展、负载、性能、故障转移等很多方面是很有好处且很有必要的(前期对项目规模的预测很重要，如果是很小的项目就没必要这样做)，另外关于跨数据库查询性能差这种说法我认为不一定，这个要视情况而定，因为MySQL在设计上从连接到断开都是很轻">
-<meta property="og:updated_time" content="2017-08-14T04:15:18.845Z">
+<meta property="og:description" content="前几天有个同事需要开发一个功能，需要的数据来自不同的数据库。同事说，在不同数据库读取数据性能很差。我倒是不太认同这样的一个说法。我认为在前期对业务进行做垂直分层对后期的拓展、负载、性能、故障转移等很多方面是很有好处且很有必要的(前期对项目规模的预测很重要，如果是很小的项目就没必要这样做)，另外关于跨数据库查询性能差这种说法我认为不一定，这个要视情况而定，因为MySQL在设计上从连接到断开都是很轻量">
+<meta property="og:updated_time" content="2017-08-14T10:55:16.313Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql重构查询方式">
-<meta name="twitter:description" content="前几天有个同事需要开发一个功能，需要的数据来自不同的数据库。同事说，在不同数据库读取数据性能很差。我倒是不太认同这样的一个说法。 我认为在前期对业务进行做垂直分层对后期的拓展、负载、性能、故障转移等很多方面是很有好处且很有必要的(前期对项目规模的预测很重要，如果是很小的项目就没必要这样做)，另外关于跨数据库查询性能差这种说法我认为不一定，这个要视情况而定，因为MySQL在设计上从连接到断开都是很轻">
+<meta name="twitter:description" content="前几天有个同事需要开发一个功能，需要的数据来自不同的数据库。同事说，在不同数据库读取数据性能很差。我倒是不太认同这样的一个说法。我认为在前期对业务进行做垂直分层对后期的拓展、负载、性能、故障转移等很多方面是很有好处且很有必要的(前期对项目规模的预测很重要，如果是很小的项目就没必要这样做)，另外关于跨数据库查询性能差这种说法我认为不一定，这个要视情况而定，因为MySQL在设计上从连接到断开都是很轻量">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -100,14 +100,13 @@
       
         <!-- Table of Contents -->
         
-        <p>前几天有个同事需要开发一个功能，需要的数据来自不同的数据库。同事说，在不同数据库读取数据性能很差。我倒是不太认同这样的一个说法。</p>
-<p>我认为在前期对业务进行做垂直分层对后期的拓展、负载、性能、故障转移等很多方面是很有好处且很有必要的(前期对项目规模的预测很重要，如果是很小的项目就没必要这样做)，另外关于跨数据库查询性能差这种说法我认为不一定，这个要视情况而定，因为MySQL在设计上从连接到断开都是很轻量级的，在返回一个小的查询结果集方面非常高效，而且在现在的网络中，带宽和网络延迟都比以前快很多。跨数据库查询就类似(查询形式上的类似，并非性能上的类型)于在单个数据库中把一个复杂的查询拆分成几个小查询。</p>
+        <p>前几天有个同事需要开发一个功能，需要的数据来自不同的数据库。同事说，在不同数据库读取数据性能很差。我倒是不太认同这样的一个说法。<br>我认为在前期对业务进行做垂直分层对后期的拓展、负载、性能、故障转移等很多方面是很有好处且很有必要的(前期对项目规模的预测很重要，如果是很小的项目就没必要这样做)，另外关于跨数据库查询性能差这种说法我认为不一定，这个要视情况而定，因为MySQL在设计上从连接到断开都是很轻量级的，在返回一个小的查询结果集方面非常高效，而且在现在的网络中，带宽和网络延迟都比以前快很多。跨数据库查询就类似(查询形式上的类似，并非性能上的类型)于在单个数据库中把一个复杂的查询拆分成几个小查询。</p>
 <p>一般情况下，如果能一次查询所有的结果集，并且响应的时间在可接受的范围内那么不建议多次查询，但是有时候连表查询可能性能很差，这时候可以考虑把一个复杂的查询拆分成多个小的查询，通过多次测试找到合适的方案(事实上，跨数据库设计已对服务器做负载，就单查询方面来说，查询的性能可能会比单个数据库更高，而且在流量的高峰期会更加明显)。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj6bmyodd0004bsq5zyo2x6v1" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj6c2eval000l6kq5xn8nj69o" class="article-share-link">分享</a>
       
       
       
@@ -161,6 +160,15 @@
     
 <nav id="article-nav">
   
+    <a href="/2017/08/14/mysql_分解关联/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          mysql分解关联
+        
+      </div>
+    </a>
+  
   
     <a href="/2017/08/10/mysql_容量规划/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
@@ -207,6 +215,10 @@
       <ul>
         
           <li>
+            <a href="/2017/08/14/mysql_分解关联/">mysql分解关联</a>
+          </li>
+        
+          <li>
             <a href="/2017/08/14/mysql_轻量级连接/">mysql重构查询方式</a>
           </li>
         
@@ -220,10 +232,6 @@
         
           <li>
             <a href="/2017/08/08/mongo/">mongo 优化器</a>
-          </li>
-        
-          <li>
-            <a href="/2017/08/02/数据溢出/">mysql tinyint溢出</a>
           </li>
         
       </ul>

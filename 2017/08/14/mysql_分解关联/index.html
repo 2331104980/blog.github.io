@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>mysql中char和varchar | SnailBlog</title>
+  <title>mysql分解关联 | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在MySQL中，char和varchar是两种非常常见且非常重要的字符串类型，MySQL不同存储引擎对其在磁盘和内存的处理方式不一样。 varcharvarchar类型是属于可变长类型，相对来说比char类型更节省空间，因为varchar只使用必要的空间(Row_FORMAT=FIXED是个特殊情况)。但是varchar需要额外的字节记录字符长度。如果列的最大长度小于或等于255个字节，需要一个字">
-<meta name="keywords" content="mysql">
+  <meta name="description" content="分解关联查询有时候是高性能查询的一种方案。在数据库中获取一张表的结果集，然后在应用程序做关联。例如表A(ID,name,age) B(ID,AID,COL1,COL2) 方案一  select * from a join b on a.id=b.aid where a.name=&amp;apos;zhangsan&amp;apos;; 方案二 把这个sql可拆分成 select * from a where a">
+<meta name="keywords" content="mysql分解关联,性能优化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql中char和varchar">
-<meta property="og:url" content="http://yoursite.com/2017/07/14/mysql_char_varchar/index.html">
+<meta property="og:title" content="mysql分解关联">
+<meta property="og:url" content="http://yoursite.com/2017/08/14/mysql_分解关联/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="在MySQL中，char和varchar是两种非常常见且非常重要的字符串类型，MySQL不同存储引擎对其在磁盘和内存的处理方式不一样。 varcharvarchar类型是属于可变长类型，相对来说比char类型更节省空间，因为varchar只使用必要的空间(Row_FORMAT=FIXED是个特殊情况)。但是varchar需要额外的字节记录字符长度。如果列的最大长度小于或等于255个字节，需要一个字">
-<meta property="og:updated_time" content="2017-07-17T01:00:24.436Z">
+<meta property="og:description" content="分解关联查询有时候是高性能查询的一种方案。在数据库中获取一张表的结果集，然后在应用程序做关联。例如表A(ID,name,age) B(ID,AID,COL1,COL2) 方案一  select * from a join b on a.id=b.aid where a.name=&amp;apos;zhangsan&amp;apos;; 方案二 把这个sql可拆分成 select * from a where a">
+<meta property="og:updated_time" content="2017-08-14T11:17:03.621Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mysql中char和varchar">
-<meta name="twitter:description" content="在MySQL中，char和varchar是两种非常常见且非常重要的字符串类型，MySQL不同存储引擎对其在磁盘和内存的处理方式不一样。 varcharvarchar类型是属于可变长类型，相对来说比char类型更节省空间，因为varchar只使用必要的空间(Row_FORMAT=FIXED是个特殊情况)。但是varchar需要额外的字节记录字符长度。如果列的最大长度小于或等于255个字节，需要一个字">
+<meta name="twitter:title" content="mysql分解关联">
+<meta name="twitter:description" content="分解关联查询有时候是高性能查询的一种方案。在数据库中获取一张表的结果集，然后在应用程序做关联。例如表A(ID,name,age) B(ID,AID,COL1,COL2) 方案一  select * from a join b on a.id=b.aid where a.name=&amp;apos;zhangsan&amp;apos;; 方案二 把这个sql可拆分成 select * from a where a">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -72,10 +72,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-mysql_char_varchar" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-mysql_分解关联" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/07/14/mysql_char_varchar/" class="article-date">
-  <time datetime="2017-07-14T08:11:20.002Z" itemprop="datePublished">2017-07-14</time>
+    <a href="/2017/08/14/mysql_分解关联/" class="article-date">
+  <time datetime="2017-08-14T10:55:43.613Z" itemprop="datePublished">2017-08-14</time>
 </a>
     
   <div class="article-category">
@@ -90,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      mysql中char和varchar
+      mysql分解关联
     </h1>
   
 
@@ -100,31 +100,29 @@
       
         <!-- Table of Contents -->
         
-        <p>在MySQL中，char和varchar是两种非常常见且非常重要的字符串类型，MySQL不同存储引擎对其在磁盘和内存的处理方式不一样。</p>
-<h3 id="varchar"><a href="#varchar" class="headerlink" title="varchar"></a>varchar</h3><p>varchar类型是属于可变长类型，相对来说比char类型更节省空间，因为varchar只使用必要的空间(Row_FORMAT=FIXED是个特殊情况)。但是varchar需要额外的字节记录字符长度。如果列的最大长度小于或等于255个字节，需要一个字节来记录长度，超过255个字节需要额外2个字节。</p>
-<p>以下情况适合使用varchar</p>
-<p>字符串列的最大长度比平均长度达很多</p>
-<p>列更新很少（碎片很少）</p>
-<hr>
-<h3 id="char"><a href="#char" class="headerlink" title="char"></a>char</h3><p>char是定长类型，MySQL总是根据定义字符串长度分配足够的空间。</p>
-<p>以下情况适合使用char</p>
-<p>char值适合存储很短的字符串，或者接近值长度的字符串。</p>
-<p>对于经常变更的数据，char比varchar好，因为char类型不容易产生碎片。</p>
-<p>对于非常短的列，char比varchar在存储空间上也更有效率。</p>
-<hr>
-<h3 id="内存上的比较"><a href="#内存上的比较" class="headerlink" title="内存上的比较"></a>内存上的比较</h3><p>MySQL通常会分配固定大小的内存来保存内部值。</p>
-<hr>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>varchar(1)和varchar(100）存储’y’在存储空间是一样的。但是varchar(100)会占用更大的内存,在这种情况下，如果数据量非常大，varchar(1)性能会比varchar(100)好很多。如果这时候对临时表进行排序时会更加明显，如果是机械磁盘的话，需要响应的时间会更久。</p>
-<p><strong>以上比较是基于innodb</strong></p>
-
+        <p>分解关联查询有时候是高性能查询的一种方案。在数据库中获取一张表的结果集，然后在应用程序做关联。例如表A(ID,name,age) B(ID,AID,COL1,COL2)</p>
+<p>方案一 </p>
+<pre><code>select * from a join b on a.id=b.aid where a.name=&apos;zhangsan&apos;;
+</code></pre><p>方案二 把这个sql可拆分成</p>
+<pre><code>select * from a where a.name=&apos;zhangsan&apos;; 
+-- 得到3条数据，分别是id=1,2,3    
+select * from b where b.aid in(1,2,3); 
+-- 得到b表中的所有符合条件的数据
+-- 最后应用层对查询出来的记录进行关联。
+</code></pre><p>可能有人会觉得困惑，为什么不直接关联查询呢，简单粗暴，还不用多次连接数据库。事实上这种做法并没有错，但是关联查询使用内嵌循环的方式，如果数据量不是特别大的时候性能可能会比分解关联好，但是如果<strong>数据量非常大</strong>查询起来可能会非常慢，而且MySQL innodb不支持hash索引。如果把关联查询分解成单表查询，其实好处也是挺多的。</p>
+<pre><code>缓存的利用，单表的查询容易被应用程序缓存。
+减少锁的竞争
+在应用层做关联可以更容易对业务拆分，项目更容易拓展
+MySQL innodb不支持hash索引，这相当于在应用层做hash关联
+</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj6c2ev9y00046kq5vv4080o6" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/14/mysql_分解关联/" data-id="cj6c2eva8000a6kq5yx1b3lee" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql分解关联/">mysql分解关联</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/性能优化/">性能优化</a></li></ul>
 
     </footer>
   </div>
@@ -174,19 +172,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/07/15/tcpip_connect/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          TCP/IP连接
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/07/13/network/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/08/14/mysql_轻量级连接/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">HTTP从请求到响应</div>
+      <div class="article-nav-title">mysql重构查询方式</div>
     </a>
   
 </nav>
@@ -216,24 +205,42 @@
 
   
     
-    <div class="widget-wrap">
+  
     
-      <div class="widget" id="toc-widget-fixed">
-      
-        <strong class="toc-title">文章目录</strong>
-        <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#varchar"><span class="toc-number">1.</span> <span class="toc-text">varchar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#char"><span class="toc-number">2.</span> <span class="toc-text">char</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存上的比较"><span class="toc-number">3.</span> <span class="toc-text">内存上的比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
-          </div>
-      </div>
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title recent-posts">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/08/14/mysql_分解关联/">mysql分解关联</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/14/mysql_轻量级连接/">mysql重构查询方式</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/10/mysql_容量规划/">mysql 容量规划</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/09/mysql_复制拓扑结构/">mysql decimal</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/08/mongo/">mongo 优化器</a>
+          </li>
+        
+      </ul>
     </div>
+  </div>
 
-  
-    
-
-  
-    
-  
-    
   
     
 
