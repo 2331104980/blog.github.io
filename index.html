@@ -115,7 +115,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/14/mysql_分解关联/" data-id="cj6ec8hzl000a40q58mejtxqp" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/14/mysql_分解关联/" data-id="cj6ecawo0000cx0q5np4zu3g3" class="article-share-link">分享</a>
       
       
       
@@ -163,7 +163,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj6ec8hzt000f40q53w91qkpu" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj6ecawnw000ax0q5q5bx3iyo" class="article-share-link">分享</a>
       
       
       
@@ -184,7 +184,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/系统架构/">系统架构</a>
+    <a class="article-category-link" href="/categories/系统架构/">系统架构</a>►<a class="article-category-link" href="/categories/系统架构/MySQL-容量规划/">MySQL 容量规划</a>
   </div>
 
   </div>
@@ -195,7 +195,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/10/mysql_容量规划/">mysql 容量规划</a>
+      <a class="article-title" href="/2017/08/10/mysql_容量规划/">MySQL 容量规划</a>
     </h1>
   
 
@@ -207,20 +207,20 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
         
         <p>在读密集型的应用中，主从的拓扑结构是一个比较好的解决方案。但是主从并不意味着一味地添加从服务器来扩充系统容量，因为当写操作成为系统的瓶颈时，添加的服务器越多，对主服务器的压力就会越大，并且有可能性能会降低。</p>
 <p>例如：假设服务器的工作负载为10%的写和90%的读</p>
-<p>前提</p>
-<p>1、并且读写都是相同的工作量，每台服务器(相同配置)</p>
-<p>2、每秒只能进行1000查询操作</p>
-<p>3、可以把所有的读操作都分配给从服务器</p>
-<p>基于以上情况，如果当前的服务器能够支持1000次/s的查询，那么系统需要添加多少台服务器才能提升1倍性能呢。也就是200写和1800次读。因为写就站了20%，那么每台服务器的读也就是剩下800次，在这1800次读操作中，需要至少3台服务器。如果性能在提升一倍呢。也就是400次写和3600次读，因为每台服务器的读剩下600次，那么至少需要6台。往后需要性能提升的时候在财务允许的情况下且不改变架构的情况下可以不断添加从服务器。直到性能提升到最开始的10倍也就是1000次写操作和9000次读操作。这时候无法进行读操作，因为所有的资源已经被写操作占用了。这时候写操作就是整个架构的瓶颈,如果添加从服务器只会降低服务器性能，对于整个项目来说无疑是雪上加霜。这时候只能改变系统架构，例如对系统进行垂直拆分等</p>
+<pre><code>前提:
+并且读写都是相同的工作量，每台服务器(相同配置)
+每秒只能进行1000查询操作
+可以把所有的读操作都分配给从服务器
+</code></pre><p>基于以上情况，如果当前的服务器能够支持1000次/s的查询，那么系统需要添加多少台服务器才能提升1倍性能呢。也就是200写和1800次读。因为写就站了20%，那么每台服务器的读也就是剩下800次，在这1800次读操作中，需要至少3台服务器。如果性能在提升一倍呢。也就是400次写和3600次读，因为每台服务器的读剩下600次，那么至少需要6台。往后需要性能提升的时候在财务允许的情况下且不改变架构的情况下可以不断添加从服务器。直到性能提升到最开始的10倍也就是1000次写操作和9000次读操作。这时候无法进行读操作，因为所有的资源已经被写操作占用了。这时候写操作就是整个架构的瓶颈,如果添加从服务器只会降低服务器性能，对于整个项目来说无疑是雪上加霜。这时候只能改变系统架构，例如对系统进行垂直拆分等</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj6ec8hzw000i40q57vyi8z82" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj6ecawo8000ix0q5mo7u1ocj" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/系统架构/">系统架构</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/系统架构/">系统架构</a></li></ul>
 
     </footer>
   </div>
@@ -237,7 +237,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+    <a class="article-category-link" href="/categories/系统架构/">系统架构</a>►<a class="article-category-link" href="/categories/系统架构/MySQL主从拓扑结构/">MySQL主从拓扑结构</a>►<a class="article-category-link" href="/categories/系统架构/MySQL主从拓扑结构/MySQL/">MySQL</a>
   </div>
 
   </div>
@@ -258,7 +258,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
         <!-- Table of Contents -->
         
-        <p>MySQL的主从拓扑结构在少量写大量读的情况下表现非常优越。可以把读分摊到多个备库上，直到写成为整个拓扑结构的瓶颈(在之前的容量规划就介绍为什么写会成为瓶颈)。这种拓扑结构在其他拓扑结构中，是比较简单的一种，但很灵活，能满足多种要求。</p>
+        <p>MySQL的主从拓扑结构在少量写大量读的情况下表现非常优越。可以把读分摊到多个备库上，直到写成为整个拓扑结构的瓶颈(<a href="https://githubhsb.github.io/2017/08/10/mysql_%E5%AE%B9%E9%87%8F%E8%A7%84%E5%88%92/" target="_blank" rel="external">在容量规划会介绍为什么写会成为瓶颈</a>)。这种拓扑结构在其他拓扑结构中，是比较简单的一种，但很灵活，能满足多种要求。</p>
 <pre><code>把一台备库当做待用的主库，除了复制没有其他的数据传输。
 把一台备库放在远程数据中心，用作灾难恢复
 延迟一个或多个备库，以备灾难恢复
@@ -268,11 +268,11 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj6ec8hzn000c40q5jdop61mj" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj6ecawo6000fx0q5gwrx4pvk" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/主从拓扑结构/">主从拓扑结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/拓扑结构/">拓扑结构</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/主从拓扑结构/">主从拓扑结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/拓扑结构/">拓扑结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/系统架构/">系统架构</a></li></ul>
 
     </footer>
   </div>
@@ -315,7 +315,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/08/mongo/" data-id="cj6ec8hz1000040q5yi0cn3c1" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/08/mongo/" data-id="cj6ecawnb0000x0q59w4muvtq" class="article-share-link">分享</a>
       
       
       
@@ -363,7 +363,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj6ec8i0l001240q5gpyoga38" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj6ecawoz0012x0q5yruquebn" class="article-share-link">分享</a>
       
       
       
@@ -395,7 +395,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/01/mysql_char_hit/">mysql hit</a>
+      <a class="article-title" href="/2017/08/01/mysql_char_hit/">mysql hint</a>
     </h1>
   
 
@@ -411,7 +411,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj6ec8hz7000140q5xrw5uoyd" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj6ecawnh0001x0q5mgv9sg1o" class="article-share-link">分享</a>
       
       
       
@@ -460,7 +460,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/24/mysql_char_in/" data-id="cj6ec8hze000540q5z5heh2et" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/24/mysql_char_in/" data-id="cj6ecawns0005x0q5up270bcy" class="article-share-link">分享</a>
       
       
       
@@ -507,7 +507,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/mysql_char_decimal/" data-id="cj6ec8hzd000440q571q46vs4" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/20/mysql_char_decimal/" data-id="cj6ecawnp0004x0q5ibekcc6d" class="article-share-link">分享</a>
       
       
       
@@ -556,7 +556,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/" data-id="cj6ec8i03000p40q50r945bbh" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/" data-id="cj6ecawop000tx0q54lvvbx1c" class="article-share-link">分享</a>
       
       
       
@@ -602,7 +602,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
   <div class="widget-wrap">
     <h3 class="widget-title categories">分类</h3>
     <div class="widget" id="categories">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mongo/">mongo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/">系统架构</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议/">网络协议</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mongo/">mongo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/">系统架构</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/MySQL-容量规划/">MySQL 容量规划</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/MySQL主从拓扑结构/">MySQL主从拓扑结构</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议/">网络协议</a><span class="category-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -612,7 +612,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
   <div class="widget-wrap">
     <h3 class="widget-title tagcloud">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/TCP-IP/" style="font-size: 21.33px;">TCP/IP</a> <a href="/tags/mongo/" style="font-size: 14px;">mongo</a> <a href="/tags/mysql/" style="font-size: 25px;">mysql</a> <a href="/tags/mysql分解关联/" style="font-size: 14px;">mysql分解关联</a> <a href="/tags/mysql重构查询方式/" style="font-size: 14px;">mysql重构查询方式</a> <a href="/tags/主从拓扑结构/" style="font-size: 14px;">主从拓扑结构</a> <a href="/tags/性能优化/" style="font-size: 17.67px;">性能优化</a> <a href="/tags/拓扑结构/" style="font-size: 14px;">拓扑结构</a> <a href="/tags/系统架构/" style="font-size: 14px;">系统架构</a> <a href="/tags/网络协议/" style="font-size: 21.33px;">网络协议</a>
+      <a href="/tags/MySQL/" style="font-size: 14px;">MySQL</a> <a href="/tags/TCP-IP/" style="font-size: 21.33px;">TCP/IP</a> <a href="/tags/mongo/" style="font-size: 14px;">mongo</a> <a href="/tags/mysql/" style="font-size: 25px;">mysql</a> <a href="/tags/mysql分解关联/" style="font-size: 14px;">mysql分解关联</a> <a href="/tags/mysql重构查询方式/" style="font-size: 14px;">mysql重构查询方式</a> <a href="/tags/主从拓扑结构/" style="font-size: 14px;">主从拓扑结构</a> <a href="/tags/性能优化/" style="font-size: 17.67px;">性能优化</a> <a href="/tags/拓扑结构/" style="font-size: 14px;">拓扑结构</a> <a href="/tags/系统架构/" style="font-size: 17.67px;">系统架构</a> <a href="/tags/网络协议/" style="font-size: 21.33px;">网络协议</a>
     </div>
   </div>
 
@@ -632,7 +632,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
           </li>
         
           <li>
-            <a href="/2017/08/10/mysql_容量规划/">mysql 容量规划</a>
+            <a href="/2017/08/10/mysql_容量规划/">MySQL 容量规划</a>
           </li>
         
           <li>

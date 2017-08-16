@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>mysql hit | SnailBlog</title>
+  <title>mysql hint | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="在MySQL优化中，如果对优化器的执行计划不满意是可以通过hit来控制最终的计划。但是如果没有十足的把握，不建议使用hit，因为MySQL会有统计引擎(不同引擎统计方式可能不同)。对于hit的用法，我建议阅读官方的文档。 在实践中，会有出现MySQL给出的优化策略不是最优的策略。曾经遇到一种情况，在多表查询中，因为业务的关系，需要取出大量的数据，但是MySQL给出的优化策略是走表中的索引。在多次测">
 <meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql hit">
+<meta property="og:title" content="mysql hint">
 <meta property="og:url" content="http://yoursite.com/2017/08/01/mysql_char_hit/index.html">
 <meta property="og:site_name" content="SnailBlog">
 <meta property="og:description" content="在MySQL优化中，如果对优化器的执行计划不满意是可以通过hit来控制最终的计划。但是如果没有十足的把握，不建议使用hit，因为MySQL会有统计引擎(不同引擎统计方式可能不同)。对于hit的用法，我建议阅读官方的文档。 在实践中，会有出现MySQL给出的优化策略不是最优的策略。曾经遇到一种情况，在多表查询中，因为业务的关系，需要取出大量的数据，但是MySQL给出的优化策略是走表中的索引。在多次测">
-<meta property="og:updated_time" content="2017-08-01T10:14:32.662Z">
+<meta property="og:updated_time" content="2017-08-16T01:44:56.198Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mysql hit">
+<meta name="twitter:title" content="mysql hint">
 <meta name="twitter:description" content="在MySQL优化中，如果对优化器的执行计划不满意是可以通过hit来控制最终的计划。但是如果没有十足的把握，不建议使用hit，因为MySQL会有统计引擎(不同引擎统计方式可能不同)。对于hit的用法，我建议阅读官方的文档。 在实践中，会有出现MySQL给出的优化策略不是最优的策略。曾经遇到一种情况，在多表查询中，因为业务的关系，需要取出大量的数据，但是MySQL给出的优化策略是走表中的索引。在多次测">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
@@ -90,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      mysql hit
+      mysql hint
     </h1>
   
 
@@ -106,7 +106,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj6ec8hz7000140q5xrw5uoyd" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj6ecawnh0001x0q5mgv9sg1o" class="article-share-link">分享</a>
       
       
       
@@ -223,7 +223,7 @@
           </li>
         
           <li>
-            <a href="/2017/08/10/mysql_容量规划/">mysql 容量规划</a>
+            <a href="/2017/08/10/mysql_容量规划/">MySQL 容量规划</a>
           </li>
         
           <li>
