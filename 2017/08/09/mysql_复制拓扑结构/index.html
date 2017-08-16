@@ -3,19 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>mysql decimal | SnailBlog</title>
+  <title>mysql 主从拓扑结构 | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="mysql中decimal类型用于存储精确的小数，decimal允许最多65个数字。在处理decimal的时候，会消耗额外的空间和计算开销(cpu不支持直接对decimal进行计算)。所以根据实际情确定是否使用decimal。事实上，并不是涉及到钱的都一定使用decimal，这要看精确范围。如果是银行这种涉及到高精度的计算，我认为用decimal比较合适。如果是对精确范围较小的话，可以用其他数据类">
-<meta name="keywords" content="mysql">
+  <meta name="description" content="MySQL的主从拓扑结构在少量写大量读的情况下表现非常优越。可以把读分摊到多个备库上，直到写成为整个拓扑结构的瓶颈(在之前的容量规划就介绍为什么写会成为瓶颈)。这种拓扑结构在其他拓扑结构中，是比较简单的一种，但很灵活，能满足多种要求。 把一台备库当做待用的主库，除了复制没有其他的数据传输。 把一台备库放在远程数据中心，用作灾难恢复 延迟一个或多个备库，以备灾难恢复 使用一个备库作为开发测试等">
+<meta name="keywords" content="mysql,拓扑结构,主从拓扑结构">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql decimal">
+<meta property="og:title" content="mysql 主从拓扑结构">
 <meta property="og:url" content="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="mysql中decimal类型用于存储精确的小数，decimal允许最多65个数字。在处理decimal的时候，会消耗额外的空间和计算开销(cpu不支持直接对decimal进行计算)。所以根据实际情确定是否使用decimal。事实上，并不是涉及到钱的都一定使用decimal，这要看精确范围。如果是银行这种涉及到高精度的计算，我认为用decimal比较合适。如果是对精确范围较小的话，可以用其他数据类">
-<meta property="og:updated_time" content="2017-07-20T08:03:17.727Z">
+<meta property="og:description" content="MySQL的主从拓扑结构在少量写大量读的情况下表现非常优越。可以把读分摊到多个备库上，直到写成为整个拓扑结构的瓶颈(在之前的容量规划就介绍为什么写会成为瓶颈)。这种拓扑结构在其他拓扑结构中，是比较简单的一种，但很灵活，能满足多种要求。 把一台备库当做待用的主库，除了复制没有其他的数据传输。 把一台备库放在远程数据中心，用作灾难恢复 延迟一个或多个备库，以备灾难恢复 使用一个备库作为开发测试等">
+<meta property="og:image" content="http://yoursite.com/images/主从拓扑结构.png">
+<meta property="og:updated_time" content="2017-08-16T01:27:27.927Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mysql decimal">
-<meta name="twitter:description" content="mysql中decimal类型用于存储精确的小数，decimal允许最多65个数字。在处理decimal的时候，会消耗额外的空间和计算开销(cpu不支持直接对decimal进行计算)。所以根据实际情确定是否使用decimal。事实上，并不是涉及到钱的都一定使用decimal，这要看精确范围。如果是银行这种涉及到高精度的计算，我认为用decimal比较合适。如果是对精确范围较小的话，可以用其他数据类">
+<meta name="twitter:title" content="mysql 主从拓扑结构">
+<meta name="twitter:description" content="MySQL的主从拓扑结构在少量写大量读的情况下表现非常优越。可以把读分摊到多个备库上，直到写成为整个拓扑结构的瓶颈(在之前的容量规划就介绍为什么写会成为瓶颈)。这种拓扑结构在其他拓扑结构中，是比较简单的一种，但很灵活，能满足多种要求。 把一台备库当做待用的主库，除了复制没有其他的数据传输。 把一台备库放在远程数据中心，用作灾难恢复 延迟一个或多个备库，以备灾难恢复 使用一个备库作为开发测试等">
+<meta name="twitter:image" content="http://yoursite.com/images/主从拓扑结构.png">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -90,7 +92,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      mysql decimal
+      mysql 主从拓扑结构
     </h1>
   
 
@@ -100,16 +102,21 @@
       
         <!-- Table of Contents -->
         
-        <p>mysql中decimal类型用于存储<strong>精确</strong>的小数，decimal允许最多65个数字。在处理decimal的时候，会消耗额外的空间和计算开销(cpu不支持直接对decimal进行计算)。所以根据实际情确定是否使用decimal。事实上，并不是涉及到钱的都一定使用decimal，这要看<strong>精确</strong>范围。如果是银行这种涉及到高精度的计算，我认为用decimal比较合适。如果是对精确范围较小的话，可以用其他数据类型。比如一些在线商店之类的平台，一件商品的价格不是很大，那么完全可以用int来记录（无符号int范围0～4294967295），单位为分，在显示的时候根据存储单位和显示单位进行转化。例如在数据库中保存了价格为100，单位是分，那么转化后在界面上显示1元。如果int的存储范围还不够，那么可以设置成bigint。bigint为64字节，可以存储大部分情况下的值。</p>
+        <p>MySQL的主从拓扑结构在少量写大量读的情况下表现非常优越。可以把读分摊到多个备库上，直到写成为整个拓扑结构的瓶颈(在之前的容量规划就介绍为什么写会成为瓶颈)。这种拓扑结构在其他拓扑结构中，是比较简单的一种，但很灵活，能满足多种要求。</p>
+<pre><code>把一台备库当做待用的主库，除了复制没有其他的数据传输。
+把一台备库放在远程数据中心，用作灾难恢复
+延迟一个或多个备库，以备灾难恢复
+使用一个备库作为开发测试等
+</code></pre><p><img src="/images/主从拓扑结构.png" alt="MySQL复制-主从拓扑结构"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj6c2evah000i6kq52m9lekmq" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj6ec8hzn000c40q5jdop61mj" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/主从拓扑结构/">主从拓扑结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/拓扑结构/">拓扑结构</a></li></ul>
 
     </footer>
   </div>
@@ -226,7 +233,7 @@
           </li>
         
           <li>
-            <a href="/2017/08/09/mysql_复制拓扑结构/">mysql decimal</a>
+            <a href="/2017/08/09/mysql_复制拓扑结构/">mysql 主从拓扑结构</a>
           </li>
         
           <li>
