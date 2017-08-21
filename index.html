@@ -69,6 +69,113 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-mysql_主主拓扑结构" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/21/mysql_主主拓扑结构/" class="article-date">
+  <time datetime="2017-08-21T00:40:33.105Z" itemprop="datePublished">2017-08-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/系统架构/">系统架构</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/21/mysql_主主拓扑结构/">MySQL主主拓扑结构</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>主主复制有两台服务器，每一个都被配置成对方的主库和备库。主主拓扑结构有两种配置，一种是主主拓扑结构中的主-主模式。这种模式下，两台服务器都可以写入。那么最大的问题就是如何防止冲突的问题，另外在两台机器上根据不同的顺序更新，可能会导致数据不同步。例如在第一台主库上：</p>
+<pre><code>update tableA set col=col+1;
+</code></pre><p>在第二台主库上：</p>
+<pre><code>update tableA set col=col*2;
+</code></pre><p>在这种情况下，第一台实际在数据库执行的是</p>
+<pre><code>update tableA set col=col+1;
+update tableA set col=col*2;
+</code></pre><p>第一台得到的结果是4，在第二台主机上执行的是</p>
+<pre><code>update tableA set col=col*2;
+update tableA set col=col+1;
+</code></pre><p>那么得到的结果就是3。这种拓扑结构导致了两个库的数据不一致。如果清除自己在做什么，那么可以考虑这种结构，否则，尽量别用，因为有些疑难杂症很难处理好。</p>
+<p>在主主拓扑结构中还有另外一种模式，主-被拓扑模式，这种结构能够很好的避免主主结构中主-主模式的一些问题。这种结构跟主-主结构的区别在于其中被动服务器只读，如图所示。由于主主结构主-被模式配置都是对称的(其中，把对方都设置成备库的配置在往后的故障转移和故障恢复起到非常重要的作用)，所以在这种特殊的配置中，主-被模式反复切换模式很方便(这些操作相对于主从来说，会少了很多工作量，后续会对主从、主主拓扑结构的主被模式切换主库做个对比)，这对系统的故障转移和故障恢复很容易。对于整个系统实现高可用也是非常方便且有效的(可能会配合其他负载均衡如[lvs、haproxy]+keepalive或虚拟IP等相关技术一起使用，具体方案视情况而定)。<br><img src="/images/主主拓扑.png" alt="主主拓扑.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/08/21/mysql_主主拓扑结构/" data-id="cj6lnrxer0005voq56gpl9k91" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL主主拓扑结构/">MySQL主主拓扑结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/系统架构/">系统架构</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-network_vrrp" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/16/network_vrrp/" class="article-date">
+  <time datetime="2017-08-16T03:04:31.269Z" itemprop="datePublished">2017-08-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/16/network_vrrp/">vrrp协议</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p><strong>vrrp简述：</strong></p>
+<p>vrrp协议即虚拟路由冗余协议，通过多台路由设备联合组成一台虚拟的路由设备，当主机的下一跳路由出现故障时，自动选举备份路由，把业务切换到备份路由器。</p>
+<p><strong>vrrp实现</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/08/16/network_vrrp/" data-id="cj6lnrxfs000nvoq5o1ua0o03" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vrrp协议/">vrrp协议</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-mysql_分解关联" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/08/14/mysql_分解关联/" class="article-date">
@@ -115,7 +222,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/14/mysql_分解关联/" data-id="cj6ecawo0000cx0q5np4zu3g3" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/14/mysql_分解关联/" data-id="cj6lnrxfd000cvoq5gwg44eus" class="article-share-link">分享</a>
       
       
       
@@ -163,7 +270,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj6ecawnw000ax0q5q5bx3iyo" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj6lnrxfj000gvoq572nx8r2t" class="article-share-link">分享</a>
       
       
       
@@ -216,7 +323,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj6ecawo8000ix0q5mo7u1ocj" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj6lnrxhh002gvoq5w2z38zd8" class="article-share-link">分享</a>
       
       
       
@@ -268,7 +375,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj6ecawo6000fx0q5gwrx4pvk" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj6lnrxhg002fvoq5hyfgs3w9" class="article-share-link">分享</a>
       
       
       
@@ -315,7 +422,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/08/mongo/" data-id="cj6ecawnb0000x0q59w4muvtq" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/08/mongo/" data-id="cj6lnrxbb0000voq555oblly4" class="article-share-link">分享</a>
       
       
       
@@ -363,7 +470,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj6ecawoz0012x0q5yruquebn" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj6lnrxg6000wvoq58t3fyvl5" class="article-share-link">分享</a>
       
       
       
@@ -411,7 +518,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj6ecawnh0001x0q5mgv9sg1o" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj6lnrxf8000avoq5c9re5qy1" class="article-share-link">分享</a>
       
       
       
@@ -460,107 +567,11 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/24/mysql_char_in/" data-id="cj6ecawns0005x0q5up270bcy" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/24/mysql_char_in/" data-id="cj6lnrxeq0004voq597jqrvay" class="article-share-link">分享</a>
       
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-mysql_char_decimal" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/20/mysql_char_decimal/" class="article-date">
-  <time datetime="2017-07-20T07:24:16.352Z" itemprop="datePublished">2017-07-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/20/mysql_char_decimal/">mysql decimal</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>mysql中decimal类型用于存储<strong>精确</strong>的小数，decimal允许最多65个数字。在处理decimal的时候，会消耗额外的空间和计算开销(cpu不支持直接对decimal进行计算)。所以根据实际情确定是否使用decimal。事实上，并不是涉及到钱的都一定使用decimal，这要看<strong>精确</strong>范围。如果是银行这种涉及到高精度的计算，我认为用decimal比较合适。如果是对精确范围较小的话，可以用其他数据类型。比如一些在线商店之类的平台，一件商品的价格不是很大，那么完全可以用int来记录（无符号int范围0～4294967295），单位为分，在显示的时候根据存储单位和显示单位进行转化。例如在数据库中保存了价格为100，单位是分，那么转化后在界面上显示1元。如果int的存储范围还不够，那么可以设置成bigint。bigint为64字节，可以存储大部分情况下的值。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/mysql_char_decimal/" data-id="cj6ecawnp0004x0q5ibekcc6d" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-network_tcp_ip_disconnect _slowStart" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/20/network_tcp_ip_disconnect _slowStart/" class="article-date">
-  <time datetime="2017-07-20T00:48:26.694Z" itemprop="datePublished">2017-07-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/20/network_tcp_ip_disconnect _slowStart/">TCP/IP慢启动</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>在TCP/IP数据交互节点，如果是在同个局域网那么数据一开始可以发送多个数据包给接收方。但是如果发送方发送的数据要经过较多的路由和速率较慢的链路，可能导致TCP吞吐量降低。所以在一开始的时候先限制发送端的发送速度，随着时间的推移根据接收方的接收情况在调整发送速率。这就是我们说的慢启动(slow start)用于防止因特网的突然过载和拥塞。</p>
-<p>慢启动为发送方的TCP增加另外一个窗口即拥塞窗口，初始值为一个报文段。每收到接收方的一个ack，拥塞窗口就会增加一个报文段,以此类推。拥塞窗口有一个上限，即拥塞窗口与通告窗口中的最小值作为发送上限。</p>
-<p><img src="/images/slowStart.jpg" alt="slowstart"><br>图片中ack的大小比例画的不对（ack只有头部）这里简述慢启动的开始阶段到理想稳定状态。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/" data-id="cj6ecawop000tx0q54lvvbx1c" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
 
     </footer>
   </div>
@@ -602,7 +613,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
   <div class="widget-wrap">
     <h3 class="widget-title categories">分类</h3>
     <div class="widget" id="categories">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mongo/">mongo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/">系统架构</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/MySQL-容量规划/">MySQL 容量规划</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/MySQL主从拓扑结构/">MySQL主从拓扑结构</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议/">网络协议</a><span class="category-list-count">5</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mongo/">mongo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/">系统架构</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/MySQL-容量规划/">MySQL 容量规划</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/MySQL主从拓扑结构/">MySQL主从拓扑结构</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议/">网络协议</a><span class="category-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -612,7 +623,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
   <div class="widget-wrap">
     <h3 class="widget-title tagcloud">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/MySQL/" style="font-size: 14px;">MySQL</a> <a href="/tags/TCP-IP/" style="font-size: 21.33px;">TCP/IP</a> <a href="/tags/mongo/" style="font-size: 14px;">mongo</a> <a href="/tags/mysql/" style="font-size: 25px;">mysql</a> <a href="/tags/mysql分解关联/" style="font-size: 14px;">mysql分解关联</a> <a href="/tags/mysql重构查询方式/" style="font-size: 14px;">mysql重构查询方式</a> <a href="/tags/主从拓扑结构/" style="font-size: 14px;">主从拓扑结构</a> <a href="/tags/性能优化/" style="font-size: 17.67px;">性能优化</a> <a href="/tags/拓扑结构/" style="font-size: 14px;">拓扑结构</a> <a href="/tags/系统架构/" style="font-size: 17.67px;">系统架构</a> <a href="/tags/网络协议/" style="font-size: 21.33px;">网络协议</a>
+      <a href="/tags/MySQL/" style="font-size: 16.75px;">MySQL</a> <a href="/tags/MySQL主主拓扑结构/" style="font-size: 14px;">MySQL主主拓扑结构</a> <a href="/tags/TCP-IP/" style="font-size: 22.25px;">TCP/IP</a> <a href="/tags/mongo/" style="font-size: 14px;">mongo</a> <a href="/tags/mysql/" style="font-size: 25px;">mysql</a> <a href="/tags/mysql分解关联/" style="font-size: 14px;">mysql分解关联</a> <a href="/tags/mysql重构查询方式/" style="font-size: 14px;">mysql重构查询方式</a> <a href="/tags/vrrp协议/" style="font-size: 14px;">vrrp协议</a> <a href="/tags/主从拓扑结构/" style="font-size: 14px;">主从拓扑结构</a> <a href="/tags/性能优化/" style="font-size: 16.75px;">性能优化</a> <a href="/tags/拓扑结构/" style="font-size: 14px;">拓扑结构</a> <a href="/tags/系统架构/" style="font-size: 19.5px;">系统架构</a> <a href="/tags/网络协议/" style="font-size: 25px;">网络协议</a>
     </div>
   </div>
 
@@ -622,6 +633,14 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
     <h3 class="widget-title recent-posts">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/08/21/mysql_主主拓扑结构/">MySQL主主拓扑结构</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/16/network_vrrp/">vrrp协议</a>
+          </li>
         
           <li>
             <a href="/2017/08/14/mysql_分解关联/">mysql分解关联</a>
@@ -635,14 +654,6 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
             <a href="/2017/08/10/mysql_容量规划/">MySQL 容量规划</a>
           </li>
         
-          <li>
-            <a href="/2017/08/09/mysql_复制拓扑结构/">mysql 主从拓扑结构</a>
-          </li>
-        
-          <li>
-            <a href="/2017/08/08/mongo/">mongo 优化器</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -652,7 +663,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">8</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">8</span></li></ul>
     </div>
   </div>
 

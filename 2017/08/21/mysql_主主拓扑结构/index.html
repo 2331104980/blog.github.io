@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>TCP/IP慢启动 | SnailBlog</title>
+  <title>MySQL主主拓扑结构 | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在TCP/IP数据交互节点，如果是在同个局域网那么数据一开始可以发送多个数据包给接收方。但是如果发送方发送的数据要经过较多的路由和速率较慢的链路，可能导致TCP吞吐量降低。所以在一开始的时候先限制发送端的发送速度，随着时间的推移根据接收方的接收情况在调整发送速率。这就是我们说的慢启动(slow start)用于防止因特网的突然过载和拥塞。 慢启动为发送方的TCP增加另外一个窗口即拥塞窗口，初始值为">
-<meta name="keywords" content="TCP&#x2F;IP,网络协议">
+  <meta name="description" content="主主复制有两台服务器，每一个都被配置成对方的主库和备库。主主拓扑结构有两种配置，一种是主主拓扑结构中的主-主模式。这种模式下，两台服务器都可以写入。那么最大的问题就是如何防止冲突的问题，另外在两台机器上根据不同的顺序更新，可能会导致数据不同步。例如在第一台主库上： update tableA set col=col+1; 在第二台主库上： update tableA set col=col*2;">
+<meta name="keywords" content="MySQL,MySQL主主拓扑结构,系统架构">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TCP&#x2F;IP慢启动">
-<meta property="og:url" content="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/index.html">
+<meta property="og:title" content="MySQL主主拓扑结构">
+<meta property="og:url" content="http://yoursite.com/2017/08/21/mysql_主主拓扑结构/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="在TCP/IP数据交互节点，如果是在同个局域网那么数据一开始可以发送多个数据包给接收方。但是如果发送方发送的数据要经过较多的路由和速率较慢的链路，可能导致TCP吞吐量降低。所以在一开始的时候先限制发送端的发送速度，随着时间的推移根据接收方的接收情况在调整发送速率。这就是我们说的慢启动(slow start)用于防止因特网的突然过载和拥塞。 慢启动为发送方的TCP增加另外一个窗口即拥塞窗口，初始值为">
-<meta property="og:image" content="http://yoursite.com/images/slowStart.jpg">
-<meta property="og:updated_time" content="2017-07-20T10:23:04.170Z">
+<meta property="og:description" content="主主复制有两台服务器，每一个都被配置成对方的主库和备库。主主拓扑结构有两种配置，一种是主主拓扑结构中的主-主模式。这种模式下，两台服务器都可以写入。那么最大的问题就是如何防止冲突的问题，另外在两台机器上根据不同的顺序更新，可能会导致数据不同步。例如在第一台主库上： update tableA set col=col+1; 在第二台主库上： update tableA set col=col*2;">
+<meta property="og:image" content="http://yoursite.com/images/主主拓扑.png">
+<meta property="og:updated_time" content="2017-08-21T06:50:00.753Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TCP&#x2F;IP慢启动">
-<meta name="twitter:description" content="在TCP/IP数据交互节点，如果是在同个局域网那么数据一开始可以发送多个数据包给接收方。但是如果发送方发送的数据要经过较多的路由和速率较慢的链路，可能导致TCP吞吐量降低。所以在一开始的时候先限制发送端的发送速度，随着时间的推移根据接收方的接收情况在调整发送速率。这就是我们说的慢启动(slow start)用于防止因特网的突然过载和拥塞。 慢启动为发送方的TCP增加另外一个窗口即拥塞窗口，初始值为">
-<meta name="twitter:image" content="http://yoursite.com/images/slowStart.jpg">
+<meta name="twitter:title" content="MySQL主主拓扑结构">
+<meta name="twitter:description" content="主主复制有两台服务器，每一个都被配置成对方的主库和备库。主主拓扑结构有两种配置，一种是主主拓扑结构中的主-主模式。这种模式下，两台服务器都可以写入。那么最大的问题就是如何防止冲突的问题，另外在两台机器上根据不同的顺序更新，可能会导致数据不同步。例如在第一台主库上： update tableA set col=col+1; 在第二台主库上： update tableA set col=col*2;">
+<meta name="twitter:image" content="http://yoursite.com/images/主主拓扑.png">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -74,14 +74,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-network_tcp_ip_disconnect _slowStart" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-mysql_主主拓扑结构" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/07/20/network_tcp_ip_disconnect _slowStart/" class="article-date">
-  <time datetime="2017-07-20T00:48:26.694Z" itemprop="datePublished">2017-07-20</time>
+    <a href="/2017/08/21/mysql_主主拓扑结构/" class="article-date">
+  <time datetime="2017-08-21T00:40:33.105Z" itemprop="datePublished">2017-08-21</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
+    <a class="article-category-link" href="/categories/系统架构/">系统架构</a>
   </div>
 
   </div>
@@ -92,7 +92,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      TCP/IP慢启动
+      MySQL主主拓扑结构
     </h1>
   
 
@@ -102,18 +102,27 @@
       
         <!-- Table of Contents -->
         
-        <p>在TCP/IP数据交互节点，如果是在同个局域网那么数据一开始可以发送多个数据包给接收方。但是如果发送方发送的数据要经过较多的路由和速率较慢的链路，可能导致TCP吞吐量降低。所以在一开始的时候先限制发送端的发送速度，随着时间的推移根据接收方的接收情况在调整发送速率。这就是我们说的慢启动(slow start)用于防止因特网的突然过载和拥塞。</p>
-<p>慢启动为发送方的TCP增加另外一个窗口即拥塞窗口，初始值为一个报文段。每收到接收方的一个ack，拥塞窗口就会增加一个报文段,以此类推。拥塞窗口有一个上限，即拥塞窗口与通告窗口中的最小值作为发送上限。</p>
-<p><img src="/images/slowStart.jpg" alt="slowstart"><br>图片中ack的大小比例画的不对（ack只有头部）这里简述慢启动的开始阶段到理想稳定状态。</p>
+        <p>主主复制有两台服务器，每一个都被配置成对方的主库和备库。主主拓扑结构有两种配置，一种是主主拓扑结构中的主-主模式。这种模式下，两台服务器都可以写入。那么最大的问题就是如何防止冲突的问题，另外在两台机器上根据不同的顺序更新，可能会导致数据不同步。例如在第一台主库上：</p>
+<pre><code>update tableA set col=col+1;
+</code></pre><p>在第二台主库上：</p>
+<pre><code>update tableA set col=col*2;
+</code></pre><p>在这种情况下，第一台实际在数据库执行的是</p>
+<pre><code>update tableA set col=col+1;
+update tableA set col=col*2;
+</code></pre><p>第一台得到的结果是4，在第二台主机上执行的是</p>
+<pre><code>update tableA set col=col*2;
+update tableA set col=col+1;
+</code></pre><p>那么得到的结果就是3。这种拓扑结构导致了两个库的数据不一致。如果清除自己在做什么，那么可以考虑这种结构，否则，尽量别用，因为有些疑难杂症很难处理好。</p>
+<p>在主主拓扑结构中还有另外一种模式，主-被拓扑模式，这种结构能够很好的避免主主结构中主-主模式的一些问题。这种结构跟主-主结构的区别在于其中被动服务器只读，如图所示。由于主主结构主-被模式配置都是对称的(其中，把对方都设置成备库的配置在往后的故障转移和故障恢复起到非常重要的作用)，所以在这种特殊的配置中，主-被模式反复切换模式很方便(这些操作相对于主从来说，会少了很多工作量，后续会对主从、主主拓扑结构的主被模式切换主库做个对比)，这对系统的故障转移和故障恢复很容易。对于整个系统实现高可用也是非常方便且有效的(可能会配合其他负载均衡如[lvs、haproxy]+keepalive或虚拟IP等相关技术一起使用，具体方案视情况而定)。<br><img src="/images/主主拓扑.png" alt="主主拓扑.png"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/" data-id="cj6lnrxfn000jvoq5oen9w3dr" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/21/mysql_主主拓扑结构/" data-id="cj6lnrxer0005voq56gpl9k91" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL主主拓扑结构/">MySQL主主拓扑结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/系统架构/">系统架构</a></li></ul>
 
     </footer>
   </div>
@@ -163,19 +172,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/07/20/mysql_char_decimal/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          mysql decimal
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/07/19/tcpip_connect - 数据交换/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/08/16/network_vrrp/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">TCP数据交换</div>
+      <div class="article-nav-title">vrrp协议</div>
     </a>
   
 </nav>

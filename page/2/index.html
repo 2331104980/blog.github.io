@@ -69,6 +69,102 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-mysql_char_decimal" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/20/mysql_char_decimal/" class="article-date">
+  <time datetime="2017-07-20T07:24:16.352Z" itemprop="datePublished">2017-07-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/20/mysql_char_decimal/">mysql decimal</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>mysql中decimal类型用于存储<strong>精确</strong>的小数，decimal允许最多65个数字。在处理decimal的时候，会消耗额外的空间和计算开销(cpu不支持直接对decimal进行计算)。所以根据实际情确定是否使用decimal。事实上，并不是涉及到钱的都一定使用decimal，这要看<strong>精确</strong>范围。如果是银行这种涉及到高精度的计算，我认为用decimal比较合适。如果是对精确范围较小的话，可以用其他数据类型。比如一些在线商店之类的平台，一件商品的价格不是很大，那么完全可以用int来记录（无符号int范围0～4294967295），单位为分，在显示的时候根据存储单位和显示单位进行转化。例如在数据库中保存了价格为100，单位是分，那么转化后在界面上显示1元。如果int的存储范围还不够，那么可以设置成bigint。bigint为64字节，可以存储大部分情况下的值。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/20/mysql_char_decimal/" data-id="cj6lnrxef0001voq5riwmfb9p" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-network_tcp_ip_disconnect _slowStart" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/20/network_tcp_ip_disconnect _slowStart/" class="article-date">
+  <time datetime="2017-07-20T00:48:26.694Z" itemprop="datePublished">2017-07-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/20/network_tcp_ip_disconnect _slowStart/">TCP/IP慢启动</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>在TCP/IP数据交互节点，如果是在同个局域网那么数据一开始可以发送多个数据包给接收方。但是如果发送方发送的数据要经过较多的路由和速率较慢的链路，可能导致TCP吞吐量降低。所以在一开始的时候先限制发送端的发送速度，随着时间的推移根据接收方的接收情况在调整发送速率。这就是我们说的慢启动(slow start)用于防止因特网的突然过载和拥塞。</p>
+<p>慢启动为发送方的TCP增加另外一个窗口即拥塞窗口，初始值为一个报文段。每收到接收方的一个ack，拥塞窗口就会增加一个报文段,以此类推。拥塞窗口有一个上限，即拥塞窗口与通告窗口中的最小值作为发送上限。</p>
+<p><img src="/images/slowStart.jpg" alt="slowstart"><br>图片中ack的大小比例画的不对（ack只有头部）这里简述慢启动的开始阶段到理想稳定状态。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/" data-id="cj6lnrxfn000jvoq5oen9w3dr" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-tcpip_connect - 数据交换" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/07/19/tcpip_connect - 数据交换/" class="article-date">
@@ -104,7 +200,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj6ecawoq000wx0q531ibiwx1" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj6lnrxg3000uvoq5k7e79x6g" class="article-share-link">分享</a>
       
       
       
@@ -152,7 +248,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/" data-id="cj6ecawog000px0q5ub7uo008" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/" data-id="cj6lnrxgi0012voq5xnz2r8if" class="article-share-link">分享</a>
       
       
       
@@ -216,7 +312,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/15/tcpip_connect/" data-id="cj6ecawos0010x0q5wvc7fp4a" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/15/tcpip_connect/" data-id="cj6lnrxgd0010voq5i6v1mfdk" class="article-share-link">分享</a>
       
       
       
@@ -278,7 +374,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj6ecawnu0006x0q59skwsaku" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj6lnrxf40006voq5v13hwgo8" class="article-share-link">分享</a>
       
       
       
@@ -332,7 +428,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj6ecawod000mx0q5w0nu6jrr" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj6lnrxfw000qvoq59d85edvj" class="article-share-link">分享</a>
       
       
       
@@ -372,6 +468,14 @@
       <ul>
         
           <li>
+            <a href="/2017/08/21/mysql_主主拓扑结构/">MySQL主主拓扑结构</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/16/network_vrrp/">vrrp协议</a>
+          </li>
+        
+          <li>
             <a href="/2017/08/14/mysql_分解关联/">mysql分解关联</a>
           </li>
         
@@ -381,14 +485,6 @@
         
           <li>
             <a href="/2017/08/10/mysql_容量规划/">MySQL 容量规划</a>
-          </li>
-        
-          <li>
-            <a href="/2017/08/09/mysql_复制拓扑结构/">mysql 主从拓扑结构</a>
-          </li>
-        
-          <li>
-            <a href="/2017/08/08/mongo/">mongo 优化器</a>
           </li>
         
       </ul>
