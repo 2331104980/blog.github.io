@@ -3,21 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>MySQL主主拓扑结构 | SnailBlog</title>
+  <title>MySQL切换主库 | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="主主复制有两台服务器，每一个都被配置成对方的主库和备库。主主拓扑结构有两种配置，一种是主主拓扑结构中的主-主模式。这种模式下，两台服务器都可以写入。那么最大的问题就是如何防止冲突的问题，另外在两台机器上根据不同的顺序更新，可能会导致数据不同步。例如在第一台主库上： update tableA set col=col+1; 在第二台主库上： update tableA set col=col*2;">
-<meta name="keywords" content="MySQL,系统架构,MySQL主主拓扑结构">
+  <meta name="description" content="在MySQL复制中有很多种结构，目前只介绍两种(主主，主从),事实上MySQL还有其他拓扑，例如金字塔，主库-分发主库-备库等等。这些拓扑在解决带宽瓶颈表现也非常优秀，这些拓扑结构先略过。今天先讨论一些关于主主拓扑结构和主从拓扑结构切换主库的方式。 一般来说，切换主库的思路就是 先停止主库的写入 备库赶上主库 选择一台备库作为主库 将备库的写操作指向新主库，开启新主库 主从拓扑(计划内切换主库)">
+<meta name="keywords" content="MySQL,系统架构">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL主主拓扑结构">
-<meta property="og:url" content="http://yoursite.com/2017/08/21/mysql_主主拓扑结构/index.html">
+<meta property="og:title" content="MySQL切换主库">
+<meta property="og:url" content="http://yoursite.com/2017/08/24/mysql_change_master/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="主主复制有两台服务器，每一个都被配置成对方的主库和备库。主主拓扑结构有两种配置，一种是主主拓扑结构中的主-主模式。这种模式下，两台服务器都可以写入。那么最大的问题就是如何防止冲突的问题，另外在两台机器上根据不同的顺序更新，可能会导致数据不同步。例如在第一台主库上： update tableA set col=col+1; 在第二台主库上： update tableA set col=col*2;">
-<meta property="og:image" content="http://yoursite.com/images/主主拓扑.png">
-<meta property="og:updated_time" content="2017-08-21T06:50:00.753Z">
+<meta property="og:description" content="在MySQL复制中有很多种结构，目前只介绍两种(主主，主从),事实上MySQL还有其他拓扑，例如金字塔，主库-分发主库-备库等等。这些拓扑在解决带宽瓶颈表现也非常优秀，这些拓扑结构先略过。今天先讨论一些关于主主拓扑结构和主从拓扑结构切换主库的方式。 一般来说，切换主库的思路就是 先停止主库的写入 备库赶上主库 选择一台备库作为主库 将备库的写操作指向新主库，开启新主库 主从拓扑(计划内切换主库)">
+<meta property="og:updated_time" content="2017-08-24T06:59:48.256Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL主主拓扑结构">
-<meta name="twitter:description" content="主主复制有两台服务器，每一个都被配置成对方的主库和备库。主主拓扑结构有两种配置，一种是主主拓扑结构中的主-主模式。这种模式下，两台服务器都可以写入。那么最大的问题就是如何防止冲突的问题，另外在两台机器上根据不同的顺序更新，可能会导致数据不同步。例如在第一台主库上： update tableA set col=col+1; 在第二台主库上： update tableA set col=col*2;">
-<meta name="twitter:image" content="http://yoursite.com/images/主主拓扑.png">
+<meta name="twitter:title" content="MySQL切换主库">
+<meta name="twitter:description" content="在MySQL复制中有很多种结构，目前只介绍两种(主主，主从),事实上MySQL还有其他拓扑，例如金字塔，主库-分发主库-备库等等。这些拓扑在解决带宽瓶颈表现也非常优秀，这些拓扑结构先略过。今天先讨论一些关于主主拓扑结构和主从拓扑结构切换主库的方式。 一般来说，切换主库的思路就是 先停止主库的写入 备库赶上主库 选择一台备库作为主库 将备库的写操作指向新主库，开启新主库 主从拓扑(计划内切换主库)">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -74,14 +72,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-mysql_主主拓扑结构" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-mysql_change_master" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/08/21/mysql_主主拓扑结构/" class="article-date">
-  <time datetime="2017-08-21T00:40:33.105Z" itemprop="datePublished">2017-08-21</time>
+    <a href="/2017/08/24/mysql_change_master/" class="article-date">
+  <time datetime="2017-08-24T03:00:23.538Z" itemprop="datePublished">2017-08-24</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/系统架构/">系统架构</a>
+    <a class="article-category-link" href="/categories/系统架构/">系统架构</a>►<a class="article-category-link" href="/categories/系统架构/MySQL-容量规划/">MySQL 容量规划</a>
   </div>
 
   </div>
@@ -92,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      MySQL主主拓扑结构
+      MySQL切换主库
     </h1>
   
 
@@ -102,27 +100,52 @@
       
         <!-- Table of Contents -->
         
-        <p>主主复制有两台服务器，每一个都被配置成对方的主库和备库。主主拓扑结构有两种配置，一种是主主拓扑结构中的主-主模式。这种模式下，两台服务器都可以写入。那么最大的问题就是如何防止冲突的问题，另外在两台机器上根据不同的顺序更新，可能会导致数据不同步。例如在第一台主库上：</p>
-<pre><code>update tableA set col=col+1;
-</code></pre><p>在第二台主库上：</p>
-<pre><code>update tableA set col=col*2;
-</code></pre><p>在这种情况下，第一台实际在数据库执行的是</p>
-<pre><code>update tableA set col=col+1;
-update tableA set col=col*2;
-</code></pre><p>第一台得到的结果是4，在第二台主机上执行的是</p>
-<pre><code>update tableA set col=col*2;
-update tableA set col=col+1;
-</code></pre><p>那么得到的结果就是3。这种拓扑结构导致了两个库的数据不一致。如果清除自己在做什么，那么可以考虑这种结构，否则，尽量别用，因为有些疑难杂症很难处理好。</p>
-<p>在主主拓扑结构中还有另外一种模式，主-被拓扑模式，这种结构能够很好的避免主主结构中主-主模式的一些问题。这种结构跟主-主结构的区别在于其中被动服务器只读，如图所示。由于主主结构主-被模式配置都是对称的(其中，把对方都设置成备库的配置在往后的故障转移和故障恢复起到非常重要的作用)，所以在这种特殊的配置中，主-被模式反复切换模式很方便(这些操作相对于主从来说，会少了很多工作量，后续会对主从、主主拓扑结构的主被模式切换主库做个对比)，这对系统的故障转移和故障恢复很容易。对于整个系统实现高可用也是非常方便且有效的(可能会配合其他负载均衡如[lvs、haproxy]+keepalive或虚拟IP等相关技术一起使用，具体方案视情况而定)。<br><img src="/images/主主拓扑.png" alt="主主拓扑.png"></p>
+        <p>在MySQL复制中有很多种结构，目前只介绍两种(主主，主从),事实上MySQL还有其他拓扑，例如金字塔，主库-分发主库-备库等等。这些拓扑在解决<strong>带宽瓶颈</strong>表现也非常优秀，这些拓扑结构先略过。今天先讨论一些关于主主拓扑结构和主从拓扑结构切换主库的方式。</p>
+<p>一般来说，切换主库的思路就是</p>
+<pre><code>先停止主库的写入
+备库赶上主库
+选择一台备库作为主库
+将备库的写操作指向新主库，开启新主库
+</code></pre><p>主从拓扑(计划内切换主库)</p>
+<pre><code>停止当前主库上的所有写操作，如果可以，最好能够将所有客户端程序关闭。如果使用虚拟ip，直接关闭所有客户端连接。
+通过flush tables with read lock在主库上停止所有的活跃写入，这一步也是可选的。也可以在主库上设置read_only选项。这时候应该禁止向即将被替换的主库写入数据。因为一旦它不是主库，写入就意味着数据丢失。
+选择一个备库作为新的主库，并确保他已经完全跟上主库
+检查新主库和就主库的数据一致性
+在新主库上执行stop slave
+在新主库上执行change master to master_host=&apos;&apos;,然后在执行reset slave;断开与老主库的连接，并丢弃master.info的记录信息。
+执行show master status记录新主库的二进制日志位置
+确保在其他备库已经刚上了(如果没有赶上，后期操作比较麻烦，需要计算新主库的偏移量)
+关闭旧数据库
+在MySQL5.1以上的版本中，如果需要，激活新主库上时间。
+将客户端连接到新主库
+在备库上改变主库的ip。change master to 
+</code></pre><p>主从拓扑(计划外切换主库)</p>
+<pre><code>找到备库数据最新的服务器。检查每台备库上show slave status命令的输出，选择其中master_log_file/read_master_log_pos的值最新的那个。
+让所有备库执行完成所有其从崩溃前的旧主库那获得的中继日志。如果在未完成前修改备库的主库，它会抛弃剩下的日志事件，从而无法获知改备库在上面地方停止。
+在新主库上执行stop slave
+在新主库上执行change master to master_host=&apos;&apos;,然后在执行reset slave;断开与老主库的连接，并丢弃master.info的记录信息。
+执行show master status记录新主库的二进制日志位置
+比较每台备库和新主库上的master_log_file/read_master_log_pos的值。
+在MySQL5.1以上的版本中，如果需要，激活新主库上时间。
+将客户端连接到新主库
+在备库上改变主库的ip。change master to 
+</code></pre><p>主主拓扑结构</p>
+<pre><code>停止主动服务器上的所有写入
+通过flush tables with read lock在主库上停止所有的活跃写入，否则需要kill所有客户端的连接。
+在主动服务器上执行show master status，记录二进制偏移量。
+使用主动服务器上的二进制日志坐标在移动服务器上执行select master_pos_wait().改语句将阻塞住，知道复制跟上主动服务器。
+在被动服务器上执行set global read_only=0,这样就变成主动服务器
+修改应用程序的配置，使其写入到新的主动服务器中。
+</code></pre><p>通过以上的对比，可以看出主主结构在切换主库会比主备拓扑结构切换主库方便。因此如果是需要高可用的场景，选择主主拓扑主-被结构(配合keepalive，haproxy or lvs)。如果是需要实现读写分离来提升系统的性能，那么主备拓扑结构是一个很不错的选择(前提是写不是整个架构的瓶颈，因为写容量不能通过复制在提升)</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/21/mysql_主主拓扑结构/" data-id="cj6q3jv9q000s2gq5okqtwion" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/24/mysql_change_master/" data-id="cj6q3jv6200002gq5i981hx9o" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL主主拓扑结构/">MySQL主主拓扑结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/系统架构/">系统架构</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/系统架构/">系统架构</a></li></ul>
 
     </footer>
   </div>
@@ -172,19 +195,10 @@ update tableA set col=col+1;
     
 <nav id="article-nav">
   
-    <a href="/2017/08/24/mysql_change_master/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          MySQL切换主库
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/08/16/network_vrrp/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/08/21/mysql_主主拓扑结构/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">vrrp协议</div>
+      <div class="article-nav-title">MySQL主主拓扑结构</div>
     </a>
   
 </nav>
