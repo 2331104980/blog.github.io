@@ -3,19 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>MySQL切换主库 | SnailBlog</title>
+  <title>MySQL innodb 索引原理 | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在MySQL复制中有很多种结构，目前只介绍两种(主主，主从),事实上MySQL还有其他拓扑，例如金字塔，主库-分发主库-备库等等。这些拓扑在解决带宽瓶颈表现也非常优秀，这些拓扑结构先略过。今天先讨论一些关于主主拓扑结构和主从拓扑结构切换主库的方式。 一般来说，切换主库的思路就是 先停止主库的写入 备库赶上主库 选择一台备库作为主库 将备库的写操作指向新主库，开启新主库 主从拓扑(计划内切换主库)">
-<meta name="keywords" content="MySQL,系统架构">
+  <meta name="description" content="innodb存储引擎支持B+tree索引，哈希索引(根据表的使用情况自动为表生成哈希索引，不能人为干预)。B+tree是根据key快速找到叶子页，因为B+tree是按照顺序存储的，每个叶子也到根的距离相同，从整体的来说，是对B-tree的一个优化，降低了树的深度，减少了磁盘IO的次数。(一般磁盘每s的io次数是100次)  innodb是如何查找数据的呢。innod的存储结构决定了innodb需要">
+<meta name="keywords" content="MySQL,innodb,io,磁盘io">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL切换主库">
-<meta property="og:url" content="http://yoursite.com/2017/08/24/mysql_change_master/index.html">
+<meta property="og:title" content="MySQL innodb 索引原理">
+<meta property="og:url" content="http://yoursite.com/2017/08/24/MySQL_innodb_io/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="在MySQL复制中有很多种结构，目前只介绍两种(主主，主从),事实上MySQL还有其他拓扑，例如金字塔，主库-分发主库-备库等等。这些拓扑在解决带宽瓶颈表现也非常优秀，这些拓扑结构先略过。今天先讨论一些关于主主拓扑结构和主从拓扑结构切换主库的方式。 一般来说，切换主库的思路就是 先停止主库的写入 备库赶上主库 选择一台备库作为主库 将备库的写操作指向新主库，开启新主库 主从拓扑(计划内切换主库)">
-<meta property="og:updated_time" content="2017-08-24T07:07:25.677Z">
+<meta property="og:description" content="innodb存储引擎支持B+tree索引，哈希索引(根据表的使用情况自动为表生成哈希索引，不能人为干预)。B+tree是根据key快速找到叶子页，因为B+tree是按照顺序存储的，每个叶子也到根的距离相同，从整体的来说，是对B-tree的一个优化，降低了树的深度，减少了磁盘IO的次数。(一般磁盘每s的io次数是100次)  innodb是如何查找数据的呢。innod的存储结构决定了innodb需要">
+<meta property="og:image" content="http://yoursite.com/images/b+tree.png">
+<meta property="og:updated_time" content="2017-08-26T04:24:08.718Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL切换主库">
-<meta name="twitter:description" content="在MySQL复制中有很多种结构，目前只介绍两种(主主，主从),事实上MySQL还有其他拓扑，例如金字塔，主库-分发主库-备库等等。这些拓扑在解决带宽瓶颈表现也非常优秀，这些拓扑结构先略过。今天先讨论一些关于主主拓扑结构和主从拓扑结构切换主库的方式。 一般来说，切换主库的思路就是 先停止主库的写入 备库赶上主库 选择一台备库作为主库 将备库的写操作指向新主库，开启新主库 主从拓扑(计划内切换主库)">
+<meta name="twitter:title" content="MySQL innodb 索引原理">
+<meta name="twitter:description" content="innodb存储引擎支持B+tree索引，哈希索引(根据表的使用情况自动为表生成哈希索引，不能人为干预)。B+tree是根据key快速找到叶子页，因为B+tree是按照顺序存储的，每个叶子也到根的距离相同，从整体的来说，是对B-tree的一个优化，降低了树的深度，减少了磁盘IO的次数。(一般磁盘每s的io次数是100次)  innodb是如何查找数据的呢。innod的存储结构决定了innodb需要">
+<meta name="twitter:image" content="http://yoursite.com/images/b+tree.png">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -72,14 +74,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-mysql_change_master" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-MySQL_innodb_io" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/08/24/mysql_change_master/" class="article-date">
-  <time datetime="2017-08-24T03:00:23.538Z" itemprop="datePublished">2017-08-24</time>
+    <a href="/2017/08/24/MySQL_innodb_io/" class="article-date">
+  <time datetime="2017-08-24T07:08:18.039Z" itemprop="datePublished">2017-08-24</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/系统架构/">系统架构</a>
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
   </div>
 
   </div>
@@ -90,7 +92,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      MySQL切换主库
+      MySQL innodb 索引原理
     </h1>
   
 
@@ -100,52 +102,21 @@
       
         <!-- Table of Contents -->
         
-        <p>在MySQL复制中有很多种结构，目前只介绍两种(主主，主从),事实上MySQL还有其他拓扑，例如金字塔，主库-分发主库-备库等等。这些拓扑在解决<strong>带宽瓶颈</strong>表现也非常优秀，这些拓扑结构先略过。今天先讨论一些关于主主拓扑结构和主从拓扑结构切换主库的方式。</p>
-<p>一般来说，切换主库的思路就是</p>
-<pre><code>先停止主库的写入
-备库赶上主库
-选择一台备库作为主库
-将备库的写操作指向新主库，开启新主库
-</code></pre><p>主从拓扑(计划内切换主库)</p>
-<pre><code>停止当前主库上的所有写操作，如果可以，最好能够将所有客户端程序关闭。如果使用虚拟ip，直接关闭所有客户端连接。
-通过flush tables with read lock在主库上停止所有的活跃写入，这一步也是可选的。也可以在主库上设置read_only选项。这时候应该禁止向即将被替换的主库写入数据。因为一旦它不是主库，写入就意味着数据丢失。
-选择一个备库作为新的主库，并确保他已经完全跟上主库
-检查新主库和就主库的数据一致性
-在新主库上执行stop slave
-在新主库上执行change master to master_host=&apos;&apos;,然后在执行reset slave;断开与老主库的连接，并丢弃master.info的记录信息。
-执行show master status记录新主库的二进制日志位置
-确保在其他备库已经刚上了(如果没有赶上，后期操作比较麻烦，需要计算新主库的偏移量)
-关闭旧数据库
-在MySQL5.1以上的版本中，如果需要，激活新主库上时间。
-将客户端连接到新主库
-在备库上改变主库的ip。change master to 
-</code></pre><p>主从拓扑(计划外切换主库)</p>
-<pre><code>找到备库数据最新的服务器。检查每台备库上show slave status命令的输出，选择其中master_log_file/read_master_log_pos的值最新的那个。
-让所有备库执行完成所有其从崩溃前的旧主库那获得的中继日志。如果在未完成前修改备库的主库，它会抛弃剩下的日志事件，从而无法获知改备库在上面地方停止。
-在新主库上执行stop slave
-在新主库上执行change master to master_host=&apos;&apos;,然后在执行reset slave;断开与老主库的连接，并丢弃master.info的记录信息。
-执行show master status记录新主库的二进制日志位置
-比较每台备库和新主库上的master_log_file/read_master_log_pos的值。
-在MySQL5.1以上的版本中，如果需要，激活新主库上时间。
-将客户端连接到新主库
-在备库上改变主库的ip。change master to 
-</code></pre><p>主主拓扑结构</p>
-<pre><code>停止主动服务器上的所有写入
-通过flush tables with read lock在主库上停止所有的活跃写入，否则需要kill所有客户端的连接。
-在主动服务器上执行show master status，记录二进制偏移量。
-使用主动服务器上的二进制日志坐标在移动服务器上执行select master_pos_wait().改语句将阻塞住，知道复制跟上主动服务器。
-在被动服务器上执行set global read_only=0,这样就变成主动服务器
-修改应用程序的配置，使其写入到新的主动服务器中。
-</code></pre><p>通过以上的对比，可以看出主主结构在切换主库会比主备拓扑结构切换主库方便。因此如果是需要高可用的场景，选择主主拓扑主-被结构(配合keepalive，haproxy or lvs)。如果是需要实现读写分离来提升系统的性能，那么主备拓扑结构是一个很不错的选择(前提是写不是整个架构的瓶颈，因为写容量不能通过复制在提升)</p>
+        <p>innodb存储引擎支持B+tree索引，哈希索引(<strong>根据表的使用情况自动为表生成哈希索引，不能人为干预</strong>)。B+tree是根据key快速找到叶子页，因为B+tree是按照顺序存储的，每个叶子也到根的距离相同，从整体的来说，是对B-tree的一个优化，降低了树的深度，减少了磁盘IO的次数。(一般磁盘每s的io次数是100次)</p>
+<p><img src="/images/b+tree.png" alt="b+tree"></p>
+<p>innodb是如何查找数据的呢。innod的存储结构决定了innodb需要从跟节点开始查找，节点中的指针指向下一个节点，直到最后的叶子页。叶子节点的指针指向数据。所以这些数据key就是有序的。曾看过有关.net ef框架的性能测试，测试者通过主键查找数据，来测试EF的性能。我认为这个测试的结果意义不太，因为数据库主键是一个非常特别的key，即使需要通过主键排序等其他操作，问题也不是特别大，B+tree的存储特点让主键占据了非常大的优势。不过需要主要的是，如果主键设置不合理，对于整张表的性能影响也是非常大的。</p>
+<p>在innodb中，一般情况下二级索引性能比主键会差一点，但这规律不一定适合索引覆盖。首先二级索引处理我们认为添加的列之外，还会有默认的主键列，除非能够在二级索引列里面找到我们想要的数据，例如：我们在建立的覆盖索引能够获取到我们全部的数据，那么我们就可以直接从覆盖索引里面的数据然后返回客户端，不然每次都是通过二级索引得到对应的主键，然后通过主键再重复上述主键查找数据的过程。</p>
+<p>根据设计，B+tree需要随机磁盘访问才能定位到叶子页，所以随机访问是不可避免的。然而，如果叶子页在物理分布上是顺序且紧密的，那么查询性能会跟好，否则对于范围查询，索引覆盖扫描等操作来说，速度可能会见底很多倍。对于索引覆盖扫描这一点更加明显。</p>
+<p>innodb数据从磁盘到内存这个过程是怎么样的。这个问题曾经也困扰了我很久。其实B+tree不能通过找到key来找到特定行在磁盘的具体位置，在查找的时候只能通过key找到key所在的也，然后把页读入内存中，在内存中找到相关的记录。一般磁盘的扇区是4k，MySQL的页默认值是16k,这对频繁读写是有好处的。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/24/mysql_change_master/" data-id="cj6srr5nh0001f8q5sucbvktw" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/24/MySQL_innodb_io/" data-id="cj6srr5mc0000f8q5ejb6hqyt" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/系统架构/">系统架构</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/innodb/">innodb</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/io/">io</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/磁盘io/">磁盘io</a></li></ul>
 
     </footer>
   </div>
@@ -195,19 +166,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/08/24/MySQL_innodb_io/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          MySQL innodb 索引原理
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/08/21/mysql_主主拓扑结构/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/08/24/mysql_change_master/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">MySQL主主拓扑结构</div>
+      <div class="article-nav-title">MySQL切换主库</div>
     </a>
   
 </nav>

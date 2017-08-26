@@ -69,6 +69,58 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-MySQL_innodb_io" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/24/MySQL_innodb_io/" class="article-date">
+  <time datetime="2017-08-24T07:08:18.039Z" itemprop="datePublished">2017-08-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/24/MySQL_innodb_io/">MySQL innodb 索引原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>innodb存储引擎支持B+tree索引，哈希索引(<strong>根据表的使用情况自动为表生成哈希索引，不能人为干预</strong>)。B+tree是根据key快速找到叶子页，因为B+tree是按照顺序存储的，每个叶子也到根的距离相同，从整体的来说，是对B-tree的一个优化，降低了树的深度，减少了磁盘IO的次数。(一般磁盘每s的io次数是100次)</p>
+<p><img src="/images/b+tree.png" alt="b+tree"></p>
+<p>innodb是如何查找数据的呢。innod的存储结构决定了innodb需要从跟节点开始查找，节点中的指针指向下一个节点，直到最后的叶子页。叶子节点的指针指向数据。所以这些数据key就是有序的。曾看过有关.net ef框架的性能测试，测试者通过主键查找数据，来测试EF的性能。我认为这个测试的结果意义不太，因为数据库主键是一个非常特别的key，即使需要通过主键排序等其他操作，问题也不是特别大，B+tree的存储特点让主键占据了非常大的优势。不过需要主要的是，如果主键设置不合理，对于整张表的性能影响也是非常大的。</p>
+<p>在innodb中，一般情况下二级索引性能比主键会差一点，但这规律不一定适合索引覆盖。首先二级索引处理我们认为添加的列之外，还会有默认的主键列，除非能够在二级索引列里面找到我们想要的数据，例如：我们在建立的覆盖索引能够获取到我们全部的数据，那么我们就可以直接从覆盖索引里面的数据然后返回客户端，不然每次都是通过二级索引得到对应的主键，然后通过主键再重复上述主键查找数据的过程。</p>
+<p>根据设计，B+tree需要随机磁盘访问才能定位到叶子页，所以随机访问是不可避免的。然而，如果叶子页在物理分布上是顺序且紧密的，那么查询性能会跟好，否则对于范围查询，索引覆盖扫描等操作来说，速度可能会见底很多倍。对于索引覆盖扫描这一点更加明显。</p>
+<p>innodb数据从磁盘到内存这个过程是怎么样的。这个问题曾经也困扰了我很久。其实B+tree不能通过找到key来找到特定行在磁盘的具体位置，在查找的时候只能通过key找到key所在的也，然后把页读入内存中，在内存中找到相关的记录。一般磁盘的扇区是4k，MySQL的页默认值是16k,这对频繁读写是有好处的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/08/24/MySQL_innodb_io/" data-id="cj6srr5mc0000f8q5ejb6hqyt" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/innodb/">innodb</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/io/">io</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/磁盘io/">磁盘io</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-mysql_change_master" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/08/24/mysql_change_master/" class="article-date">
@@ -76,7 +128,7 @@
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/系统架构/">系统架构</a>►<a class="article-category-link" href="/categories/系统架构/MySQL-容量规划/">MySQL 容量规划</a>
+    <a class="article-category-link" href="/categories/系统架构/">系统架构</a>
   </div>
 
   </div>
@@ -138,7 +190,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/24/mysql_change_master/" data-id="cj6q3jv6200002gq5i981hx9o" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/24/mysql_change_master/" data-id="cj6srr5nh0001f8q5sucbvktw" class="article-share-link">分享</a>
       
       
       
@@ -196,7 +248,7 @@ update tableA set col=col+1;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/21/mysql_主主拓扑结构/" data-id="cj6q3jv9q000s2gq5okqtwion" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/21/mysql_主主拓扑结构/" data-id="cj6srr5o7000bf8q53uid34ib" class="article-share-link">分享</a>
       
       
       
@@ -245,7 +297,7 @@ update tableA set col=col+1;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/16/network_vrrp/" data-id="cj6q3jva400162gq5o353m0k2" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/16/network_vrrp/" data-id="cj6srr5p3000yf8q5pk08taad" class="article-share-link">分享</a>
       
       
       
@@ -305,7 +357,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/14/mysql_分解关联/" data-id="cj6q3jv9d000m2gq5cvsvjqma" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/14/mysql_分解关联/" data-id="cj6srr5ou000nf8q5qoi4f2cn" class="article-share-link">分享</a>
       
       
       
@@ -353,7 +405,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj6q3jv9u000x2gq5v1mb1er8" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj6srr5s70038f8q5e06lp910" class="article-share-link">分享</a>
       
       
       
@@ -406,7 +458,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj6q3jv9j000p2gq51mm63b9a" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj6srr5oi000hf8q51ox47vmv" class="article-share-link">分享</a>
       
       
       
@@ -458,7 +510,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj6q3jvam001p2gq5p0e2xhol" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj6srr5oe000ff8q5w1nacuoa" class="article-share-link">分享</a>
       
       
       
@@ -505,7 +557,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/08/mongo/" data-id="cj6q3jv9s000v2gq5dw6ftkjx" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/08/mongo/" data-id="cj6srr5np0004f8q5gxjywscy" class="article-share-link">分享</a>
       
       
       
@@ -553,55 +605,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj6q3jvaf001h2gq5vfkzvnwq" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-mysql_char_hit" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/08/01/mysql_char_hit/" class="article-date">
-  <time datetime="2017-08-01T09:26:18.041Z" itemprop="datePublished">2017-08-01</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/01/mysql_char_hit/">mysql hint</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>在MySQL优化中，如果对优化器的执行计划不满意是可以通过hit来控制最终的计划。但是如果没有十足的把握，不建议使用hit，因为MySQL会有统计引擎(不同引擎统计方式可能不同)。对于hit的用法，我建议阅读官方的文档。</p>
-<p>在实践中，会有出现MySQL给出的优化策略不是最优的策略。曾经遇到一种情况，在多表查询中，因为业务的关系，需要取出大量的数据，但是MySQL给出的优化策略是走表中的索引。在多次测量中，MySQL给出的策略优化效果并不理想。后来直接把索引给忽略了。相对来说，性能有所提升。我认为是MySQL内部的统计跟实际情况的数据有偏差较大，导致计算随机IO和顺序IO的时间偏差较大。很多情况下MySQL给出优化策略应该是最优的，所以慎用hit。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj6q3jv7p00042gq5sg9532vo" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj6srr5pf0019f8q517gx8mc5" class="article-share-link">分享</a>
       
       
       
@@ -647,7 +651,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
   <div class="widget-wrap">
     <h3 class="widget-title categories">分类</h3>
     <div class="widget" id="categories">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mongo/">mongo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/">系统架构</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/MySQL-容量规划/">MySQL 容量规划</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/MySQL主从拓扑结构/">MySQL主从拓扑结构</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议/">网络协议</a><span class="category-list-count">6</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mongo/">mongo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/">系统架构</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/MySQL-容量规划/">MySQL 容量规划</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/MySQL主从拓扑结构/">MySQL主从拓扑结构</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议/">网络协议</a><span class="category-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -657,7 +661,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
   <div class="widget-wrap">
     <h3 class="widget-title tagcloud">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/MySQL/" style="font-size: 18.4px;">MySQL</a> <a href="/tags/MySQL主主拓扑结构/" style="font-size: 14px;">MySQL主主拓扑结构</a> <a href="/tags/TCP-IP/" style="font-size: 22.8px;">TCP/IP</a> <a href="/tags/mongo/" style="font-size: 14px;">mongo</a> <a href="/tags/mysql/" style="font-size: 25px;">mysql</a> <a href="/tags/mysql分解关联/" style="font-size: 14px;">mysql分解关联</a> <a href="/tags/mysql重构查询方式/" style="font-size: 14px;">mysql重构查询方式</a> <a href="/tags/vrrp协议/" style="font-size: 14px;">vrrp协议</a> <a href="/tags/主从拓扑结构/" style="font-size: 14px;">主从拓扑结构</a> <a href="/tags/性能优化/" style="font-size: 16.2px;">性能优化</a> <a href="/tags/拓扑结构/" style="font-size: 14px;">拓扑结构</a> <a href="/tags/系统架构/" style="font-size: 20.6px;">系统架构</a> <a href="/tags/网络协议/" style="font-size: 25px;">网络协议</a>
+      <a href="/tags/MySQL/" style="font-size: 19.5px;">MySQL</a> <a href="/tags/MySQL主主拓扑结构/" style="font-size: 14px;">MySQL主主拓扑结构</a> <a href="/tags/TCP-IP/" style="font-size: 22.25px;">TCP/IP</a> <a href="/tags/innodb/" style="font-size: 14px;">innodb</a> <a href="/tags/io/" style="font-size: 14px;">io</a> <a href="/tags/mongo/" style="font-size: 14px;">mongo</a> <a href="/tags/mysql/" style="font-size: 25px;">mysql</a> <a href="/tags/mysql分解关联/" style="font-size: 14px;">mysql分解关联</a> <a href="/tags/mysql重构查询方式/" style="font-size: 14px;">mysql重构查询方式</a> <a href="/tags/vrrp协议/" style="font-size: 14px;">vrrp协议</a> <a href="/tags/主从拓扑结构/" style="font-size: 14px;">主从拓扑结构</a> <a href="/tags/性能优化/" style="font-size: 16.75px;">性能优化</a> <a href="/tags/拓扑结构/" style="font-size: 14px;">拓扑结构</a> <a href="/tags/磁盘io/" style="font-size: 14px;">磁盘io</a> <a href="/tags/系统架构/" style="font-size: 19.5px;">系统架构</a> <a href="/tags/网络协议/" style="font-size: 25px;">网络协议</a>
     </div>
   </div>
 
@@ -667,6 +671,10 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
     <h3 class="widget-title recent-posts">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/08/24/MySQL_innodb_io/">MySQL innodb 索引原理</a>
+          </li>
         
           <li>
             <a href="/2017/08/24/mysql_change_master/">MySQL切换主库</a>
@@ -684,10 +692,6 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
             <a href="/2017/08/14/mysql_分解关联/">mysql分解关联</a>
           </li>
         
-          <li>
-            <a href="/2017/08/14/mysql_轻量级连接/">mysql重构查询方式</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -697,7 +701,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">8</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">8</span></li></ul>
     </div>
   </div>
 
