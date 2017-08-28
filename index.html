@@ -69,6 +69,131 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-auth2.0" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/26/auth2.0/" class="article-date">
+  <time datetime="2017-08-26T09:43:16.037Z" itemprop="datePublished">2017-08-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/OAuth2-o/">OAuth2.o</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/26/auth2.0/">OAuth2.o</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>OAuth(开放授权)是一个开放标准，允许用户授权第三方应用访问用户在其他平台存储的数据(前提是平台有授权)，而不需要给第三方提供账号和密码。(简单的说就是一个验证、授权的过程)</p>
+<p><strong>应用场景：</strong></p>
+<p>第三方登录。例如网站A想接入Google、QQ、wechat等第三方的登录。那么需要怎么做呢？首先是A网站根据用户的选择(Google、QQ、wechat等)重定向到对应的第三方登录页面，通过用户授权。用户授权通过后网站A会获取到一个授权码(get方式)，网站A带上授权码向第三方申请令牌（post方式），第三方通过验证后给网站返回令牌信息。网站A通过令牌信息可以调用第三方对应的接口，例如登录成功后获取用户信息。(OAuth2.0的应用场景其实有很多，比如单点登录，API调用等)</p>
+<p><strong>具体实现：</strong></p>
+<pre><code>在OAuth2.0中，实现的方式有很多种，在这里我只写一种，即授权码模式。
+授权码模式是功能最完整、流程最严密的授权模式。        
+ +----------+
+ | Resource |
+ |   Owner  |
+ |          |
+ +----------+
+      ^
+      |
+     (B)
+ +----|-----+          Client Identifier      +---------------+
+ |         -+----(A)-- &amp; Redirection URI ----&gt;|               |
+ |  User-   |                                 | Authorization |
+ |  Agent  -+----(B)-- User authenticates ---&gt;|     Server    |
+ |          |                                 |               |
+ |         -+----(C)-- Authorization Code ---&lt;|               |
+ +-|----|---+                                 +---------------+
+   |    |                                         ^      v
+  (A)  (C)                                        |      |
+   |    |                                         |      |
+   ^    v                                         |      |
+ +---------+                                      |      |
+ |         |&gt;---(D)-- Authorization Code ---------&apos;      |
+ |  Client |          &amp; Redirection URI                  |
+ |         |                                             |
+ |         |&lt;---(E)----- Access Token -------------------&apos;
+ +---------+       (w/ Optional Refresh Token)
+
+                 Figure 3: Authorization Code Flow
+  (A)用户访问客户端，客户端将用户导向认证服务器(Authorization Server)
+  (B)授权服务器认证资源所有者，并确定资源所有者授予或拒绝客户端的访问请求。
+  (C)若资源所有者授予访问权限服务器将用户代理重定向回客户端之前提供的重定向URI（在请求中或之前）。
+     重定向URI包括一个授权代码(这是一个get请求的过程，授权码是一个临时令牌用于获取后期的token)
+  (D)客户端拿到临时临牌后，授权服务器请求access token，这个过程用post请求，因为get请求会被记录到系统日志
+  (E)授权服务器验证客户端，验证授权代码，并确保重定向URI收到的匹配用于重定向客户端的URI 步骤（C）。
+     如果有效则授权服务器回应访问令牌和可选的刷新令牌
+  拿到access token后，就可以访问授权服务器提供的api了。
+
+  本文参考OAuth2.0官网，后期附上整个过程的数据包分析以及用asp.net mvc实现的代码。
+  OAuth2.0官网 https://tools.ietf.org/html/rfc6749
+  从认证到授权的整个过程的英文文档如下
+
+ Note: The lines illustrating steps (A), (B), and (C) are broken into
+    two parts as they pass through the user-agent.
+ The flow illustrated in Figure 3 includes the following steps:
+   (A)  The client initiates the flow by directing the resource owner&apos;s
+        user-agent to the authorization endpoint.  The client includes
+        its client identifier, requested scope, local state, and a
+        redirection URI to which the authorization server will send the
+        user-agent back once access is granted (or denied).
+
+
+   (B)  The authorization server authenticates the resource owner (via
+        the user-agent) and establishes whether the resource owner
+        grants or denies the client&apos;s access request.
+
+   (C)  Assuming the resource owner grants access, the authorization
+        server redirects the user-agent back to the client using the
+        redirection URI provided earlier (in the request or during
+        client registration).  The redirection URI includes an
+        authorization code and any local state provided by the client
+        earlier.
+
+   (D)  The client requests an access token from the authorization
+        server&apos;s token endpoint by including the authorization code
+        received in the previous step.  When making the request, the
+        client authenticates with the authorization server.  The client
+        includes the redirection URI used to obtain the authorization
+        code for verification.
+
+   (E)  The authorization server authenticates the client, validates the
+        authorization code, and ensures that the redirection URI
+        received matches the URI used to redirect the client in
+        step (C).  If valid, the authorization server responds back with
+        an access token and, optionally, a refresh token.
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/08/26/auth2.0/" data-id="cj6vy4s3600040gq5mhv2husp" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OAuth2-o/">OAuth2.o</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-MySQL_innodb_io" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/08/24/MySQL_innodb_io/" class="article-date">
@@ -107,7 +232,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/24/MySQL_innodb_io/" data-id="cj6srr5mc0000f8q5ejb6hqyt" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/24/MySQL_innodb_io/" data-id="cj6vy4s2s00000gq5h68cqlnj" class="article-share-link">分享</a>
       
       
       
@@ -190,7 +315,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/24/mysql_change_master/" data-id="cj6srr5nh0001f8q5sucbvktw" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/24/mysql_change_master/" data-id="cj6vy4s3c00060gq5y4b5khif" class="article-share-link">分享</a>
       
       
       
@@ -248,7 +373,7 @@ update tableA set col=col+1;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/21/mysql_主主拓扑结构/" data-id="cj6srr5o7000bf8q53uid34ib" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/21/mysql_主主拓扑结构/" data-id="cj6vy4s3r000h0gq5kmrmhu9i" class="article-share-link">分享</a>
       
       
       
@@ -297,7 +422,7 @@ update tableA set col=col+1;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/16/network_vrrp/" data-id="cj6srr5p3000yf8q5pk08taad" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/16/network_vrrp/" data-id="cj6vy4s4i001a0gq52b49ct5v" class="article-share-link">分享</a>
       
       
       
@@ -357,7 +482,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/14/mysql_分解关联/" data-id="cj6srr5ou000nf8q5qoi4f2cn" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/14/mysql_分解关联/" data-id="cj6vy4s43000r0gq5kh5lh8np" class="article-share-link">分享</a>
       
       
       
@@ -405,7 +530,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj6srr5s70038f8q5e06lp910" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj6vy4s47000u0gq5364r437v" class="article-share-link">分享</a>
       
       
       
@@ -458,7 +583,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj6srr5oi000hf8q51ox47vmv" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj6vy4s3z000n0gq5026hyp7l" class="article-share-link">分享</a>
       
       
       
@@ -510,7 +635,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj6srr5oe000ff8q5w1nacuoa" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj6vy4s3w000l0gq5n06bubl4" class="article-share-link">分享</a>
       
       
       
@@ -557,59 +682,11 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/08/mongo/" data-id="cj6srr5np0004f8q5gxjywscy" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/08/mongo/" data-id="cj6vy4s2y00010gq55xtvdokd" class="article-share-link">分享</a>
       
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mongo/">mongo</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-数据溢出" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/08/02/数据溢出/" class="article-date">
-  <time datetime="2017-08-02T01:00:31.021Z" itemprop="datePublished">2017-08-02</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/02/数据溢出/">mysql tinyint溢出</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>大部分开发语言基础部分基本类似，都有基础的数据类型，分别用不同的关键字表示不同范围的值。这些问题虽然都是一些很基础的问题，但是如果因为没有处理好这些问题，往往在修改BUG的时候是非常难被发现的。</p>
-<p>场景还原：在数据库一张部门表中，同事甲把部门ID设置成int,部门ID是预约表的引用(但是没有添加外键约束) 。在预约表中部门ID的数据类型是tinyint，然而在项目实体模型中,同事乙预约表中的部门ID是int类型。前期由于分店不多(一个分店算一个部门),并没有发现什么问题。随着公司在全国的开拓业务，分店越来越多。部门表终于超过127条记录。因为部门ID是int类型，所以在加入数据的时候并没有什么异常。直到在一次APP预约中，App的同事说调用的接口数据不对。于是开始了BUG排查之旅。初看同事丙写的预约逻辑都没什么问题。在客户预约的信息中，数据库预约表中部门ID是127(正确值是131)。一步一步DEBUG，但是还是没找出问题。于是在调试的过程中获取插入的sql语句。获取到sql语句后，在sqlyog直接执行sql。发现预约表中存储部门ID依然是127(我录入的是131)。看到执行结果，我是一脸懵逼。于是在接下来的几次录入数据中发现预约表中部门ID依然是127。于是各种排查，最终看了一下数据库表的结构，发现在预约表的部门ID的数据类型为tinyint类型，这就解释了为什么当时入了部门ID的时候都是127。最终把数据库预约表中部门ID数据类型由tinyint修改成int后一切业务正常。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj6srr5pf0019f8q517gx8mc5" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
 
     </footer>
   </div>
@@ -651,7 +728,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
   <div class="widget-wrap">
     <h3 class="widget-title categories">分类</h3>
     <div class="widget" id="categories">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mongo/">mongo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/">系统架构</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/MySQL-容量规划/">MySQL 容量规划</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/MySQL主从拓扑结构/">MySQL主从拓扑结构</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议/">网络协议</a><span class="category-list-count">6</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OAuth2-o/">OAuth2.o</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mongo/">mongo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/">系统架构</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/MySQL-容量规划/">MySQL 容量规划</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统架构/MySQL主从拓扑结构/">MySQL主从拓扑结构</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络协议/">网络协议</a><span class="category-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -661,7 +738,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
   <div class="widget-wrap">
     <h3 class="widget-title tagcloud">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/MySQL/" style="font-size: 19.5px;">MySQL</a> <a href="/tags/MySQL主主拓扑结构/" style="font-size: 14px;">MySQL主主拓扑结构</a> <a href="/tags/TCP-IP/" style="font-size: 22.25px;">TCP/IP</a> <a href="/tags/innodb/" style="font-size: 14px;">innodb</a> <a href="/tags/io/" style="font-size: 14px;">io</a> <a href="/tags/mongo/" style="font-size: 14px;">mongo</a> <a href="/tags/mysql/" style="font-size: 25px;">mysql</a> <a href="/tags/mysql分解关联/" style="font-size: 14px;">mysql分解关联</a> <a href="/tags/mysql重构查询方式/" style="font-size: 14px;">mysql重构查询方式</a> <a href="/tags/vrrp协议/" style="font-size: 14px;">vrrp协议</a> <a href="/tags/主从拓扑结构/" style="font-size: 14px;">主从拓扑结构</a> <a href="/tags/性能优化/" style="font-size: 16.75px;">性能优化</a> <a href="/tags/拓扑结构/" style="font-size: 14px;">拓扑结构</a> <a href="/tags/磁盘io/" style="font-size: 14px;">磁盘io</a> <a href="/tags/系统架构/" style="font-size: 19.5px;">系统架构</a> <a href="/tags/网络协议/" style="font-size: 25px;">网络协议</a>
+      <a href="/tags/MySQL/" style="font-size: 19.5px;">MySQL</a> <a href="/tags/MySQL主主拓扑结构/" style="font-size: 14px;">MySQL主主拓扑结构</a> <a href="/tags/OAuth2-o/" style="font-size: 14px;">OAuth2.o</a> <a href="/tags/TCP-IP/" style="font-size: 22.25px;">TCP/IP</a> <a href="/tags/innodb/" style="font-size: 14px;">innodb</a> <a href="/tags/io/" style="font-size: 14px;">io</a> <a href="/tags/mongo/" style="font-size: 14px;">mongo</a> <a href="/tags/mysql/" style="font-size: 25px;">mysql</a> <a href="/tags/mysql分解关联/" style="font-size: 14px;">mysql分解关联</a> <a href="/tags/mysql重构查询方式/" style="font-size: 14px;">mysql重构查询方式</a> <a href="/tags/vrrp协议/" style="font-size: 14px;">vrrp协议</a> <a href="/tags/主从拓扑结构/" style="font-size: 14px;">主从拓扑结构</a> <a href="/tags/性能优化/" style="font-size: 16.75px;">性能优化</a> <a href="/tags/拓扑结构/" style="font-size: 14px;">拓扑结构</a> <a href="/tags/磁盘io/" style="font-size: 14px;">磁盘io</a> <a href="/tags/系统架构/" style="font-size: 19.5px;">系统架构</a> <a href="/tags/网络协议/" style="font-size: 25px;">网络协议</a>
     </div>
   </div>
 
@@ -671,6 +748,10 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
     <h3 class="widget-title recent-posts">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/08/26/auth2.0/">OAuth2.o</a>
+          </li>
         
           <li>
             <a href="/2017/08/24/MySQL_innodb_io/">MySQL innodb 索引原理</a>
@@ -688,10 +769,6 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
             <a href="/2017/08/16/network_vrrp/">vrrp协议</a>
           </li>
         
-          <li>
-            <a href="/2017/08/14/mysql_分解关联/">mysql分解关联</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -701,7 +778,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">8</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">8</span></li></ul>
     </div>
   </div>
 
