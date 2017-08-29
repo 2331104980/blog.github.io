@@ -5,17 +5,17 @@
   
   <title>vrrp协议 | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="vrrp简述： vrrp协议即虚拟路由冗余协议，通过多台路由设备联合组成一台虚拟的路由设备，当主机的下一跳路由出现故障时，自动选举备份路由，把业务切换到备份路由器。 vrrp实现">
+  <meta name="description" content="vrrp简述： vrrp协议即虚拟路由冗余协议，通过多台路由设备联合组成一台虚拟的路由设备，当主机的下一跳路由出现故障时，自动选举备份路由，把业务切换到备份路由器。 vrrp工作过程(内容来做百度百科) 路由器开启VRRP功能后，会根据优先级确定自己在备份组中的角色。优先级高的路由器成为主用路由器，优先级低的成为备用路由器。主用路由器定期发送VRRP通告报文，通知备份组内的其他路由器自己工作正常；">
 <meta name="keywords" content="网络协议,vrrp协议">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vrrp协议">
 <meta property="og:url" content="http://yoursite.com/2017/08/16/network_vrrp/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="vrrp简述： vrrp协议即虚拟路由冗余协议，通过多台路由设备联合组成一台虚拟的路由设备，当主机的下一跳路由出现故障时，自动选举备份路由，把业务切换到备份路由器。 vrrp实现">
-<meta property="og:updated_time" content="2017-08-16T04:26:59.070Z">
+<meta property="og:description" content="vrrp简述： vrrp协议即虚拟路由冗余协议，通过多台路由设备联合组成一台虚拟的路由设备，当主机的下一跳路由出现故障时，自动选举备份路由，把业务切换到备份路由器。 vrrp工作过程(内容来做百度百科) 路由器开启VRRP功能后，会根据优先级确定自己在备份组中的角色。优先级高的路由器成为主用路由器，优先级低的成为备用路由器。主用路由器定期发送VRRP通告报文，通知备份组内的其他路由器自己工作正常；">
+<meta property="og:updated_time" content="2017-08-29T02:22:41.126Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vrrp协议">
-<meta name="twitter:description" content="vrrp简述： vrrp协议即虚拟路由冗余协议，通过多台路由设备联合组成一台虚拟的路由设备，当主机的下一跳路由出现故障时，自动选举备份路由，把业务切换到备份路由器。 vrrp实现">
+<meta name="twitter:description" content="vrrp简述： vrrp协议即虚拟路由冗余协议，通过多台路由设备联合组成一台虚拟的路由设备，当主机的下一跳路由出现故障时，自动选举备份路由，把业务切换到备份路由器。 vrrp工作过程(内容来做百度百科) 路由器开启VRRP功能后，会根据优先级确定自己在备份组中的角色。优先级高的路由器成为主用路由器，优先级低的成为备用路由器。主用路由器定期发送VRRP通告报文，通知备份组内的其他路由器自己工作正常；">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -102,12 +102,21 @@
         
         <p><strong>vrrp简述：</strong></p>
 <p>vrrp协议即虚拟路由冗余协议，通过多台路由设备联合组成一台虚拟的路由设备，当主机的下一跳路由出现故障时，自动选举备份路由，把业务切换到备份路由器。</p>
-<p><strong>vrrp实现</strong></p>
+<p><strong>vrrp工作过程</strong>(内容来做百度百科)</p>
+<pre><code>路由器开启VRRP功能后，会根据优先级确定自己在备份组中的角色。优先级高的路由器成为主用路由器，优先级低的成为备用路由器。主用路由器定期发送VRRP通告报文，通知备份组内的其他路由器自己工作正常；备用路由器则启动定时器等待通告报文的到来。
 
+VRRP在不同的主用抢占方式下，主用角色的替换方式不同：
+
+在抢占方式下，当主用路由器收到VRRP通告报文后，会将自己的优先级与通告报文中的优先级进行比较。如果大于通告报文中的优先级，则成为主用路由器；否则将保持备用状态。
+
+在非抢占方式下，只要主用路由器没有出现故障，备份组中的路由器始终保持主用或备用状态，备份组中的路由器即使随后被配置了更高的优先级也不会成为主用路由器。
+
+如果备用路由器的定时器超时后仍未收到主用路由器发送来的VRRP通告报文，则认为主用路由器已经无法正常工作，此时备用路由器会认为自己是主用路由器，并对外发送VRRP通告报文。备份组内的路由器根据优先级选举出主用路由器，承担报文的转发功能。
+</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/16/network_vrrp/" data-id="cj6vynzqo001cm4q5zennpplg" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/16/network_vrrp/" data-id="cj6wyztsi000y4kq52tu4ye63" class="article-share-link">分享</a>
       
       
       

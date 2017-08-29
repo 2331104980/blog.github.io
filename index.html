@@ -180,7 +180,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/26/auth2.0/" data-id="cj6vynzp20001m4q5a34ccfqo" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/26/auth2.0/" data-id="cj6wyztmq00004kq58k8jz8ar" class="article-share-link">分享</a>
       
       
       
@@ -232,7 +232,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/24/MySQL_innodb_io/" data-id="cj6vynzot0000m4q5bl1eooh5" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/24/MySQL_innodb_io/" data-id="cj6wyztqs00044kq54bqkgudd" class="article-share-link">分享</a>
       
       
       
@@ -315,7 +315,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/24/mysql_change_master/" data-id="cj6vynzpe0006m4q5ty76qvbu" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/24/mysql_change_master/" data-id="cj6wyztq800014kq5evsd492u" class="article-share-link">分享</a>
       
       
       
@@ -373,7 +373,7 @@ update tableA set col=col+1;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/21/mysql_主主拓扑结构/" data-id="cj6vynzpv000hm4q51yyzypbu" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/21/mysql_主主拓扑结构/" data-id="cj6wyztrv000f4kq5xel8y0un" class="article-share-link">分享</a>
       
       
       
@@ -417,12 +417,21 @@ update tableA set col=col+1;
         
         <p><strong>vrrp简述：</strong></p>
 <p>vrrp协议即虚拟路由冗余协议，通过多台路由设备联合组成一台虚拟的路由设备，当主机的下一跳路由出现故障时，自动选举备份路由，把业务切换到备份路由器。</p>
-<p><strong>vrrp实现</strong></p>
+<p><strong>vrrp工作过程</strong>(内容来做百度百科)</p>
+<pre><code>路由器开启VRRP功能后，会根据优先级确定自己在备份组中的角色。优先级高的路由器成为主用路由器，优先级低的成为备用路由器。主用路由器定期发送VRRP通告报文，通知备份组内的其他路由器自己工作正常；备用路由器则启动定时器等待通告报文的到来。
 
+VRRP在不同的主用抢占方式下，主用角色的替换方式不同：
+
+在抢占方式下，当主用路由器收到VRRP通告报文后，会将自己的优先级与通告报文中的优先级进行比较。如果大于通告报文中的优先级，则成为主用路由器；否则将保持备用状态。
+
+在非抢占方式下，只要主用路由器没有出现故障，备份组中的路由器始终保持主用或备用状态，备份组中的路由器即使随后被配置了更高的优先级也不会成为主用路由器。
+
+如果备用路由器的定时器超时后仍未收到主用路由器发送来的VRRP通告报文，则认为主用路由器已经无法正常工作，此时备用路由器会认为自己是主用路由器，并对外发送VRRP通告报文。备份组内的路由器根据优先级选举出主用路由器，承担报文的转发功能。
+</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/16/network_vrrp/" data-id="cj6vynzqo001cm4q5zennpplg" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/16/network_vrrp/" data-id="cj6wyztsi000y4kq52tu4ye63" class="article-share-link">分享</a>
       
       
       
@@ -482,7 +491,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/14/mysql_分解关联/" data-id="cj6vynzq1000nm4q5pmuixmd0" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/14/mysql_分解关联/" data-id="cj6wyztrz000g4kq5ishgo8ju" class="article-share-link">分享</a>
       
       
       
@@ -530,7 +539,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj6vynzqb000um4q56ods21tw" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj6wyztsb000s4kq5ii4w38gm" class="article-share-link">分享</a>
       
       
       
@@ -583,7 +592,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj6vynzq5000rm4q58lm0tz8i" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj6wyztun003d4kq5pk5idbep" class="article-share-link">分享</a>
       
       
       
@@ -635,7 +644,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj6vynzpy000lm4q5cyvrdmve" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj6wyzts4000k4kq5e0izh38k" class="article-share-link">分享</a>
       
       
       
@@ -682,7 +691,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/08/mongo/" data-id="cj6vynzp80004m4q5zfr3uxj6" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/08/mongo/" data-id="cj6wyzts7000n4kq5abr9v0pt" class="article-share-link">分享</a>
       
       
       
