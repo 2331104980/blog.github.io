@@ -12,10 +12,12 @@
 <meta property="og:url" content="http://yoursite.com/2017/08/30/B+TREE/index.html">
 <meta property="og:site_name" content="SnailBlog">
 <meta property="og:description" content="B-TREE即平衡多路查找路(B-&amp;gt;balance),一颗m阶的B-TREE有如下的特征： 1) 树中每个结点至多有m个孩子；  2) 除根结点和叶子结点外，其它每个结点至少有有ceil(m / 2)个孩子；  3) 若根结点不是叶子结点，则至少有2个孩子（特殊情况：没有孩子的根结点，即根结点为叶子结点，整棵树只有一个根节点）；  4) 所有叶子结点都出现在同一层，叶子结点不包含任何关键字信">
-<meta property="og:updated_time" content="2017-09-05T09:00:05.560Z">
+<meta property="og:image" content="http://yoursite.com/images/B-TREE.png">
+<meta property="og:updated_time" content="2017-09-05T09:04:15.591Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="B-TREE&#x2F;B+TREE">
 <meta name="twitter:description" content="B-TREE即平衡多路查找路(B-&amp;gt;balance),一颗m阶的B-TREE有如下的特征： 1) 树中每个结点至多有m个孩子；  2) 除根结点和叶子结点外，其它每个结点至少有有ceil(m / 2)个孩子；  3) 若根结点不是叶子结点，则至少有2个孩子（特殊情况：没有孩子的根结点，即根结点为叶子结点，整棵树只有一个根节点）；  4) 所有叶子结点都出现在同一层，叶子结点不包含任何关键字信">
+<meta name="twitter:image" content="http://yoursite.com/images/B-TREE.png">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -116,7 +118,7 @@ a) Ki (i=1...n)为关键字，且关键字按顺序排序K(i-1)&lt; Ki。
 b) Pi为指向子树根的接点，且指针P(i-1)指向子树种所有结点的关键字均小于Ki，但都大于K(i-1)。
 
 c) 关键字的个数n必须满足： ceil(m / 2)-1 &lt;= n &lt;= m-1。
-</code></pre><p>B-TREE的查询操作</p>
+</code></pre><p>B-TREE的查询操作<br><img src="/images/B-TREE.png" alt="B-TREE的查询操作"></p>
 <pre><code>首先把磁盘块1导入到内存中，通过折半查找,找到P3指针(50&lt;51)
 通过P3指针找到磁盘块4，将磁盘块4导入内存中，通过折半查找P10指针(51&lt;62)
 通过P10指针找到磁盘块9，将磁盘块9导入内存中，通过值班查找找到51
@@ -158,7 +160,7 @@ C)如果叶子结点低于填充因子，且父节点低于填充因子，
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/30/B+TREE/" data-id="cj77d7ebf001mr4q5y7trn73a" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/30/B+TREE/" data-id="cj77dcq000000i4q5dm8jmzb5" class="article-share-link">分享</a>
       
       
       
