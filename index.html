@@ -142,11 +142,20 @@ B)如果叶子节点满，父节点还没满，拆分叶子节点，将中间节
 C)如果叶子节点满了，父节点也满了，拆分叶子节点，小于中间节点的放在左边
   大于中间节点的放在右边，拆分父节点小于中间节点的放在左边大于中间节点的
   放右边。中间节点放在上一层。以此类推。直到整颗树平衡。
+</code></pre><p>B+TREE的删除操作</p>
+<pre><code>A)如果叶子节点高于填充因子，直接删除节点
+B)如果叶子节点低于填充因子，且父节点高于填充因子，
+  需要合并兄弟节
+  更新父节点
+C)如果叶子结点低于填充因子，且父节点低于填充因子，
+  需要合并兄弟节点
+  更新父节点
+  合并父节点以及更新对应的节点
 </code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/30/B+TREE/" data-id="cj6ynd6sg0000pwq5ziyrer6t" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/30/B+TREE/" data-id="cj77d7ebf001mr4q5y7trn73a" class="article-share-link">分享</a>
       
       
       
@@ -271,7 +280,7 @@ C)如果叶子节点满了，父节点也满了，拆分叶子节点，小于中
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/26/auth2.0/" data-id="cj6ynd6u1000apwq5kdg1kbcx" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/26/auth2.0/" data-id="cj77d7e9s0001r4q5muu9o0he" class="article-share-link">分享</a>
       
       
       
@@ -323,7 +332,7 @@ C)如果叶子节点满了，父节点也满了，拆分叶子节点，小于中
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/24/MySQL_innodb_io/" data-id="cj6ynd6tk0001pwq5jc0zvtnq" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/24/MySQL_innodb_io/" data-id="cj77d7e9m0000r4q50ibx81xo" class="article-share-link">分享</a>
       
       
       
@@ -406,7 +415,7 @@ C)如果叶子节点满了，父节点也满了，拆分叶子节点，小于中
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/24/mysql_change_master/" data-id="cj6ynd6tv0006pwq5y4cggyl9" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/24/mysql_change_master/" data-id="cj77d7ea8000br4q5m7oe58hl" class="article-share-link">分享</a>
       
       
       
@@ -464,7 +473,7 @@ update tableA set col=col+1;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/21/mysql_主主拓扑结构/" data-id="cj6ynd6u8000fpwq5r4qg7ct5" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/21/mysql_主主拓扑结构/" data-id="cj77d7eac000fr4q57b8d0wdc" class="article-share-link">分享</a>
       
       
       
@@ -518,7 +527,7 @@ update tableA set col=col+1;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/16/network_vrrp/" data-id="cj6ynd6v50017pwq5ok4giu65" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/16/network_vrrp/" data-id="cj77d7eb2001ar4q5pmpbhgrz" class="article-share-link">分享</a>
       
       
       
@@ -578,7 +587,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/14/mysql_分解关联/" data-id="cj6ynd6uf000kpwq5etiha71v" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/14/mysql_分解关联/" data-id="cj77d7ean000rr4q5nz4hlnt8" class="article-share-link">分享</a>
       
       
       
@@ -626,7 +635,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj6ynd6wm003mpwq5q6yzh2sk" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj77d7eaq000ur4q5vkmiecv5" class="article-share-link">分享</a>
       
       
       
@@ -679,7 +688,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj6ynd6uk000qpwq5h8qwx5pz" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj77d7eak000nr4q5jbmdph11" class="article-share-link">分享</a>
       
       
       
@@ -731,7 +740,7 @@ MySQL innodb不支持hash索引，这相当于在应用层做hash关联
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj6ynd6ur000vpwq587odkn4m" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj77d7eaf000hr4q55123ikvp" class="article-share-link">分享</a>
       
       
       

@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/08/30/B+TREE/index.html">
 <meta property="og:site_name" content="SnailBlog">
 <meta property="og:description" content="B-TREE即平衡多路查找路(B-&amp;gt;balance),一颗m阶的B-TREE有如下的特征： 1) 树中每个结点至多有m个孩子；  2) 除根结点和叶子结点外，其它每个结点至少有有ceil(m / 2)个孩子；  3) 若根结点不是叶子结点，则至少有2个孩子（特殊情况：没有孩子的根结点，即根结点为叶子结点，整棵树只有一个根节点）；  4) 所有叶子结点都出现在同一层，叶子结点不包含任何关键字信">
-<meta property="og:updated_time" content="2017-09-05T08:51:39.474Z">
+<meta property="og:updated_time" content="2017-09-05T09:00:05.560Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="B-TREE&#x2F;B+TREE">
 <meta name="twitter:description" content="B-TREE即平衡多路查找路(B-&amp;gt;balance),一颗m阶的B-TREE有如下的特征： 1) 树中每个结点至多有m个孩子；  2) 除根结点和叶子结点外，其它每个结点至少有有ceil(m / 2)个孩子；  3) 若根结点不是叶子结点，则至少有2个孩子（特殊情况：没有孩子的根结点，即根结点为叶子结点，整棵树只有一个根节点）；  4) 所有叶子结点都出现在同一层，叶子结点不包含任何关键字信">
@@ -145,11 +145,20 @@ B)如果叶子节点满，父节点还没满，拆分叶子节点，将中间节
 C)如果叶子节点满了，父节点也满了，拆分叶子节点，小于中间节点的放在左边
   大于中间节点的放在右边，拆分父节点小于中间节点的放在左边大于中间节点的
   放右边。中间节点放在上一层。以此类推。直到整颗树平衡。
+</code></pre><p>B+TREE的删除操作</p>
+<pre><code>A)如果叶子节点高于填充因子，直接删除节点
+B)如果叶子节点低于填充因子，且父节点高于填充因子，
+  需要合并兄弟节
+  更新父节点
+C)如果叶子结点低于填充因子，且父节点低于填充因子，
+  需要合并兄弟节点
+  更新父节点
+  合并父节点以及更新对应的节点
 </code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/30/B+TREE/" data-id="cj6ynd6sg0000pwq5ziyrer6t" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/30/B+TREE/" data-id="cj77d7ebf001mr4q5y7trn73a" class="article-share-link">分享</a>
       
       
       
