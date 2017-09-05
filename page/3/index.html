@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: OAuth2.0 | SnailBlog</title>
+  <title>SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="SnailBlog">
-<meta property="og:url" content="http://yoursite.com/tags/OAuth2-0/index.html">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
 <meta property="og:site_name" content="SnailBlog">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SnailBlog">
@@ -68,41 +68,66 @@
 </header>
       <div class="outer">
         <section id="main">
-
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-         <span class="archive-year-post">21 post  this year</span>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/08/26/auth2.0/" class="archive-article-date">
-  <time datetime="2017-08-26T09:43:16.037Z" itemprop="datePublished">08-26</time>
+    <article id="post-network" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/13/network/" class="article-date">
+  <time datetime="2017-07-13T02:58:39.209Z" itemprop="datePublished">2017-07-13</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/26/auth2.0/">OAuth2.0</a>
+      <a class="article-title" href="/2017/07/13/network/">HTTP从请求到响应</a>
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;用户通过浏览器提交请求后，首先浏览器会先解析URL，通过URL获取到相关的信息后，如目资源文件以及目标服务器，生成对应的HTTP请求消息。由于浏览器不具备发送数据包的功能，所以浏览器只能通过操作系统来实现。因此在委托服务器发送数据包之前，还需要知道服务器的IP地址。于是整个过程进入了域名解析阶段。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;在域名解析阶段中，因为浏览器已获取域名，于是委托操作系统对域名进行解析，操作系统发送UDP请求对域名进行解析，最后将域名解析成IP。到此为止，域名解析过程结束，整个过程进入数据收发环节。</p>
+<p><img src="/images/tcpip.png" alt="tcpip连接到断开"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;在数据收发的整个环节里，浏览器委托操作系统的协议栈对数据进行收发。首先是连接阶段，也就是三次握手，首先客户端向服务器端发送连接请求,服务器端发送一个确认包，客户端收到服务器的确认包后，发送一个确认包到服务器，在这个过程中，客户端和服务器端进行了端口、ip、窗口等信息的交换。至此，连接阶段就已经结束了，整个过程进入数据收发阶段。</p>
+<p><img src="/images/tcpip连接.jpg" alt="tcpip连接到断开"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;在数据收发阶段，并不是协议栈收到数据就马上发送出去的，而是数据被发送到缓冲区等待应用层的下一段数据。协议栈会考虑到多方面的因素来进行收发操作(长度优先或者时间优先)。对于较大的数据，会先把数据拆分出来，放进单独的数据包中。收发数据时，一般采用滑动窗口方式，由于在连接阶段已经知道对方的窗口大小，发送方会根据窗口大小发送数据，接收方会根据恰当的时间发送确认包，这个过程持续到数据收发完成，最终数据收发阶段结束，进入连接断开阶段。</p>
+<p><img src="/images/数据收发和断开连接.png" alt="tcpip数据收发和断开"></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;在连接断开阶段，发送一个断开请求的数据包，客户端发送一个确认断开数据包，然后客户端接受完数据后也发送一个断开请求的数据包，服务器发送一个确认断开数据包，然后断开连接，到此整个通讯的过程就结束了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj6ynd6v6001apwq5wn7jxkaw" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
+
+    </footer>
   </div>
+  
 </article>
-  
-  
-    </div></section>
+ 
+
+
   
 
+
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
 </section>
            
     <aside id="sidebar">
@@ -116,13 +141,6 @@
 
   
     
-  <div class="widget-wrap">
-    <h3 class="widget-title tagcloud">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/B-tree/" style="font-size: 14px;">B+tree</a> <a href="/tags/MySQL/" style="font-size: 19.5px;">MySQL</a> <a href="/tags/MySQL主主拓扑结构/" style="font-size: 14px;">MySQL主主拓扑结构</a> <a href="/tags/OAuth2-0/" style="font-size: 14px;">OAuth2.0</a> <a href="/tags/TCP-IP/" style="font-size: 22.25px;">TCP/IP</a> <a href="/tags/innodb/" style="font-size: 14px;">innodb</a> <a href="/tags/io/" style="font-size: 14px;">io</a> <a href="/tags/mongo/" style="font-size: 14px;">mongo</a> <a href="/tags/mysql/" style="font-size: 25px;">mysql</a> <a href="/tags/mysql分解关联/" style="font-size: 14px;">mysql分解关联</a> <a href="/tags/mysql重构查询方式/" style="font-size: 14px;">mysql重构查询方式</a> <a href="/tags/vrrp协议/" style="font-size: 14px;">vrrp协议</a> <a href="/tags/主从拓扑结构/" style="font-size: 14px;">主从拓扑结构</a> <a href="/tags/性能优化/" style="font-size: 16.75px;">性能优化</a> <a href="/tags/拓扑结构/" style="font-size: 14px;">拓扑结构</a> <a href="/tags/数据结构与算法/" style="font-size: 14px;">数据结构与算法</a> <a href="/tags/磁盘io/" style="font-size: 14px;">磁盘io</a> <a href="/tags/系统架构/" style="font-size: 19.5px;">系统架构</a> <a href="/tags/网络协议/" style="font-size: 25px;">网络协议</a>
-    </div>
-  </div>
-
   
     
   <div class="widget-wrap">

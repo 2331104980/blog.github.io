@@ -3,21 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>TCP数据交换 | SnailBlog</title>
+  <title>B-TREE/B+TREE | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下在局域网中成块数据块流收发的过程。 首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据">
-<meta name="keywords" content="TCP&#x2F;IP,网络协议">
+  <meta name="description" content="B-TREE即平衡多路查找路(B-&amp;gt;balance),一颗m阶的B-TREE有如下的特征： 1) 树中每个结点至多有m个孩子；  2) 除根结点和叶子结点外，其它每个结点至少有有ceil(m / 2)个孩子；  3) 若根结点不是叶子结点，则至少有2个孩子（特殊情况：没有孩子的根结点，即根结点为叶子结点，整棵树只有一个根节点）；  4) 所有叶子结点都出现在同一层，叶子结点不包含任何关键字信">
+<meta name="keywords" content="B+tree,数据结构与算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TCP数据交换">
-<meta property="og:url" content="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/index.html">
+<meta property="og:title" content="B-TREE&#x2F;B+TREE">
+<meta property="og:url" content="http://yoursite.com/2017/08/30/B+TREE/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下在局域网中成块数据块流收发的过程。 首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据">
-<meta property="og:image" content="http://yoursite.com/images/数据收发窗口变化图.png">
-<meta property="og:updated_time" content="2017-07-19T10:07:46.003Z">
+<meta property="og:description" content="B-TREE即平衡多路查找路(B-&amp;gt;balance),一颗m阶的B-TREE有如下的特征： 1) 树中每个结点至多有m个孩子；  2) 除根结点和叶子结点外，其它每个结点至少有有ceil(m / 2)个孩子；  3) 若根结点不是叶子结点，则至少有2个孩子（特殊情况：没有孩子的根结点，即根结点为叶子结点，整棵树只有一个根节点）；  4) 所有叶子结点都出现在同一层，叶子结点不包含任何关键字信">
+<meta property="og:updated_time" content="2017-09-05T08:51:39.474Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TCP数据交换">
-<meta name="twitter:description" content="从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下在局域网中成块数据块流收发的过程。 首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据">
-<meta name="twitter:image" content="http://yoursite.com/images/数据收发窗口变化图.png">
+<meta name="twitter:title" content="B-TREE&#x2F;B+TREE">
+<meta name="twitter:description" content="B-TREE即平衡多路查找路(B-&amp;gt;balance),一颗m阶的B-TREE有如下的特征： 1) 树中每个结点至多有m个孩子；  2) 除根结点和叶子结点外，其它每个结点至少有有ceil(m / 2)个孩子；  3) 若根结点不是叶子结点，则至少有2个孩子（特殊情况：没有孩子的根结点，即根结点为叶子结点，整棵树只有一个根节点）；  4) 所有叶子结点都出现在同一层，叶子结点不包含任何关键字信">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -74,14 +72,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-tcpip_connect - 数据交换" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-B+TREE" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/07/19/tcpip_connect - 数据交换/" class="article-date">
-  <time datetime="2017-07-19T00:39:54.689Z" itemprop="datePublished">2017-07-19</time>
+    <a href="/2017/08/30/B+TREE/" class="article-date">
+  <time datetime="2017-08-30T03:29:00.753Z" itemprop="datePublished">2017-08-30</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
+    <a class="article-category-link" href="/categories/数据结构与算法/">数据结构与算法</a>
   </div>
 
   </div>
@@ -92,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      TCP数据交换
+      B-TREE/B+TREE
     </h1>
   
 
@@ -102,18 +100,60 @@
       
         <!-- Table of Contents -->
         
-        <p>从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下在局域网中成块数据块流收发的过程。</p>
-<p>首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据后，也不是马上发送确认包，而是会等待一段时间，如果有数据，那么数据包和确认包将一起发送过去。否则只发送确认包。收到确认包后，接收方的窗口右边往右移动。数据收发中，不断重复这个过程，直到数据收发结束。从整个收发的过程中看出，增大接收方的窗口大小一定程度上能够提高TCP的吞吐量，从而提高整个数据收发的效率。</p>
-<p><img src="/images/数据收发窗口变化图.png" alt="数据收发窗口变化图"></p>
+        <p>B-TREE即平衡多路查找路(B-&gt;balance),一颗m阶的B-TREE有如下的特征：</p>
+<pre><code>1) 树中每个结点至多有m个孩子；
 
+2) 除根结点和叶子结点外，其它每个结点至少有有ceil(m / 2)个孩子；
+
+3) 若根结点不是叶子结点，则至少有2个孩子（特殊情况：没有孩子的根结点，即根结点为叶子结点，整棵树只有一个根节点）；
+
+4) 所有叶子结点都出现在同一层，叶子结点不包含任何关键字信息(可以看做是外部结点或查询失败的结点，实际上这些结点不存在，指向这些结点的指针都为null)；
+
+5) 每个非终端结点中包含有n个关键字信息： (n，P0，K1，P1，K2，P2，......，Kn，Pn)。其中：
+
+a) Ki (i=1...n)为关键字，且关键字按顺序排序K(i-1)&lt; Ki。
+
+b) Pi为指向子树根的接点，且指针P(i-1)指向子树种所有结点的关键字均小于Ki，但都大于K(i-1)。
+
+c) 关键字的个数n必须满足： ceil(m / 2)-1 &lt;= n &lt;= m-1。
+</code></pre><p>B-TREE的查询操作</p>
+<pre><code>首先把磁盘块1导入到内存中，通过折半查找,找到P3指针(50&lt;51)
+通过P3指针找到磁盘块4，将磁盘块4导入内存中，通过折半查找P10指针(51&lt;62)
+通过P10指针找到磁盘块9，将磁盘块9导入内存中，通过值班查找找到51
+至此，整个查找过程就结束了，这个过程一共进行了三次磁盘IO
+</code></pre><p>B-TREE的添加操作</p>
+<pre><code>插入一个元素时，首先在B-TREE中是否存在，如果不存在，先判断叶子节点的空间是否足够，如果足够，就往叶子节点里面添加，如果不够，就需要分裂页操作。
+分裂页将一半数量的关键字分裂到新的叶子节点，同时将中间节点更新到父节点中，这时候需要分两种情况，如果父节点还没满，就直接插入，如果父节点已经满，
+需要分裂页，父节点中间节点更新到爷爷节点，整个过程以此类推。直到整棵树平衡。
+</code></pre><p>B-TREE的删除操作</p>
+<pre><code>A、删除节点在叶子节点上
+A.1)如果被删除关键字所在结点的原关键字个数n&gt;=ceil(m/2)，直接删除该节点的关键字。
+A.2)如果被删除关键字所在结点的关键字个数n等于ceil(m/2)-1，那么需要看看兄弟节点
+    A.2.1.如果兄弟节点关键字&gt;=ceil(m/2),采用覆盖操作，父节点覆盖删除节点，兄弟节点最值覆盖原来的父节点
+    A.2.2.如果兄弟节点关键字=ceil（m/2),需要把兄弟节点与父节点合并作为新节点，合并后可能导致父节点不符合B-TREE结构要求，
+          需要继续合并，直到B-TREE满足条件。
+B、删除的节点不在叶子节点上，可以通过将左子书的最大关键字（右字数的最小节点）K-max覆盖到要删除的节点key-parent。
+   接下来问题相当于转成删除key-max节点的问题，步骤转向A
+</code></pre><p>B+TREE是B-TREE的一种优化</p>
+<pre><code>一颗m阶的B+TREE和B-TREE异同点：
+1、有n棵子树的节点包含n-1个关键字(此处有争议，部分教材是n-1个关键字，但是部分教材是n个关键字)
+2、所有关键字以及值都放在叶子节点中(非叶子节点相当于索引)
+</code></pre><p>B+TREE的添加操作分成三种情况</p>
+<pre><code>A)如果叶子节还没满，直接插入
+B)如果叶子节点满，父节点还没满，拆分叶子节点，将中间节点放入父节点中
+  小于中间节点的放在父节点的左边，大于中间节点的放在父节点的右边
+C)如果叶子节点满了，父节点也满了，拆分叶子节点，小于中间节点的放在左边
+  大于中间节点的放在右边，拆分父节点小于中间节点的放在左边大于中间节点的
+  放右边。中间节点放在上一层。以此类推。直到整颗树平衡。
+</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj6ynd6v20012pwq5nsoi9ev5" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/30/B+TREE/" data-id="cj6ynd6sg0000pwq5ziyrer6t" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/B-tree/">B+tree</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构与算法/">数据结构与算法</a></li></ul>
 
     </footer>
   </div>
@@ -163,19 +203,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/07/20/network_tcp_ip_disconnect _slowStart/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          TCP/IP慢启动
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/07/17/network_tcp_ip_disconnect/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/08/26/auth2.0/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">TCP/IP断开</div>
+      <div class="article-nav-title">OAuth2.0</div>
     </a>
   
 </nav>

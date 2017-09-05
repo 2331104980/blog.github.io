@@ -69,6 +69,53 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-mongo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/08/mongo/" class="article-date">
+  <time datetime="2017-08-08T03:33:28.053Z" itemprop="datePublished">2017-08-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/mongo/">mongo</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/08/mongo/">mongo 优化器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>mongodb优化方式很多跟MySQL类似如index、hint……。但是mongodb的查询优化器与MySQL稍有不同。例如一个索引能够精确匹配一个查询，那么查询优化器就会使用设个索引，例如在A列上有一个索引idx_A,那么优化器会选择idx_A方案。否则可能会选择其他索引,那么其他索引中选哪呢。mongodb会在这些索引中找到最先返回100个结果的索引。这个查询计划会被缓存下来，直到数据发送较大的变动，查询优化器根据其他可选的查询计划重新评估然后选出最好的计划。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/08/08/mongo/" data-id="cj6ynd6ts0005pwq5jgljxxil" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mongo/">mongo</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-数据溢出" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/08/02/数据溢出/" class="article-date">
@@ -103,7 +150,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj6wyztu800364kq5pj8gwepe" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj6ynd6v9001epwq53lnrqyxa" class="article-share-link">分享</a>
       
       
       
@@ -151,7 +198,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj6wyztr200054kq54p4mykws" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj6ynd6uh000mpwq5ndp2lnzf" class="article-share-link">分享</a>
       
       
       
@@ -200,7 +247,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/24/mysql_char_in/" data-id="cj6wyztrg000a4kq5jjcp9d57" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/24/mysql_char_in/" data-id="cj6ynd6u3000cpwq5oun5w4rt" class="article-share-link">分享</a>
       
       
       
@@ -247,7 +294,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/mysql_char_decimal/" data-id="cj6wyztra00064kq5bhrjwm9a" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/20/mysql_char_decimal/" data-id="cj6ynd6tr0004pwq57i4em424" class="article-share-link">分享</a>
       
       
       
@@ -296,7 +343,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/" data-id="cj6wyztsl00104kq5j9lg71za" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/" data-id="cj6ynd6uo000spwq5clw3xuhr" class="article-share-link">分享</a>
       
       
       
@@ -345,7 +392,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj6wyztss00154kq5guxd40xy" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj6ynd6v20012pwq5nsoi9ev5" class="article-share-link">分享</a>
       
       
       
@@ -393,7 +440,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/" data-id="cj6wyztsp00134kq5f50z9fn9" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/" data-id="cj6ynd6uy000zpwq54qckzyue" class="article-share-link">分享</a>
       
       
       
@@ -457,7 +504,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/15/tcpip_connect/" data-id="cj6wyztu900374kq5day240aw" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/15/tcpip_connect/" data-id="cj6ynd6vc001hpwq5nu2zs036" class="article-share-link">分享</a>
       
       
       
@@ -519,7 +566,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj6wyztrm000c4kq53plwjek4" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj6ynd6ub000gpwq5w7ubbyfl" class="article-share-link">分享</a>
       
       
       
@@ -533,64 +580,10 @@
 
 
   
-    <article id="post-network" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/13/network/" class="article-date">
-  <time datetime="2017-07-13T02:58:39.209Z" itemprop="datePublished">2017-07-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/13/network/">HTTP从请求到响应</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;用户通过浏览器提交请求后，首先浏览器会先解析URL，通过URL获取到相关的信息后，如目资源文件以及目标服务器，生成对应的HTTP请求消息。由于浏览器不具备发送数据包的功能，所以浏览器只能通过操作系统来实现。因此在委托服务器发送数据包之前，还需要知道服务器的IP地址。于是整个过程进入了域名解析阶段。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;在域名解析阶段中，因为浏览器已获取域名，于是委托操作系统对域名进行解析，操作系统发送UDP请求对域名进行解析，最后将域名解析成IP。到此为止，域名解析过程结束，整个过程进入数据收发环节。</p>
-<p><img src="/images/tcpip.png" alt="tcpip连接到断开"></p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;在数据收发的整个环节里，浏览器委托操作系统的协议栈对数据进行收发。首先是连接阶段，也就是三次握手，首先客户端向服务器端发送连接请求,服务器端发送一个确认包，客户端收到服务器的确认包后，发送一个确认包到服务器，在这个过程中，客户端和服务器端进行了端口、ip、窗口等信息的交换。至此，连接阶段就已经结束了，整个过程进入数据收发阶段。</p>
-<p><img src="/images/tcpip连接.jpg" alt="tcpip连接到断开"></p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;在数据收发阶段，并不是协议栈收到数据就马上发送出去的，而是数据被发送到缓冲区等待应用层的下一段数据。协议栈会考虑到多方面的因素来进行收发操作(长度优先或者时间优先)。对于较大的数据，会先把数据拆分出来，放进单独的数据包中。收发数据时，一般采用滑动窗口方式，由于在连接阶段已经知道对方的窗口大小，发送方会根据窗口大小发送数据，接收方会根据恰当的时间发送确认包，这个过程持续到数据收发完成，最终数据收发阶段结束，进入连接断开阶段。</p>
-<p><img src="/images/数据收发和断开连接.png" alt="tcpip数据收发和断开"></p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;在连接断开阶段，发送一个断开请求的数据包，客户端发送一个确认断开数据包，然后客户端接受完数据后也发送一个断开请求的数据包，服务器发送一个确认断开数据包，然后断开连接，到此整个通讯的过程就结束了。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj6wyztsf000u4kq5fmdj1y7b" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页&raquo;</a>
   </nav>
 </section>
            
@@ -613,6 +606,10 @@
       <ul>
         
           <li>
+            <a href="/2017/08/30/B+TREE/">B-TREE/B+TREE</a>
+          </li>
+        
+          <li>
             <a href="/2017/08/26/auth2.0/">OAuth2.0</a>
           </li>
         
@@ -626,10 +623,6 @@
         
           <li>
             <a href="/2017/08/21/mysql_主主拓扑结构/">MySQL主主拓扑结构</a>
-          </li>
-        
-          <li>
-            <a href="/2017/08/16/network_vrrp/">vrrp协议</a>
           </li>
         
       </ul>
