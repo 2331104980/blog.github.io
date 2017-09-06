@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/08/24/mysql_change_master/index.html">
 <meta property="og:site_name" content="SnailBlog">
 <meta property="og:description" content="在MySQL复制中有很多种结构，目前只介绍两种(主主，主从),事实上MySQL还有其他拓扑，例如金字塔，主库-分发主库-备库等等。这些拓扑在解决带宽瓶颈表现也非常优秀，这些拓扑结构先略过。今天先讨论一些关于主主拓扑结构和主从拓扑结构切换主库的方式。 一般来说，切换主库的思路就是 先停止主库的写入 备库赶上主库 选择一台备库作为主库 将备库的写操作指向新主库，开启新主库 主从拓扑(计划内切换主库)">
-<meta property="og:updated_time" content="2017-08-24T07:07:25.677Z">
+<meta property="og:updated_time" content="2017-09-06T07:05:32.418Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL切换主库">
 <meta name="twitter:description" content="在MySQL复制中有很多种结构，目前只介绍两种(主主，主从),事实上MySQL还有其他拓扑，例如金字塔，主库-分发主库-备库等等。这些拓扑在解决带宽瓶颈表现也非常优秀，这些拓扑结构先略过。今天先讨论一些关于主主拓扑结构和主从拓扑结构切换主库的方式。 一般来说，切换主库的思路就是 先停止主库的写入 备库赶上主库 选择一台备库作为主库 将备库的写操作指向新主库，开启新主库 主从拓扑(计划内切换主库)">
@@ -79,7 +79,7 @@
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/系统架构/">系统架构</a>
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
   </div>
 
   </div>
@@ -141,7 +141,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/24/mysql_change_master/" data-id="cj77dcq0l0006i4q539iavpgp" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/24/mysql_change_master/" data-id="cj78oklhy0001xgq5v0hxwnbq" class="article-share-link">分享</a>
       
       
       
