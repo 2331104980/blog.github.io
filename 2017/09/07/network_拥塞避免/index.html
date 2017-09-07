@@ -3,21 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>TCP/IP慢启动 | SnailBlog</title>
+  <title>TCP的超时与重传 | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在TCP/IP数据交互节点，如果是在同个局域网那么数据一开始可以发送多个数据包给接收方。但是如果发送方发送的数据要经过较多的路由和速率较慢的链路，可能导致TCP吞吐量降低。所以在一开始的时候先限制发送端的发送速度，随着时间的推移根据接收方的接收情况在调整发送速率。这就是我们说的慢启动(slow start)用于防止因特网的突然过载和拥塞。 慢启动为发送方的TCP增加另外一个窗口即拥塞窗口，初始值为">
+  <meta name="description" content="TCP提供可靠的运输层。它使用的方法之一就是确认从另一端收到的数据。但数据和确认都有可能会丢失。 TCP通过在发送时设置一个定时器来解决这种问题。如果当定时器溢出时还没有收到确认，它就重传该数据。 拥塞避免算法和慢启动算法 拥塞避免算法和慢启动算法需要对每个连接维持两个变量：一个拥塞窗口cwnd和一个慢启动门限ssthresh。其中的工作原理如下： 1）对一个给定的连接，初始化cwnd为1个报文段">
 <meta name="keywords" content="TCP&#x2F;IP,网络协议">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TCP&#x2F;IP慢启动">
-<meta property="og:url" content="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/index.html">
+<meta property="og:title" content="TCP的超时与重传">
+<meta property="og:url" content="http://yoursite.com/2017/09/07/network_拥塞避免/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="在TCP/IP数据交互节点，如果是在同个局域网那么数据一开始可以发送多个数据包给接收方。但是如果发送方发送的数据要经过较多的路由和速率较慢的链路，可能导致TCP吞吐量降低。所以在一开始的时候先限制发送端的发送速度，随着时间的推移根据接收方的接收情况在调整发送速率。这就是我们说的慢启动(slow start)用于防止因特网的突然过载和拥塞。 慢启动为发送方的TCP增加另外一个窗口即拥塞窗口，初始值为">
-<meta property="og:image" content="http://yoursite.com/images/slowStart.jpg">
-<meta property="og:updated_time" content="2017-07-20T10:23:04.170Z">
+<meta property="og:description" content="TCP提供可靠的运输层。它使用的方法之一就是确认从另一端收到的数据。但数据和确认都有可能会丢失。 TCP通过在发送时设置一个定时器来解决这种问题。如果当定时器溢出时还没有收到确认，它就重传该数据。 拥塞避免算法和慢启动算法 拥塞避免算法和慢启动算法需要对每个连接维持两个变量：一个拥塞窗口cwnd和一个慢启动门限ssthresh。其中的工作原理如下： 1）对一个给定的连接，初始化cwnd为1个报文段">
+<meta property="og:updated_time" content="2017-09-07T11:40:52.139Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TCP&#x2F;IP慢启动">
-<meta name="twitter:description" content="在TCP/IP数据交互节点，如果是在同个局域网那么数据一开始可以发送多个数据包给接收方。但是如果发送方发送的数据要经过较多的路由和速率较慢的链路，可能导致TCP吞吐量降低。所以在一开始的时候先限制发送端的发送速度，随着时间的推移根据接收方的接收情况在调整发送速率。这就是我们说的慢启动(slow start)用于防止因特网的突然过载和拥塞。 慢启动为发送方的TCP增加另外一个窗口即拥塞窗口，初始值为">
-<meta name="twitter:image" content="http://yoursite.com/images/slowStart.jpg">
+<meta name="twitter:title" content="TCP的超时与重传">
+<meta name="twitter:description" content="TCP提供可靠的运输层。它使用的方法之一就是确认从另一端收到的数据。但数据和确认都有可能会丢失。 TCP通过在发送时设置一个定时器来解决这种问题。如果当定时器溢出时还没有收到确认，它就重传该数据。 拥塞避免算法和慢启动算法 拥塞避免算法和慢启动算法需要对每个连接维持两个变量：一个拥塞窗口cwnd和一个慢启动门限ssthresh。其中的工作原理如下： 1）对一个给定的连接，初始化cwnd为1个报文段">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -74,10 +72,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-network_tcp_ip_disconnect _slowStart" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-network_拥塞避免" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/07/20/network_tcp_ip_disconnect _slowStart/" class="article-date">
-  <time datetime="2017-07-20T00:48:26.694Z" itemprop="datePublished">2017-07-20</time>
+    <a href="/2017/09/07/network_拥塞避免/" class="article-date">
+  <time datetime="2017-09-07T07:19:53.002Z" itemprop="datePublished">2017-09-07</time>
 </a>
     
   <div class="article-category">
@@ -92,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      TCP/IP慢启动
+      TCP的超时与重传
     </h1>
   
 
@@ -102,14 +100,32 @@
       
         <!-- Table of Contents -->
         
-        <p>在TCP/IP数据交互节点，如果是在同个局域网那么数据一开始可以发送多个数据包给接收方。但是如果发送方发送的数据要经过较多的路由和速率较慢的链路，可能导致TCP吞吐量降低。所以在一开始的时候先限制发送端的发送速度，随着时间的推移根据接收方的接收情况在调整发送速率。这就是我们说的慢启动(slow start)用于防止因特网的突然过载和拥塞。</p>
-<p>慢启动为发送方的TCP增加另外一个窗口即拥塞窗口，初始值为一个报文段。每收到接收方的一个ack，拥塞窗口就会增加一个报文段,以此类推。拥塞窗口有一个上限，即拥塞窗口与通告窗口中的最小值作为发送上限。</p>
-<p><img src="/images/slowStart.jpg" alt="slowstart"><br>图片中ack的大小比例画的不对（ack只有头部）这里简述慢启动的开始阶段到理想稳定状态。</p>
-
+        <p>TCP提供可靠的运输层。它使用的方法之一就是确认从另一端收到的数据。但数据和确认都有可能会丢失。 TCP通过在发送时设置一个定时器来解决这种问题。如果当定时器溢出时还没有收到确认，它就重传该数据。</p>
+<p>拥塞避免算法和慢启动算法</p>
+<p>拥塞避免算法和慢启动算法需要对每个连接维持两个变量：一个拥塞窗口cwnd和一个慢启动门限ssthresh。其中的工作原理如下：</p>
+<pre><code>1）对一个给定的连接，初始化cwnd为1个报文段，ssthresh为65535个字节
+2）TCP输出不能超过cwnd和接收方的通告窗口的大小。拥塞避免是发送方使用的流量控制，而通告窗口是对接收方的流量控制。
+   拥塞避免是发送端感受到网络拥塞的估计，通告窗口是接收方在改连接上的可用缓存大小。
+3）当拥塞发送时(超时或者受到重复确认),ssthresh被设置为当前窗口大小的一半即cwnd的一半)。如果是超时引起的拥塞，cwnd被设置成一个报文段。
+4）当新的数据被对方确认，就增加cwnd，具体操作如下：
+    4.1）当cwnd&lt;ssthresh,使用慢启动(每次受到确认，cwnd+1)
+    4.2）当cwnd&gt;ssthresh，使用拥塞算法(每次受到确认，cwnd+=1/cwnd)
+    4.3）当cwnd=ssthresh,以上两种算法都可以
+</code></pre><p>快速重传与快速恢复算法</p>
+<p>TCP Reno算法</p>
+<pre><code>1）当收到第三个重复的ACK时，将ssthresh设置成当前拥塞窗口的一半(cwnd/2)。重传丢失报文段。设置cwnd为ssthresh加上3倍的报文段大小。
+2）每次受到另外一个重复的ACK时，cwnd增加1个报文段大小并发送一个分组
+3）当下一个确认新数据的ACK到达时，设置cwnd为ssthresh，进入拥塞避免阶段
+</code></pre><p>这个算法存在问题，多个报文同时丢失的情况下会出现性能问题。因为会多次执行快速重传和快速恢复算法</p>
+<p>TCP NEW Reno算法</p>
+<pre><code>当发送方这边收到3个重复，进入快速重传模式，开始重传丢失的包，如果只有一个包丢失，那么重传这个包后回来的ack就是发送方数据的ack。
+否则就说明有多个包丢失，我们叫这个ACK为partial ACK。一旦发送方发现了partial ACK出现，那么发送方就继续推理出来有多个包丢失了，
+于是继续重传丢失的包，知道不在出现partial ACK，整个过程结束。
+</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/" data-id="cj7adr07a0013p8q51ih1i2sl" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/09/07/network_拥塞避免/" data-id="cj7adr07c0016p8q5rp2qo9f7" class="article-share-link">分享</a>
       
       
       
@@ -163,19 +179,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/07/20/mysql_char_decimal/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          mysql decimal
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/07/19/tcpip_connect - 数据交换/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/08/30/B+TREE/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">TCP数据交换</div>
+      <div class="article-nav-title">B-TREE/B+TREE</div>
     </a>
   
 </nav>

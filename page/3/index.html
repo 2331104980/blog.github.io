@@ -69,6 +69,68 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-mysql_char_varchar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/14/mysql_char_varchar/" class="article-date">
+  <time datetime="2017-07-14T08:11:20.002Z" itemprop="datePublished">2017-07-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/14/mysql_char_varchar/">mysql中char和varchar</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>在MySQL中，char和varchar是两种非常常见且非常重要的字符串类型，MySQL不同存储引擎对其在磁盘和内存的处理方式不一样。</p>
+<h3 id="varchar"><a href="#varchar" class="headerlink" title="varchar"></a>varchar</h3><p>varchar类型是属于可变长类型，相对来说比char类型更节省空间，因为varchar只使用必要的空间(Row_FORMAT=FIXED是个特殊情况)。但是varchar需要额外的字节记录字符长度。如果列的最大长度小于或等于255个字节，需要一个字节来记录长度，超过255个字节需要额外2个字节。</p>
+<p>以下情况适合使用varchar</p>
+<p>字符串列的最大长度比平均长度达很多</p>
+<p>列更新很少（碎片很少）</p>
+<hr>
+<h3 id="char"><a href="#char" class="headerlink" title="char"></a>char</h3><p>char是定长类型，MySQL总是根据定义字符串长度分配足够的空间。</p>
+<p>以下情况适合使用char</p>
+<p>char值适合存储很短的字符串，或者接近值长度的字符串。</p>
+<p>对于经常变更的数据，char比varchar好，因为char类型不容易产生碎片。</p>
+<p>对于非常短的列，char比varchar在存储空间上也更有效率。</p>
+<hr>
+<h3 id="内存上的比较"><a href="#内存上的比较" class="headerlink" title="内存上的比较"></a>内存上的比较</h3><p>MySQL通常会分配固定大小的内存来保存内部值。</p>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>varchar(1)和varchar(100）存储’y’在存储空间是一样的。但是varchar(100)会占用更大的内存,在这种情况下，如果数据量非常大，varchar(1)性能会比varchar(100)好很多。如果这时候对临时表进行排序时会更加明显，如果是机械磁盘的话，需要响应的时间会更久。</p>
+<p><strong>以上比较是基于innodb</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj7adr06e0006p8q5ddz53tcl" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-network" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/07/13/network/" class="article-date">
@@ -109,7 +171,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj78okliv000mxgq59fxzfack" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj7adr076000yp8q5actvhjoz" class="article-share-link">分享</a>
       
       
       
@@ -149,6 +211,10 @@
       <ul>
         
           <li>
+            <a href="/2017/09/07/network_拥塞避免/">TCP的超时与重传</a>
+          </li>
+        
+          <li>
             <a href="/2017/08/30/B+TREE/">B-TREE/B+TREE</a>
           </li>
         
@@ -162,10 +228,6 @@
         
           <li>
             <a href="/2017/08/24/mysql_change_master/">MySQL切换主库</a>
-          </li>
-        
-          <li>
-            <a href="/2017/08/21/mysql_主主拓扑结构/">MySQL主主拓扑结构</a>
           </li>
         
       </ul>

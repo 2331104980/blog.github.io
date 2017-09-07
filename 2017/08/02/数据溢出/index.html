@@ -6,13 +6,13 @@
   <title>mysql tinyint溢出 | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="大部分开发语言基础部分基本类似，都有基础的数据类型，分别用不同的关键字表示不同范围的值。这些问题虽然都是一些很基础的问题，但是如果因为没有处理好这些问题，往往在修改BUG的时候是非常难被发现的。 场景还原：在数据库一张部门表中，同事甲把部门ID设置成int,部门ID是预约表的引用(但是没有添加外键约束) 。在预约表中部门ID的数据类型是tinyint，然而在项目实体模型中,同事乙预约表中的部门ID">
-<meta name="keywords" content="mysql">
+<meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql tinyint溢出">
 <meta property="og:url" content="http://yoursite.com/2017/08/02/数据溢出/index.html">
 <meta property="og:site_name" content="SnailBlog">
 <meta property="og:description" content="大部分开发语言基础部分基本类似，都有基础的数据类型，分别用不同的关键字表示不同范围的值。这些问题虽然都是一些很基础的问题，但是如果因为没有处理好这些问题，往往在修改BUG的时候是非常难被发现的。 场景还原：在数据库一张部门表中，同事甲把部门ID设置成int,部门ID是预约表的引用(但是没有添加外键约束) 。在预约表中部门ID的数据类型是tinyint，然而在项目实体模型中,同事乙预约表中的部门ID">
-<meta property="og:updated_time" content="2017-08-02T06:27:38.639Z">
+<meta property="og:updated_time" content="2017-09-07T11:46:03.072Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql tinyint溢出">
 <meta name="twitter:description" content="大部分开发语言基础部分基本类似，都有基础的数据类型，分别用不同的关键字表示不同范围的值。这些问题虽然都是一些很基础的问题，但是如果因为没有处理好这些问题，往往在修改BUG的时候是非常难被发现的。 场景还原：在数据库一张部门表中，同事甲把部门ID设置成int,部门ID是预约表的引用(但是没有添加外键约束) 。在预约表中部门ID的数据类型是tinyint，然而在项目实体模型中,同事乙预约表中的部门ID">
@@ -106,11 +106,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj78oklkz0034xgq5y70h3t10" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj7adr07y001rp8q5cxgwgjv6" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li></ul>
 
     </footer>
   </div>
@@ -215,6 +215,10 @@
       <ul>
         
           <li>
+            <a href="/2017/09/07/network_拥塞避免/">TCP的超时与重传</a>
+          </li>
+        
+          <li>
             <a href="/2017/08/30/B+TREE/">B-TREE/B+TREE</a>
           </li>
         
@@ -228,10 +232,6 @@
         
           <li>
             <a href="/2017/08/24/mysql_change_master/">MySQL切换主库</a>
-          </li>
-        
-          <li>
-            <a href="/2017/08/21/mysql_主主拓扑结构/">MySQL主主拓扑结构</a>
           </li>
         
       </ul>
