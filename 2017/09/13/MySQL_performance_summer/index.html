@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MySQL优化总结 | SnailBlog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="接触MySQL已经有一段时间了，在这里对MySQL性能做个总结。关于MySQL的性能优化是一个很复杂的课题，受多方面的影响，如：硬件、网络、业务等。这里简单讨论scheme和索引首先是scheme设计，最基础也是非常重要的环节。万丈高楼平地起，很大程度上，后续的优化都跟scheme设计有着千丝万缕的联系。 scheme的设计有一个很重要的元素就是选择合适的数据类型。数据类型也有多个因素，其中一个就">
+<meta name="keywords" content="MySQL,性能优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL优化总结">
+<meta property="og:url" content="http://yoursite.com/2017/09/13/MySQL_performance_summer/index.html">
+<meta property="og:site_name" content="SnailBlog">
+<meta property="og:description" content="接触MySQL已经有一段时间了，在这里对MySQL性能做个总结。关于MySQL的性能优化是一个很复杂的课题，受多方面的影响，如：硬件、网络、业务等。这里简单讨论scheme和索引首先是scheme设计，最基础也是非常重要的环节。万丈高楼平地起，很大程度上，后续的优化都跟scheme设计有着千丝万缕的联系。 scheme的设计有一个很重要的元素就是选择合适的数据类型。数据类型也有多个因素，其中一个就">
+<meta property="og:updated_time" content="2017-09-15T06:54:29.959Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL优化总结">
+<meta name="twitter:description" content="接触MySQL已经有一段时间了，在这里对MySQL性能做个总结。关于MySQL的性能优化是一个很复杂的课题，受多方面的影响，如：硬件、网络、业务等。这里简单讨论scheme和索引首先是scheme设计，最基础也是非常重要的环节。万丈高楼平地起，很大程度上，后续的优化都跟scheme设计有着千丝万缕的联系。 scheme的设计有一个很重要的元素就是选择合适的数据类型。数据类型也有多个因素，其中一个就">
+  
+    <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SnailBlog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">java,mysql,网络协议</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-MySQL_performance_summer" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/13/MySQL_performance_summer/" class="article-date">
+  <time datetime="2017-09-13T07:36:11.722Z" itemprop="datePublished">2017-09-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL优化总结
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>接触MySQL已经有一段时间了，在这里对MySQL性能做个总结。关于MySQL的性能优化是一个很复杂的课题，受多方面的影响，如：硬件、网络、业务等。这里简单讨论scheme和索引<br>首先是scheme设计，最基础也是非常重要的环节。万丈高楼平地起，很大程度上，后续的优化都跟scheme设计有着千丝万缕的联系。</p>
+<p>scheme的设计有一个很重要的元素就是选择合适的数据类型。数据类型也有多个因素，其中一个就是字段长度。</p>
+<p>数据类型长度直接影响数据页(innodb是16k)能容纳数据的数量，磁盘空间占用越大，所需要cpu、内存等硬件资源会越多，除此之外，随着磁盘占用空间越多，树的深度值可能会增加（注意，只是可能，因为数据增多，该叶子节点满了且其左右兄弟节点都满了，会导致分裂页，但是分裂页不一定会导致树深度变大，因为index page如果还没满的时候会导致分裂页，但是此时树的深度不变），树深度的增加一定会导致磁盘I/O次数增加。磁盘I/O相对来说是比较耗费时间的，特别是机械磁盘的随机I/O更加明显。对于固态硬盘同样适用，但是相对比机械磁盘吞吐量会好很多。如果是内存数据库则随机I/O影响很小，可以忽略。</p>
+<p>在数据类型的选择还有另外一个因素，数据类型越简单越好，例如整数(类型与字符(char,varchar)，整数的比较算法、排序算法比字符(char、varchar)简单，因此操作整数字符代价更低</p>
+<p>关于scheme的总结先写到这里，在前面的文章中我已近对部分不同数据类型的使用场景做了简单介绍，例如char与varchar、decimal…..</p>
+<p>除了scheme设计，index的优化也是很重要的，索引完全可以写成一本书，这里我只简单的介绍一下索引。首先要明确一个问题，那就是索引并不总是最好的工具。总的来说，只有当索引帮助存储引擎快速查找到记录带来的好处大于其他带来额外工作时，索引才是有效的。对于非常小的表，基本上全表扫描会比走索引性能好，但是在中大型的表中，好的索引就非常高效了。对于特大型的表索引可能不是最好的选择，这时候可以考虑表分区。</p>
+<p>关于mysql innodb索引的问题其实可以转化成B+TREE的问题,因为MySQL innodb引擎就是使用B+TREE(关于B+TREE在之前的文章已经简单介绍，可以看前面写的文章)。索引的建立一般在谓词里面选，注意索引的顺序(最左原则)，选择性高的放前面。关于索引的数量我觉得根据实际情况而定，而不是一定要限制某张表索引个数会在一个范围内。虽然索引会增大维护成本，但是也能提高查询效率。在现在的计算机中配置中，相对于索引的维护成本会比以前低，好好权很是否需要新增一个索引。在利用最左原则的时候如果在索引中间（非最后一个谓词）出现范围查询，如果使用MySQL或MySQL分支的数据库，如果范围的数据可枚举，且数量不大，可以用in这个小技巧，确保后续索引字段能够被利用。我曾有这样的一次经历，在一次复杂的sql查询中，出现了上述的情况，我用in改写了原来的查询，将一个运行30多秒的查询优化到1秒左右。关于in的使用小技巧在前面已经提过，这里不再详述。</p>
+<p>关于索引还有另外一个问题就是hint。事实上，MySQL现在的优化已经做的很好了，有时候也有可能因为统计误差太大导致选择不理想的执行计划，这种情况下，可以用hint提示。例如某些情况下，只需要在二级索引读取全部所需要的数据，这时候，可能优化器选择读取聚簇索引，这种情况下读取聚簇索引可能不是最好的选择，因为二级索引数据部分只有主键，这种结构就使二级索引比较小，另外所有的数据都只需要在二级索引里面读取，这样可以减少很多操作，比如不需要到在二级索引读取数据后获取主键然后再去聚簇索引找相关的数据块(注意是数据块，而不是具体定位到某一条数据的位置，因为读取时按照数据块来读取，然后在从内存通过二分法查找相关数据)。因此在磁盘I/O、内存、cpu等各个方面都很有优势，所以这种情况可以用hint提示。很多情况下MySQL给出的执行计划已经是最优的了，所以使用hint的时候需要清楚自己在做什么！</p>
+<p>在这里引出“三星”索引的概念。索引将相关的记录放在一起则获取一星；如果索引中的数据顺序和查找中的排列顺序一致则获取二星；如果索引中的列包含了查询总所需要的全部列则获得“三星”。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/09/13/MySQL_performance_summer/" data-id="cj7lipvgg0000pkq5rjkui15g" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/性能优化/">性能优化</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ <script src="/jquery/jquery.min.js"></script>
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/09/07/network_拥塞避免/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">TCP的超时与重传</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title recent-posts">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/09/13/MySQL_performance_summer/">MySQL优化总结</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/07/network_拥塞避免/">TCP的超时与重传</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/30/B+TREE/">B-TREE/B+TREE</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/26/auth2.0/">OAuth2.0</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/24/MySQL_innodb_io/">MySQL innodb 索引原理</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2017 Snail&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;2331104980@qq.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842688ce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>

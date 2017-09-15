@@ -69,6 +69,70 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-tcpip_connect" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/15/tcpip_connect/" class="article-date">
+  <time datetime="2017-07-15T09:31:57.365Z" itemprop="datePublished">2017-07-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/15/tcpip_connect/">TCP/IP连接</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>在TCP连接的过程中，实际上是一个交换控制信息的过程。首先，客户端发送连接请求到服务器。客户端发送请求的数据包</p>
+<p><strong>SYN=1 </strong>表示这是一个连接请求，</p>
+<p><strong>seq=cx</strong>，cx表示一个随机数，这样做的目标是考虑到安全性，防止被攻击。</p>
+<p><strong>win=cy</strong>，cy表示窗口的大小，用于后期数据收发，不需要发送方发送一个数据包就进入等待状态。</p>
+<p><strong>mss=cz</strong>,cz表示数据最大的接受的长度(可以通过MTU和头部计算得出)</p>
+<hr>
+<p>服务器端接受客户端发送的连接请求后，服务器的连接被动打开。此时，服务器发送一个确认数据包。</p>
+<p><strong>ack=cx+1</strong>,该标识位表示已经收到刚才客户端发送过来的数据包，</p>
+<p><strong>syn=1</strong>，表示服务器向客户端发送连接请求。</p>
+<p><strong>seq=sx</strong>,sx也是一个随机数，作用跟客户端是一样的</p>
+<p><strong>win=sy</strong>,表示服务器端窗口的大小</p>
+<p><strong>mass=sz</strong>,sz表示数据最大的接受的长度(可以通过MTU和头部计算得出)</p>
+<hr>
+<p>客户端接收到服务器端的连接请求后，也发送一个确认包</p>
+<p><strong>ack=sx+1</strong>,该标识位表示已经收到刚才服务器发送过来的数据包</p>
+<p><strong>seq=cx+1</strong>，</p>
+<p><strong>win=cy</strong>，此时窗口的大小</p>
+<p>到此，整个连接阶段就已经完成。其实在连接的过程中主要是对<strong>控制信息的交换</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/15/tcpip_connect/" data-id="cj7lipvm3001vpkq5g2ieowgh" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-mysql_char_varchar" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/07/14/mysql_char_varchar/" class="article-date">
@@ -117,7 +181,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj7adr06e0006p8q5ddz53tcl" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj7lipvkp000mpkq5depo82jy" class="article-share-link">分享</a>
       
       
       
@@ -171,7 +235,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj7adr076000yp8q5actvhjoz" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj7lipvl0000xpkq5cky7oaa5" class="article-share-link">分享</a>
       
       
       
@@ -211,6 +275,10 @@
       <ul>
         
           <li>
+            <a href="/2017/09/13/MySQL_performance_summer/">MySQL优化总结</a>
+          </li>
+        
+          <li>
             <a href="/2017/09/07/network_拥塞避免/">TCP的超时与重传</a>
           </li>
         
@@ -224,10 +292,6 @@
         
           <li>
             <a href="/2017/08/24/MySQL_innodb_io/">MySQL innodb 索引原理</a>
-          </li>
-        
-          <li>
-            <a href="/2017/08/24/mysql_change_master/">MySQL切换主库</a>
           </li>
         
       </ul>
