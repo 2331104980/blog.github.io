@@ -69,6 +69,54 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-network_tcp_ip_disconnect" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/17/network_tcp_ip_disconnect/" class="article-date">
+  <time datetime="2017-07-17T00:34:15.301Z" itemprop="datePublished">2017-07-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/17/network_tcp_ip_disconnect/">TCP/IP断开</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>在TCP/IP数据收发的过程中，这个过程是双向的，如果先完成数据发送的一方主动断开TCP/IP连接，例如A和B通讯，A先发送完数据，那么A先主动断开，这时A会发送一个FIN给B，A进入FIN_WAIT1。B接收到A发送过来的数据包后，进入了CLOSE_WAIT(被动关闭)。如果此时B还在收发数据，那么B会发送一个ACK确认报给A，A收到确认报后进入FIN_WAIT2,这也就是所谓的TCP的半关闭。直到B完成数据的收发，B发送一个FIN给A，此时B进入LAST_ACK状态，等待A发送ACK。A收到数据包之后，向B发送一个ACK，同时A进入TIME_WAIT状态，也称为2MSL等待状态。每个具体TCP实现必须选择一个报文段最大生存时间MSL。为什么这个时间是2MSL呢，其实这个时间设置成2MSL,主要是确认ACK是否丢失。因为B如果在一定的时间内没有收到A发送的确认数据包的话，会重新发送fin。B收到A发送的确认数据包之后，B进入的初始状态。由于A在内存中记录了IP、端口号的使用情况。在A处于TIME_WAIT状态时，直到TIME_WAIT结束时候，端口才能重新被使用。</p>
+<p>在断开阶段也有可能会遇到同时断开的情况。A和B同时主动断开。A和B都发送FIN给对方。双方接收到对方发送的FIN数据包后，都向对方发送ack数据包。由于双方都是主动断开因此双方都进入TIME_WAIT状态，直到状态结束IP、端口才能重新被使用。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/" data-id="cj8xwi1ye002p54q5nh8k4krc" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-tcpip_connect" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/07/15/tcpip_connect/" class="article-date">
@@ -119,7 +167,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/15/tcpip_connect/" data-id="cj82pm86i001wdsq5pqzxrv94" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/15/tcpip_connect/" data-id="cj8xwi1z4003254q5qws4v5gg" class="article-share-link">分享</a>
       
       
       
@@ -181,7 +229,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj82pm85e000hdsq5nwr07syv" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj8xwi1vo000d54q5blh5scta" class="article-share-link">分享</a>
       
       
       
@@ -235,7 +283,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj82pm85o000qdsq5215uj3i3" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj8xwi1we000z54q53tq2wtk8" class="article-share-link">分享</a>
       
       
       
@@ -275,6 +323,10 @@
       <ul>
         
           <li>
+            <a href="/2017/09/28/Mysql范式反范式/">Java多线程基础篇1</a>
+          </li>
+        
+          <li>
             <a href="/2017/09/13/MySQL_performance_summer/">MySQL优化总结</a>
           </li>
         
@@ -288,10 +340,6 @@
         
           <li>
             <a href="/2017/08/26/auth2.0/">OAuth2.0</a>
-          </li>
-        
-          <li>
-            <a href="/2017/08/24/MySQL_innodb_io/">MySQL innodb 索引原理</a>
           </li>
         
       </ul>

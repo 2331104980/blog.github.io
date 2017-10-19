@@ -69,6 +69,54 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-mysql_轻量级连接" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/14/mysql_轻量级连接/" class="article-date">
+  <time datetime="2017-08-14T01:18:31.327Z" itemprop="datePublished">2017-08-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/14/mysql_轻量级连接/">mysql重构查询方式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>前几天有个同事需要开发一个功能，需要的数据来自不同的数据库。同事说，在不同数据库读取数据性能很差。我倒是不太认同这样的一个说法。<br>我认为在前期对业务进行做垂直分层对后期的拓展、负载、性能、故障转移等很多方面是很有好处且很有必要的(前期对项目规模的预测很重要，如果是很小的项目就没必要这样做)，另外关于跨数据库查询性能差这种说法我认为不一定，这个要视情况而定，因为MySQL在设计上从连接到断开都是很轻量级的，在返回一个小的查询结果集方面非常高效，而且在现在的网络中，带宽和网络延迟都比以前快很多。跨数据库查询就类似(查询形式上的类似，并非性能上的类型)于在单个数据库中把一个复杂的查询拆分成几个小查询。</p>
+<p>一般情况下，如果能一次查询所有的结果集，并且响应的时间在可接受的范围内那么不建议多次查询，但是有时候连表查询可能性能很差，这时候可以考虑把一个复杂的查询拆分成多个小的查询，通过多次测试找到合适的方案(事实上，跨数据库设计已对服务器做负载，就单查询方面来说，查询的性能可能会比单个数据库更高，而且在流量的高峰期会更加明显)。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj8xwi1wi001354q53dajdouy" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql重构查询方式/">mysql重构查询方式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/性能优化/">性能优化</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-mysql_容量规划" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/08/10/mysql_容量规划/" class="article-date">
@@ -108,7 +156,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj82pm85e000kdsq5tl33bz28" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj8xwi1wn001754q5lkygtj57" class="article-share-link">分享</a>
       
       
       
@@ -160,7 +208,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj82pm85y0018dsq5mzgmiiv5" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj8xwi1w6000r54q5ylwhpg38" class="article-share-link">分享</a>
       
       
       
@@ -207,7 +255,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/08/mongo/" data-id="cj82pm868001ldsq5eetrc99w" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/08/mongo/" data-id="cj8xwi1y8002i54q5ypto0b46" class="article-share-link">分享</a>
       
       
       
@@ -255,7 +303,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj82pm86i001tdsq50u9bzakv" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj8xwi1z5003454q5gunhurq9" class="article-share-link">分享</a>
       
       
       
@@ -303,7 +351,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj82pm854000adsq5c0756f97" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj8xwi1vv000j54q5k1lv80uo" class="article-share-link">分享</a>
       
       
       
@@ -352,7 +400,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/24/mysql_char_in/" data-id="cj82pm854000cdsq5t30efxyz" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/24/mysql_char_in/" data-id="cj8xwi1vt000g54q5207vfhqh" class="article-share-link">分享</a>
       
       
       
@@ -399,7 +447,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/mysql_char_decimal/" data-id="cj82pm84u0005dsq53twmkldz" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/20/mysql_char_decimal/" data-id="cj8xwi1wc000w54q5x0dt8rxn" class="article-share-link">分享</a>
       
       
       
@@ -448,7 +496,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/" data-id="cj82pm85o000xdsq5itcqm5td" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/" data-id="cj8xwi1z3003154q52kdzhi7q" class="article-share-link">分享</a>
       
       
       
@@ -497,55 +545,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj82pm86i001pdsq5f639haaa" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-network_tcp_ip_disconnect" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/17/network_tcp_ip_disconnect/" class="article-date">
-  <time datetime="2017-07-17T00:34:15.301Z" itemprop="datePublished">2017-07-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/17/network_tcp_ip_disconnect/">TCP/IP断开</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>在TCP/IP数据收发的过程中，这个过程是双向的，如果先完成数据发送的一方主动断开TCP/IP连接，例如A和B通讯，A先发送完数据，那么A先主动断开，这时A会发送一个FIN给B，A进入FIN_WAIT1。B接收到A发送过来的数据包后，进入了CLOSE_WAIT(被动关闭)。如果此时B还在收发数据，那么B会发送一个ACK确认报给A，A收到确认报后进入FIN_WAIT2,这也就是所谓的TCP的半关闭。直到B完成数据的收发，B发送一个FIN给A，此时B进入LAST_ACK状态，等待A发送ACK。A收到数据包之后，向B发送一个ACK，同时A进入TIME_WAIT状态，也称为2MSL等待状态。每个具体TCP实现必须选择一个报文段最大生存时间MSL。为什么这个时间是2MSL呢，其实这个时间设置成2MSL,主要是确认ACK是否丢失。因为B如果在一定的时间内没有收到A发送的确认数据包的话，会重新发送fin。B收到A发送的确认数据包之后，B进入的初始状态。由于A在内存中记录了IP、端口号的使用情况。在A处于TIME_WAIT状态时，直到TIME_WAIT结束时候，端口才能重新被使用。</p>
-<p>在断开阶段也有可能会遇到同时断开的情况。A和B同时主动断开。A和B都发送FIN给对方。双方接收到对方发送的FIN数据包后，都向对方发送ack数据包。由于双方都是主动断开因此双方都进入TIME_WAIT状态，直到状态结束IP、端口才能重新被使用。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/" data-id="cj82pm85o000tdsq5lpt3cujf" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj8xwi1yb002l54q55j0ew5qz" class="article-share-link">分享</a>
       
       
       
@@ -585,6 +585,10 @@
       <ul>
         
           <li>
+            <a href="/2017/09/28/Mysql范式反范式/">Java多线程基础篇1</a>
+          </li>
+        
+          <li>
             <a href="/2017/09/13/MySQL_performance_summer/">MySQL优化总结</a>
           </li>
         
@@ -598,10 +602,6 @@
         
           <li>
             <a href="/2017/08/26/auth2.0/">OAuth2.0</a>
-          </li>
-        
-          <li>
-            <a href="/2017/08/24/MySQL_innodb_io/">MySQL innodb 索引原理</a>
           </li>
         
       </ul>

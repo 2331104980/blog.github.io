@@ -3,19 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>mysql重构查询方式 | SnailBlog</title>
+  <title>Java多线程基础篇1 | SnailBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前几天有个同事需要开发一个功能，需要的数据来自不同的数据库。同事说，在不同数据库读取数据性能很差。我倒是不太认同这样的一个说法。我认为在前期对业务进行做垂直分层对后期的拓展、负载、性能、故障转移等很多方面是很有好处且很有必要的(前期对项目规模的预测很重要，如果是很小的项目就没必要这样做)，另外关于跨数据库查询性能差这种说法我认为不一定，这个要视情况而定，因为MySQL在设计上从连接到断开都是很轻量">
-<meta name="keywords" content="性能优化,mysql重构查询方式">
+  <meta name="description" content="1、什么是多线程 百度百科上的解释是：多线程，是指从软件或者硬件上实现多个线程并发执行的技术。具有多线程能力的计算机因有硬件支持而能够在同一时间执行多于一个线程，进而提升整体处理性能。 在JAVA中多线程的状态有6中，分别是New、Runnable、Blocked、Waiting、Timed waiting、Terminated。其中new这个很好理解，就是创建一个新的线程，改线程还没开始运行。如">
+<meta name="keywords" content="Java,多线程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql重构查询方式">
-<meta property="og:url" content="http://yoursite.com/2017/08/14/mysql_轻量级连接/index.html">
+<meta property="og:title" content="Java多线程基础篇1">
+<meta property="og:url" content="http://yoursite.com/2017/09/28/Mysql范式反范式/index.html">
 <meta property="og:site_name" content="SnailBlog">
-<meta property="og:description" content="前几天有个同事需要开发一个功能，需要的数据来自不同的数据库。同事说，在不同数据库读取数据性能很差。我倒是不太认同这样的一个说法。我认为在前期对业务进行做垂直分层对后期的拓展、负载、性能、故障转移等很多方面是很有好处且很有必要的(前期对项目规模的预测很重要，如果是很小的项目就没必要这样做)，另外关于跨数据库查询性能差这种说法我认为不一定，这个要视情况而定，因为MySQL在设计上从连接到断开都是很轻量">
-<meta property="og:updated_time" content="2017-08-14T10:55:16.313Z">
+<meta property="og:description" content="1、什么是多线程 百度百科上的解释是：多线程，是指从软件或者硬件上实现多个线程并发执行的技术。具有多线程能力的计算机因有硬件支持而能够在同一时间执行多于一个线程，进而提升整体处理性能。 在JAVA中多线程的状态有6中，分别是New、Runnable、Blocked、Waiting、Timed waiting、Terminated。其中new这个很好理解，就是创建一个新的线程，改线程还没开始运行。如">
+<meta property="og:image" content="http://yoursite.com/images/thread.png">
+<meta property="og:updated_time" content="2017-10-19T03:24:32.578Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mysql重构查询方式">
-<meta name="twitter:description" content="前几天有个同事需要开发一个功能，需要的数据来自不同的数据库。同事说，在不同数据库读取数据性能很差。我倒是不太认同这样的一个说法。我认为在前期对业务进行做垂直分层对后期的拓展、负载、性能、故障转移等很多方面是很有好处且很有必要的(前期对项目规模的预测很重要，如果是很小的项目就没必要这样做)，另外关于跨数据库查询性能差这种说法我认为不一定，这个要视情况而定，因为MySQL在设计上从连接到断开都是很轻量">
+<meta name="twitter:title" content="Java多线程基础篇1">
+<meta name="twitter:description" content="1、什么是多线程 百度百科上的解释是：多线程，是指从软件或者硬件上实现多个线程并发执行的技术。具有多线程能力的计算机因有硬件支持而能够在同一时间执行多于一个线程，进而提升整体处理性能。 在JAVA中多线程的状态有6中，分别是New、Runnable、Blocked、Waiting、Timed waiting、Terminated。其中new这个很好理解，就是创建一个新的线程，改线程还没开始运行。如">
+<meta name="twitter:image" content="http://yoursite.com/images/thread.png">
   
     <link rel="alternate" href="/atom.xml" title="SnailBlog" type="application/atom+xml">
   
@@ -72,14 +74,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-mysql_轻量级连接" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Mysql范式反范式" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/08/14/mysql_轻量级连接/" class="article-date">
-  <time datetime="2017-08-14T01:18:31.327Z" itemprop="datePublished">2017-08-14</time>
+    <a href="/2017/09/28/Mysql范式反范式/" class="article-date">
+  <time datetime="2017-09-28T10:02:21.101Z" itemprop="datePublished">2017-09-28</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+    <a class="article-category-link" href="/categories/Java/">Java</a>
   </div>
 
   </div>
@@ -90,7 +92,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      mysql重构查询方式
+      Java多线程基础篇1
     </h1>
   
 
@@ -100,17 +102,19 @@
       
         <!-- Table of Contents -->
         
-        <p>前几天有个同事需要开发一个功能，需要的数据来自不同的数据库。同事说，在不同数据库读取数据性能很差。我倒是不太认同这样的一个说法。<br>我认为在前期对业务进行做垂直分层对后期的拓展、负载、性能、故障转移等很多方面是很有好处且很有必要的(前期对项目规模的预测很重要，如果是很小的项目就没必要这样做)，另外关于跨数据库查询性能差这种说法我认为不一定，这个要视情况而定，因为MySQL在设计上从连接到断开都是很轻量级的，在返回一个小的查询结果集方面非常高效，而且在现在的网络中，带宽和网络延迟都比以前快很多。跨数据库查询就类似(查询形式上的类似，并非性能上的类型)于在单个数据库中把一个复杂的查询拆分成几个小查询。</p>
-<p>一般情况下，如果能一次查询所有的结果集，并且响应的时间在可接受的范围内那么不建议多次查询，但是有时候连表查询可能性能很差，这时候可以考虑把一个复杂的查询拆分成多个小的查询，通过多次测试找到合适的方案(事实上，跨数据库设计已对服务器做负载，就单查询方面来说，查询的性能可能会比单个数据库更高，而且在流量的高峰期会更加明显)。</p>
+        <p>1、什么是多线程</p>
+<p>百度百科上的解释是：多线程，是指从软件或者硬件上实现多个线程并发执行的技术。具有多线程能力的计算机因有硬件支持而能够在同一时间执行多于一个线程，进而提升整体处理性能。</p>
+<p>在JAVA中多线程的状态有6中，分别是New、Runnable、Blocked、Waiting、Timed waiting、Terminated。其中new这个很好理解，就是创建一个新的线程，改线程还没开始运行。如果线程启动，即调用start()，那么线程状态就进入runnable，需要特别注意的是，线程处于runnable有没有运行这取决于操作系统给线程提供运行时间(这就有可能会导致在高并发的情况下，数据不安全，当然这也有相对应的解决方案)。刚接触多线程那会儿最困惑的就是阻塞和等待，感觉这两个状态都差不多，事实上并非如此，这两个状态其实差别非常大。首先是阻塞，当一个线程视图获取一个内部的对象锁，而该所被其他线程持有，那么该线程就进入阻塞状态。而等待是等待另外一个线程通知调度器一个条件，它自己进入等待状态，不同的地方在于阻塞是一个临界条件，没拿到锁的线程进入等待状态，拿到锁的线程可能因为某种条件不符合，无法往下执行，需要等待某种条件成立，然后由其他线程激活，进入runnable状态，如果能够拿到锁，那么线程会从等待的地方继续往下执行。被终止的线程一般有多个原因：1、因为run方法正常退出而自然死亡。2、run方法没有做异常处理导致意外死亡。</p>
+<p>参考Java核心技术 卷1 基础知识 第9版<br><img src="/images/thread.png" alt="Java多线程状态"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj8xwi1wi001354q53dajdouy" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/09/28/Mysql范式反范式/" data-id="cj8xwi1sc000054q5wole6yu2" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql重构查询方式/">mysql重构查询方式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/性能优化/">性能优化</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/多线程/">多线程</a></li></ul>
 
     </footer>
   </div>
@@ -160,19 +164,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/08/14/mysql_分解关联/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          mysql分解关联
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/08/10/mysql_容量规划/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/09/13/MySQL_performance_summer/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">MySQL 容量规划</div>
+      <div class="article-nav-title">MySQL优化总结</div>
     </a>
   
 </nav>
