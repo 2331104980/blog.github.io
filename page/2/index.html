@@ -69,6 +69,66 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-mysql_分解关联" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/14/mysql_分解关联/" class="article-date">
+  <time datetime="2017-08-14T10:55:43.613Z" itemprop="datePublished">2017-08-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/14/mysql_分解关联/">mysql分解关联</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>分解关联查询有时候是高性能查询的一种方案。在数据库中获取一张表的结果集，然后在应用程序做关联。例如表A(ID,name,age) B(ID,AID,COL1,COL2)</p>
+<p>方案一 </p>
+<pre><code>select * from a join b on a.id=b.aid where a.name=&apos;zhangsan&apos;;
+</code></pre><p>方案二 把这个sql可拆分成</p>
+<pre><code>select * from a where a.name=&apos;zhangsan&apos;; 
+-- 得到3条数据，分别是id=1,2,3    
+select * from b where b.aid in(1,2,3); 
+-- 得到b表中的所有符合条件的数据
+-- 最后应用层对查询出来的记录进行关联。
+</code></pre><p>可能有人会觉得困惑，为什么不直接关联查询呢，简单粗暴，还不用多次连接数据库。事实上这种做法并没有错，但是关联查询使用内嵌循环的方式，如果数据量不是特别大的时候性能可能会比分解关联好，但是如果<strong>数据量非常大</strong>查询起来可能会非常慢，而且MySQL innodb不支持hash索引。如果把关联查询分解成单表查询，其实好处也是挺多的。</p>
+<pre><code>缓存的利用，单表的查询容易被应用程序缓存。
+减少锁的竞争
+在应用层做关联可以更容易对业务拆分，项目更容易拓展
+MySQL innodb不支持hash索引，这相当于在应用层做hash关联
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/08/14/mysql_分解关联/" data-id="cj9non6qi000pbcq50i41rcva" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql分解关联/">mysql分解关联</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/性能优化/">性能优化</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-mysql_轻量级连接" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/08/14/mysql_轻量级连接/" class="article-date">
@@ -103,7 +163,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj8xwi1wi001354q53dajdouy" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/14/mysql_轻量级连接/" data-id="cj9non6rk001sbcq5dtaa4ujs" class="article-share-link">分享</a>
       
       
       
@@ -156,7 +216,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj8xwi1wn001754q5lkygtj57" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/10/mysql_容量规划/" data-id="cj9non6r8001hbcq5ef9xcup1" class="article-share-link">分享</a>
       
       
       
@@ -208,7 +268,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj8xwi1w6000r54q5ylwhpg38" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/09/mysql_复制拓扑结构/" data-id="cj9non6qq0010bcq5w9qyvw21" class="article-share-link">分享</a>
       
       
       
@@ -255,7 +315,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/08/mongo/" data-id="cj8xwi1y8002i54q5ypto0b46" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/08/mongo/" data-id="cj9non6pu0009bcq5boequh75" class="article-share-link">分享</a>
       
       
       
@@ -303,7 +363,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj8xwi1z5003454q5gunhurq9" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/02/数据溢出/" data-id="cj9non6ro001ubcq5l5vh0bnj" class="article-share-link">分享</a>
       
       
       
@@ -351,7 +411,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj8xwi1vv000j54q5k1lv80uo" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/01/mysql_char_hit/" data-id="cj9non6q1000bbcq5t9q1eky5" class="article-share-link">分享</a>
       
       
       
@@ -400,7 +460,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/24/mysql_char_in/" data-id="cj8xwi1vt000g54q5207vfhqh" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/24/mysql_char_in/" data-id="cj9non6qa000fbcq50f0kkhl7" class="article-share-link">分享</a>
       
       
       
@@ -447,7 +507,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/mysql_char_decimal/" data-id="cj8xwi1wc000w54q5x0dt8rxn" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/20/mysql_char_decimal/" data-id="cj9non6qg000mbcq5s2ch2099" class="article-share-link">分享</a>
       
       
       
@@ -496,56 +556,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/" data-id="cj8xwi1z3003154q52kdzhi7q" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-tcpip_connect - 数据交换" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/19/tcpip_connect - 数据交换/" class="article-date">
-  <time datetime="2017-07-19T00:39:54.689Z" itemprop="datePublished">2017-07-19</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/19/tcpip_connect - 数据交换/">TCP数据交换</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下在局域网中成块数据块流收发的过程。</p>
-<p>首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据后，也不是马上发送确认包，而是会等待一段时间，如果有数据，那么数据包和确认包将一起发送过去。否则只发送确认包。收到确认包后，接收方的窗口右边往右移动。数据收发中，不断重复这个过程，直到数据收发结束。从整个收发的过程中看出，增大接收方的窗口大小一定程度上能够提高TCP的吞吐量，从而提高整个数据收发的效率。</p>
-<p><img src="/images/数据收发窗口变化图.png" alt="数据收发窗口变化图"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj8xwi1yb002l54q55j0ew5qz" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/20/network_tcp_ip_disconnect _slowStart/" data-id="cj9non6qx0017bcq5rrcaqmjq" class="article-share-link">分享</a>
       
       
       
@@ -585,6 +596,10 @@
       <ul>
         
           <li>
+            <a href="/2017/10/26/thread_2/">Java多线程基础篇2</a>
+          </li>
+        
+          <li>
             <a href="/2017/09/28/Mysql范式反范式/">Java多线程基础篇1</a>
           </li>
         
@@ -598,10 +613,6 @@
         
           <li>
             <a href="/2017/08/30/B+TREE/">B-TREE/B+TREE</a>
-          </li>
-        
-          <li>
-            <a href="/2017/08/26/auth2.0/">OAuth2.0</a>
           </li>
         
       </ul>

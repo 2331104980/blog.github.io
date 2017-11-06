@@ -69,6 +69,55 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-tcpip_connect - 数据交换" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/19/tcpip_connect - 数据交换/" class="article-date">
+  <time datetime="2017-07-19T00:39:54.689Z" itemprop="datePublished">2017-07-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/网络协议/">网络协议</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/19/tcpip_connect - 数据交换/">TCP数据交换</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>从连接到断开整个过程中，数据交换是我觉得最复杂的一个模块。在这里我简单描述一下在局域网中成块数据块流收发的过程。</p>
+<p>首先，发送方从缓存里面读取数据。并不是一收到数据就马上发送，而是根据恰当的时间对数据进行发送(长度优先和时间优先)。开始发送数据时，因为在连接的过程中就知道接收方的窗口大小，所以发送方会一次发送一个或多个数据包，但是发送的数据不会超过窗口的大小(发送方可以自行计算)。接收方一接收到数据后，也不是马上发送确认包，而是会等待一段时间，如果有数据，那么数据包和确认包将一起发送过去。否则只发送确认包。收到确认包后，接收方的窗口右边往右移动。数据收发中，不断重复这个过程，直到数据收发结束。从整个收发的过程中看出，增大接收方的窗口大小一定程度上能够提高TCP的吞吐量，从而提高整个数据收发的效率。</p>
+<p><img src="/images/数据收发窗口变化图.png" alt="数据收发窗口变化图"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/19/tcpip_connect - 数据交换/" data-id="cj9non6rd001lbcq5g4wm2ff8" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络协议/">网络协议</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-network_tcp_ip_disconnect" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/07/17/network_tcp_ip_disconnect/" class="article-date">
@@ -103,7 +152,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/" data-id="cj8xwi1ye002p54q5nh8k4krc" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/17/network_tcp_ip_disconnect/" data-id="cj9non6r0001cbcq5lj7kl508" class="article-share-link">分享</a>
       
       
       
@@ -167,7 +216,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/15/tcpip_connect/" data-id="cj8xwi1z4003254q5qws4v5gg" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/15/tcpip_connect/" data-id="cj9non6ru0020bcq55z4ta8ey" class="article-share-link">分享</a>
       
       
       
@@ -229,7 +278,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj8xwi1vo000d54q5blh5scta" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/14/mysql_char_varchar/" data-id="cj9non6qo000xbcq52p5rujpo" class="article-share-link">分享</a>
       
       
       
@@ -283,7 +332,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj8xwi1we000z54q53tq2wtk8" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/07/13/network/" data-id="cj9non6qt0014bcq5colluotw" class="article-share-link">分享</a>
       
       
       
@@ -323,6 +372,10 @@
       <ul>
         
           <li>
+            <a href="/2017/10/26/thread_2/">Java多线程基础篇2</a>
+          </li>
+        
+          <li>
             <a href="/2017/09/28/Mysql范式反范式/">Java多线程基础篇1</a>
           </li>
         
@@ -336,10 +389,6 @@
         
           <li>
             <a href="/2017/08/30/B+TREE/">B-TREE/B+TREE</a>
-          </li>
-        
-          <li>
-            <a href="/2017/08/26/auth2.0/">OAuth2.0</a>
           </li>
         
       </ul>
