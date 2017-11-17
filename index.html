@@ -87,7 +87,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/26/thread_2/">Java多线程基础篇2</a>
+      <a class="article-title" href="/2017/10/26/thread_2/">Java多线程基础篇2（整理中,待续...）</a>
     </h1>
   
 
@@ -97,11 +97,12 @@
       
         <!-- Table of Contents -->
         
-        
+        <p>待续…</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/10/26/thread_2/" data-id="cj9non6rs001xbcq5zyq5vsda" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/10/26/thread_2/" data-id="cja3cjp5i001jtgq5xi04pv0k" class="article-share-link">分享</a>
       
       
       
@@ -151,7 +152,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/28/Mysql范式反范式/" data-id="cj9non6p90001bcq5h9rxan1u" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/09/28/Mysql范式反范式/" data-id="cja3cjp3a0001tgq5agjof5pd" class="article-share-link">分享</a>
       
       
       
@@ -209,14 +210,14 @@
 不需要关联表，当数据比内存大时这可能比较关联快的多，因为这样避免了随机I/O。单独的表也能使用更有效的索引策略。
 </code></pre><p>关于scheme的总结先写到这里，在前面的文章中我已近对部分不同数据类型的使用场景做了简单介绍，例如char与varchar、decimal…..</p>
 <p>除了scheme设计，索引的优化也是很重要的，索引完全可以写成一本书，这里我只简单的介绍一下索引。首先要明确一个问题，那就是索引并不总是最好的工具。总的来说，只有当索引帮助存储引擎快速查找到记录带来的好处大于其他带来额外工作时，索引才是有效的。对于非常小的表，基本上全表扫描会比走索引性能好，但是在中大型的表中，好的索引就非常高效了。对于特大型的表索引可能不是最好的选择，这时候可以考虑表分区。</p>
-<p>关于mysql innodb索引的问题其实可以转化成B+TREE的问题,因为MySQL innodb引擎就是使用B+TREE(关于B+TREE在之前的文章已经简单介绍，可以看前面写的文章)，同时MySQL innodb对B+TREE进行优化，比如说分裂因子。索引的建立我觉得三星索引是一个很好的建议。什么是三星索引呢？三星索引的定义是这样的，如果与一个查询相关的索引是相邻的，或者至少相距足够靠近的话，那个这个索引就可以标记上第一颗星。如果索引行的顺序与查询语句的需求一致，则索引可以被标记第二颗星。如果索引行包含查询语句中的所有列，那么索引就可以标记上第三颗星。如果理解这段话呢？简单粗暴的说，第一颗星主要是来过滤到数据，减少索引片的厚度，索引相邻或者足够靠近过滤的数据就越多，当然，这也跟顺序有关，如果某个谓词是属于区间范围的，那么改索引往后的索引列都不会被使用。对于MySQL来说，有一个比较好的技巧的使用in(in列对应的值数量不多，且可以枚举)来更好的利用索引列。对于第二颗星，我认为主要还是为了排序的问题。如果排序的字段跟索引列的顺序一致，那么在获取数据的时候只需要在索引中读取，因为数据已经有序了。对于第三颗星，在三星索引的思想中是非常重要的一个。如果所有的字段都在索引里面，那么扫描索引后就不需要会表查询相关的数据。可以想象一下，一次随机I/O的时间是10ms，假设A表的索引记录100000，每条索引需要100字节，那么这个索引最少就需要100000<em>100/1024,(这是在理想的情况下，事实上还要考虑到磁盘碎片等各种利用率的情况)如果所有的数据都能够在索引上获取，且在第一颗星中过滤只需要扫描100行索引，那么磁盘I/0所需要的时间就是10ms+100</em>100kb/1024kb/40mb/s。如果需要回表操作，除了扫描索引外，还需要考虑到回表操作。由于回表操作是同步的，那么磁盘I/0所需要的时间10ms+100<em>100kb/1024kb/40mb/s + 10ms</em>100，初看这个时间不算特别夸张，但是在第一颗星过滤后的结果集如果非常大的时候，这可能是非常慢的。在实际问题中，有碰到鱼与熊掌不可兼得的情况，需要在第一颗星和第二颗星之间做选择，这种情况往往是因为第一颗星出现范围的谓词，且第二颗星排序的字段在谓词之后，一般情况下会选择第一颗星，而舍弃第二颗星,如果范围的谓词数量不大，且可以枚举，用in其实是一个很好的技巧(我曾经利用这个技巧把公司的网站从原来的35s降到1s)。对于选择第一颗星还是第二颗星，我觉得应该好好权很一下。当然，索引对查询带来了查询性能的提升，但是也提高了维护成本，相对来说现在的计算机硬件配置比以前好很多，索引维护的成本会比以前小很多，适当建立索引。</p>
+<p>关于mysql innodb索引的问题其实可以转化成B+TREE的问题,因为MySQL innodb引擎就是使用B+TREE(关于B+TREE在之前的文章已经简单介绍，可以看前面写的文章)，同时MySQL innodb对B+TREE进行优化，比如说分裂因子。索引的建立我觉得三星索引是一个很好的思想。什么是三星索引呢？三星索引的定义是这样的，如果与一个查询相关的索引是相邻的，或者至少相距足够靠近的话，那个这个索引就可以标记上第一颗星。如果索引行的顺序与查询语句的需求一致，则索引可以被标记第二颗星。如果索引行包含查询语句中的所有列，那么索引就可以标记上第三颗星。如果理解这段话呢？简单粗暴的说，第一颗星主要是来过滤到数据，减少索引片的厚度，索引相邻或者足够靠近过滤的数据就越多，当然，这也跟顺序有关，如果某个谓词是属于区间范围的，那么改索引往后的索引列都不会被使用。对于MySQL来说，有一个比较好的技巧的使用in(in列对应的值数量不多，且可以枚举)来更好的利用索引列。对于第二颗星，我认为主要还是为了排序的问题。如果排序的字段跟索引列的顺序一致，那么在获取数据的时候只需要在索引中读取，因为数据已经有序了。对于第三颗星，在三星索引的思想中是非常重要的一个。如果所有的字段都在索引里面，那么扫描索引后就不需要会表查询相关的数据。可以想象一下，一次随机I/O的时间是10ms，假设A表的索引记录100000，每条索引需要100字节，那么这个索引最少就需要100000<em>100/1024,这是在理想的情况下，事实上还要考虑到磁盘碎片等各种利用率的情况如果所有的数据都能够在索引上获取，且在第一颗星中过滤只需要扫描100行索引，那么磁盘I/0所需要的时间就是10ms+100</em>100kb/1024kb/40mb/s。如果需要回表操作，除了扫描索引外，还需要考虑到回表操作。由于回表操作是同步的，那么磁盘I/0所需要的时间10ms+100<em>100kb/1024kb/40mb/s + 10ms</em>100，初看这个时间不算特别夸张，但是在第一颗星过滤后的结果集如果非常大的时候，这可能是非常慢的。在实际问题中，有碰到鱼与熊掌不可兼得的情况，需要在第一颗星和第二颗星之间做选择，这种情况往往是因为第一颗星出现范围的谓词，且第二颗星排序的字段在谓词之后，一般情况下会选择第一颗星，而舍弃第二颗星,如果范围的谓词数量不大，且可以枚举，用in其实是一个很好的技巧(我曾经利用这个技巧把公司的网站从原来的35s降到1s)。对于选择第一颗星还是第二颗星，我觉得应该好好权很一下。当然，索引对查询带来了查询性能的提升，但是也提高了维护成本，相对来说现在的计算机硬件配置比以前好很多，索引维护的成本会比以前小很多，适当建立索引。</p>
 <p>关于索引还有另外一个问题就是hint。事实上，MySQL现在的优化已经做的很好了，有时候也有可能因为统计误差太大导致选择不理想的执行计划，这种情况下，可以用hint提示。例如某些情况下，只需要在二级索引读取全部所需要的数据，这时候，可能优化器选择读取聚簇索引，这种情况下读取聚簇索引可能不是最好的选择，因为二级索引数据部分只有主键，这种结构就使二级索引比较小，另外所有的数据都只需要在二级索引里面读取，这样可以减少很多操作，比如不需要到在二级索引读取数据后获取主键然后再去聚簇索引找相关的数据块(注意是数据块，而不是具体定位到某一条数据的位置，因为读取时按照数据块来读取，然后在从内存通过二分法查找相关数据)。因此在磁盘I/O、内存、cpu等各个方面都很有优势，所以这种情况可以用hint提示。很多情况下MySQL给出的执行计划已经是最优的了，所以使用hint的时候需要清楚自己在做什么！</p>
 <p>关于MySQL中sql优化特定的类型还有很多小技巧(待续)</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/13/MySQL_performance_summer/" data-id="cj9non6o10000bcq59ob0nt36" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/09/13/MySQL_performance_summer/" data-id="cja3cjp060000tgq5be8cfhym" class="article-share-link">分享</a>
       
       
       
@@ -283,7 +284,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/09/07/network_拥塞避免/" data-id="cj9non6rh001pbcq5ydfula7a" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/09/07/network_拥塞避免/" data-id="cja3cjp5p001otgq5g31mz8gi" class="article-share-link">分享</a>
       
       
       
@@ -383,7 +384,7 @@ C)如果叶子结点低于填充因子，且父节点低于填充因子，
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/30/B+TREE/" data-id="cj9non6po0005bcq5wx8utnze" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/30/B+TREE/" data-id="cja3cjp48000btgq5fi075w4c" class="article-share-link">分享</a>
       
       
       
@@ -508,7 +509,7 @@ C)如果叶子结点低于填充因子，且父节点低于填充因子，
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/26/auth2.0/" data-id="cj9non6pm0004bcq5rz0k6ma7" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/26/auth2.0/" data-id="cja3cjp3w0005tgq5potg8zqw" class="article-share-link">分享</a>
       
       
       
@@ -560,7 +561,7 @@ C)如果叶子结点低于填充因子，且父节点低于填充因子，
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/24/MySQL_innodb_io/" data-id="cj9non6pr0006bcq5kqkh97n6" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/24/MySQL_innodb_io/" data-id="cja3cjp3r0004tgq5nuyksksy" class="article-share-link">分享</a>
       
       
       
@@ -643,7 +644,7 @@ C)如果叶子结点低于填充因子，且父节点低于填充因子，
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/24/mysql_change_master/" data-id="cj9non6qc000hbcq5yz82qlbn" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/24/mysql_change_master/" data-id="cja3cjp3z0006tgq5hdgfqpf4" class="article-share-link">分享</a>
       
       
       
@@ -701,7 +702,7 @@ update tableA set col=col+1;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/21/mysql_主主拓扑结构/" data-id="cj9non6qm000ubcq5byusirkt" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/21/mysql_主主拓扑结构/" data-id="cja3cjp4j000jtgq55inuol2x" class="article-share-link">分享</a>
       
       
       
@@ -755,7 +756,7 @@ update tableA set col=col+1;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/16/network_vrrp/" data-id="cj9non6r4001ebcq5z1byitjp" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/08/16/network_vrrp/" data-id="cja3cjp5a001btgq5zb7ol4qa" class="article-share-link">分享</a>
       
       
       
@@ -823,7 +824,7 @@ update tableA set col=col+1;
       <ul>
         
           <li>
-            <a href="/2017/10/26/thread_2/">Java多线程基础篇2</a>
+            <a href="/2017/10/26/thread_2/">Java多线程基础篇2（整理中,待续...）</a>
           </li>
         
           <li>
